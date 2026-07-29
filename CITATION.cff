@@ -1,20 +1,76 @@
+# Citation metadata (https://citation-file-format.github.io/), read by
+# GitHub's "Cite this repository" box and by Zenodo's GitHub integration when
+# a release is archived. `version` and `date-released` are deliberately
+# omitted: Zenodo takes both from the release itself, and a hand-maintained
+# copy here would only drift (RELEASING.md).
 cff-version: 1.2.0
-message: "If you use limen, please cite it as below."
+message: >-
+  If you use limen, please cite it as below. Report the package version AND the
+  rulings-spec version your numbers were produced under (`limen env` prints
+  both): a rulings-spec change means a recorded measurement meaning changed.
 title: "limen: the same-configuration noise floor of an evaluation"
-type: software
-authors:
-  - name: "Kurath"
-repository-code: "https://github.com/KurathSec/limen"
-license: MIT
-keywords:
-  - evaluation
-  - reproducibility
-  - flakiness
-  - noise floor
-  - benchmark
 abstract: >-
-  An analyzer over repeated identical evaluation runs: per-item verdict
-  flakiness (TARa@N), model-pair sign-stability rulings, the minimum
-  detectable difference at the observed number of repeats, and a CI gate that
-  fails a benchmark report claiming a gain smaller than that report's own
-  measured draw noise. It makes no statement about which model is better.
+  limen is an analyzer over repeated identical evaluation runs: per-item
+  verdict flakiness (the pairwise-disagreement U-statistic, with the
+  constant-verdict fraction as an explicit upper bound on TARa@N), per-pair
+  SIGN-STABLE/SIGN-UNSTABLE rulings over single-draw leaderboards, the minimum
+  detectable difference at the observed number of repeats (after Kalibera and
+  Jones), a stable-items-only re-ranking shipped only with its selection-bias
+  mitigations, a drift guard whose missing-field state is never PASS, a
+  grader-defect count, and a CI gate that fails a benchmark report claiming a
+  gain smaller than that report's own measured draw noise. It makes no
+  statement about which model is better.
+type: software
+license: "MIT"
+repository-code: "https://github.com/KurathSec/limen"
+url: "https://kurathsec.github.io/limen/"
+authors:
+  - given-names: "Yuxiang"
+    family-names: "Ji"
+    affiliation: "Sunway College"
+    email: "kurathandrew@gmail.com"
+    orcid: "https://orcid.org/0009-0009-9835-3800"
+keywords:
+  - "evaluation"
+  - "reproducibility"
+  - "flakiness"
+  - "noise floor"
+  - "benchmark"
+  - "rank stability"
+  - "measurement instrument"
+  - "large language models"
+references:
+  - type: software
+    title: "Spaghetti Architect"
+    doi: "10.5281/zenodo.21033174"
+    authors:
+      - given-names: "Yuxiang"
+        family-names: "Ji"
+    notes: >-
+      Source of the committed repeated-draw archives and deterministic graders
+      from which limen's frozen calibration corpus is derived, read-only
+      (calibration/spaghetti/, NOTICE).
+  - type: conference-paper
+    title: "Non-Determinism of \"Deterministic\" LLM Settings"
+    authors:
+      - given-names: "Berk"
+        family-names: "Atil"
+    year: 2024
+    notes: >-
+      arXiv:2408.04667 (Atil et al.). Defines TARa@N; limen's constant-verdict
+      fraction is reported as an explicit upper bound on it, under this
+      citation, never under the metric's name outright.
+  - type: conference-paper
+    title: "Rigorous benchmarking in reasonable time"
+    authors:
+      - given-names: "Tomas"
+        family-names: "Kalibera"
+      - given-names: "Richard"
+        family-names: "Jones"
+    collection-title: "Proceedings of the 2013 International Symposium on Memory Management (ISMM 2013)"
+    year: 2013
+    doi: "10.1145/2464157.2464160"
+    notes: >-
+      Source of the minimum-detectable-difference construction limen
+      specializes to one repetition level; cited in every MDD block rather
+      than reinvented.
