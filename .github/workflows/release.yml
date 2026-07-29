@@ -52,7 +52,7 @@ jobs:
           /tmp/smoke/bin/limen synth --out /tmp/rel-s --items 100 --draws 4 --seed 1
           /tmp/smoke/bin/limen report /tmp/rel-s/archive.verdicts.csv.gz --out /tmp/rel-r --replicates 10
           /tmp/smoke/bin/limen gate /tmp/rel-r/report.json --require-sign-stable
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: dist
           path: dist/
