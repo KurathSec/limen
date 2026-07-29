@@ -16,4 +16,4 @@
    `.github/ CLAUDE.md site/ scratch/ calibration/`, smoke-tests the wheel in
    a clean venv (env, spec list, synth -> report -> gate), and publishes to
    PyPI via trusted publishing (environment `pypi`).
-7. Check the published wheel: `pip install limen==X.Y.Z && limen env`.
+7. Check the published wheel: `pip install limen-eval==X.Y.Z && limen env`.

@@ -3,10 +3,11 @@
 ## Install
 
 ```sh
-pip install limen
+pip install limen-eval
 ```
 
-Python >= 3.12, zero runtime dependencies.
+Python >= 3.12, zero runtime dependencies. The distribution is named
+`limen-eval`; the import and the CLI are `limen`.
 
 ## The 90-second loop
 

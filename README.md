@@ -28,10 +28,11 @@ An installable instrument did not. That is the whole claim.
 ## Install
 
 ```sh
-pip install limen
+pip install limen-eval
 ```
 
-Zero runtime dependencies, Python >= 3.12.
+Zero runtime dependencies, Python >= 3.12. The distribution is named
+`limen-eval` (the bare name was taken); the import and the CLI are `limen`.
 
 ## 90 seconds
 

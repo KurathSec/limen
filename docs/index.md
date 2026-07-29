@@ -45,7 +45,7 @@ machine-readable codes; see [Honesty](honesty.md).
 ## Quickstart
 
 ```sh
-pip install limen
+pip install limen-eval
 limen synth --out demo --models 3 --items 500 --draws 8 --flaky-fraction 0.05 --gap 0.02
 limen report demo/archive.verdicts.csv.gz --out demo-report
 limen gate demo-report/report.json --require-sign-stable --min-effect-vs-noise 1.0

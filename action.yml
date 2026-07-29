@@ -36,7 +36,7 @@ runs:
       shell: bash
       run: |
         if [ -n "${{ inputs.version }}" ]; then
-          pip install "limen==${{ inputs.version }}"
+          pip install "limen-eval==${{ inputs.version }}"
         else
           pip install "${{ github.action_path }}"
         fi
