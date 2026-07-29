@@ -9,24 +9,24 @@ pytest
 ```
 
 Python >= 3.12. The package has zero runtime dependencies and must stay that
-way — a new runtime dependency is a design discussion, not a convenience.
+way. A new runtime dependency is a design discussion.
 
 ## The bar a change must clear
 
 - `ruff check src tests tools calibration` and `mypy` (strict) green.
 - `pytest` green, including the three mechanical gates:
-  - **calibration drift** — committed tables regenerate committed rulings
+  - **calibration drift**: committed tables regenerate committed rulings
     byte-for-byte;
-  - **spec coverage** — every numbered ruling cited, every citation resolves;
-  - **layering** — only the adapter imports the foreign checkout, lazily.
+  - **spec coverage**: every numbered ruling cited, every citation resolves;
+  - **layering**: only the adapter imports the foreign checkout, lazily.
 - New measurement behaviour needs a numbered spec ruling
-  (`src/limen/spec/rulings/*.toml`) and a test citing it; a hand-computed
+  (`src/limen/spec/rulings/*.toml`) and a test citing it. Add a hand-computed
   corpus case (`tests/corpus/cases/`) where practical.
 
 ## Changing what a number means
 
-Don't — supersede it. A ruling's text is immutable once released; mark it
-`superseded`, add its successor, bump the rulings-spec version in
+Don't. Supersede it instead. A ruling's text is immutable once released.
+Mark it `superseded`, add its successor, bump the rulings-spec version in
 `index.toml` (MAJOR if a recorded value changes), regenerate goldens via
 `python tools/update_calibration.py --write --confirm-spec-bump`, and state
 both versions in CHANGELOG.md. `tools/update_calibration.py` refuses every
@@ -47,5 +47,5 @@ where you would run the benchmark itself.
 ## Generated docs
 
 `docs/spec/rulings.md` and `docs/spec/sensitivity.md` are generated
-(`tools/render_rulings.py`, `tools/render_sensitivity.py`); CI diffs them.
+(`tools/render_rulings.py`, `tools/render_sensitivity.py`). CI diffs them.
 Edit the sources, not the output.

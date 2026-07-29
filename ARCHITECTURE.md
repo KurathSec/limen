@@ -1,8 +1,8 @@
 # Architecture
 
-When this file and the code disagree, the code is right; when a number and its
-spec ruling disagree, the ruling is right (`src/limen/spec/rulings/*.toml`,
-rendered at `docs/spec/rulings.md`).
+When this file and the code disagree, the code is right. When a number and
+its spec ruling disagree, the ruling is right
+(`src/limen/spec/rulings/*.toml`, rendered at `docs/spec/rulings.md`).
 
 ## 1. One IR, one direction of flow
 
@@ -34,36 +34,36 @@ answers are chosen, so every analyzer has a known-answer harness
 - **Calibration drift** (tests/test_calibration_drift.py,
   tools/update_calibration.py): committed real-data verdict tables regenerate
   their committed golden rulings byte-for-byte. Changing a golden requires a
-  rulings-spec MAJOR bump and an explicit flag; deletion is refused. CI needs
+  rulings-spec MAJOR bump and an explicit flag. Deletion is refused. CI needs
   no foreign checkout.
 - **Spec coverage** (tests/test_spec.py): every active numbered ruling is
   cited from code, tests or docs, and every cited id resolves.
 - **Layering** (tests/test_layering.py + ruff TID253): only
   `adapters/spaghetti.py` may import the foreign checkout's modules, only
-  inside functions; `import limen` touches no foreign module; the adapter
+  inside functions. `import limen` touches no foreign module. The adapter
   contains no write calls.
 
 ## 3. Byte-stability contract
 
 `canonical.py` is the single serialization authority: sorted keys, 2-space
-indent, ASCII, trailing LF; floats round-half-even to 6 places with `-0.0`
-normalized; gzip members carry mtime 0 and no filename; every seed derives
+indent, ASCII, trailing LF. Floats round-half-even to 6 places with `-0.0`
+normalized. Gzip members carry mtime 0 and no filename. Every seed derives
 from `sha256(rulings_version | scope | procedure | index)`. Ruling bodies
-carry no timestamp, package version, or path — provenance is a sidecar the
+carry no timestamp, package version, or path. Provenance is a sidecar the
 byte comparison never sees.
 
 ## 4. Statistical spine
 
-- Flakiness `f = s(k-s)/C(k,2)` — the pairwise-disagreement U-statistic,
+- Flakiness `f = s(k-s)/C(k,2)` is the pairwise-disagreement U-statistic,
   unbiased for `2q(1-q)` at any k.
 - Every leaderboard sign is computed on integer pass-count differences.
 - The MDD follows Kalibera & Jones (ISMM 2013), one repetition level,
   conservative df, hardcoded t-table (no scipy).
 - The stable-items-only view is only ever emitted with both selection-bias
   mitigations: all-complementary-splits classify/rank analysis, and a
-  conditional parametric selection null (per-cell Bernoulli resampling —
-  within-cell permutation is provably vacuous here, which is a numbered
-  ruling, LMN-RNK-006).
+  conditional parametric selection null (per-cell Bernoulli resampling).
+  Within-cell permutation is provably vacuous here, which is a numbered
+  ruling (LMN-RNK-006).
 - Tri-state discipline: drift and grader-defect sections are
   PASS / FAIL / UNAVAILABLE, and UNAVAILABLE is never PASS, including in the
   gate's exit codes (0 / 1 / 2).
@@ -71,5 +71,5 @@ byte comparison never sees.
 ## 5. Two versions
 
 The package version (`src/limen/_version.py`) and the rulings-spec version
-(`src/limen/spec/rulings/index.toml`) move independently; every CHANGELOG
+(`src/limen/spec/rulings/index.toml`) move independently. Every CHANGELOG
 stanza states both. A spec MAJOR means a recorded meaning changed.

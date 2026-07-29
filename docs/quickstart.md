@@ -23,7 +23,7 @@ limen gate demo-report/report.json --require-sign-stable --min-effect-vs-noise 1
 
 ## Reading your own logs
 
-**Generic long CSV** (`.csv` or `.csv.gz`) — one row per draw:
+**Generic long CSV** (`.csv` or `.csv.gz`), one row per draw:
 
 ```csv
 model,task,item_id,draw_id,verdict,score,collected_at,model_version,raw_sha256
@@ -31,11 +31,11 @@ gpt-x,gsm8k,q1,0,1,,2026-05-01T10:00:00Z,gpt-x-0521,sha256:ab12...
 gpt-x,gsm8k,q1,1,0,,2026-05-01T11:00:00Z,gpt-x-0521,sha256:9f00...
 ```
 
-`verdict` must be literally `0` or `1` — limen never derives a verdict from a
-score (LMN-CORE-001); choosing a threshold is the evaluation's decision, not
+`verdict` must be literally `0` or `1`. limen never derives a verdict from a
+score (LMN-CORE-001): choosing a threshold is the evaluation's decision, not
 the auditor's. The last four columns are optional, but what they unlock is
-real: `collected_at` and `model_version` feed the drift guard (absent means
-its state is UNAVAILABLE — which is never PASS), and `raw_sha256` (a hash of
+real. `collected_at` and `model_version` feed the drift guard (absent means
+its state is UNAVAILABLE, which is never PASS). `raw_sha256` (a hash of
 the raw completion) enables the grader-defect count.
 
 **lm-evaluation-harness** `--log_samples` output:
@@ -45,14 +45,14 @@ lm_eval --model ... --tasks gsm8k --log_samples --output_path runs/  # run this 
 limen report runs/ --out my-report
 ```
 
-Each sample line is one draw; re-runs of the identical configuration stack
-into draws per item. One run alone is refused — limen needs k >= 2 draws.
+Each sample line is one draw. Re-runs of the identical configuration stack
+into draws per item. One run alone is refused: limen needs k >= 2 draws.
 
 **Spaghetti-Architect checkouts** (repeated-draw archives with committed
 graders): `limen regrade --repo <checkout> --task comprehend_dev --out tables/`
 builds long-CSV verdict tables through the checkout's own public regrade API,
-read-only. The refactor path executes model-generated code (the same path the
-benchmark itself uses) — run it only where you would run the benchmark.
+read-only. The refactor path executes model-generated code, the same path the
+benchmark itself uses. Run it only where you would run the benchmark.
 
 Multiple inputs merge: `limen report a.csv.gz b.csv.gz --out r`.
 
@@ -67,7 +67,7 @@ Multiple inputs merge: `limen report a.csv.gz b.csv.gz --out r`.
     pairs: "gsm8k:challenger>baseline"   # optional: assert the claimed direction
 ```
 
-Exit code 1 means a check measurably failed; exit code 2 means the report
+Exit code 1 means a check measurably failed. Exit code 2 means the report
 cannot support a requested check (an UNAVAILABLE section is red, not quietly
 green). On failure the log reprints the boundary: a failed pair never means
 the other model wins.

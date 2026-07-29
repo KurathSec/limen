@@ -12,16 +12,16 @@ Every estimator has known-answer tests against the generator
 the planted gap, planted grader defects are counted exactly, and the drift
 guard fires on planted version changes, single-draw corruption, and monotone
 drift. The selection null is itself calibrated: on null-structured archives its
-p-values do not systematically reject, and planted draw-coherent structure —
-which i.i.d. per-cell resampling cannot produce — lands outside the null band.
+p-values do not systematically reject, and planted draw-coherent structure
+(which i.i.d. per-cell resampling cannot produce) lands outside the null band.
 A test also pins the trap the design warns about: within-cell permutation
 changes nothing (every statistic is a function of per-cell pass counts), which
 is exactly why the null resamples verdicts (LMN-RNK-006).
 
-The gate's operating point is measured, not implied: see
+The gate's operating point is measured directly: see
 [Gate sensitivity](spec/sensitivity.md) for the full sweep. Headline: at
 n=1500, k=8, ~2% flaky items, the gate resolves a 0.5 pp true gap at >= 80%
-pass rate with a measured false-pass rate <= 2% at true gap zero; at k=2 it is
+pass rate with a measured false-pass rate <= 2% at true gap zero. At k=2 it is
 conservative, needing ~5 pp.
 
 ## Layer two: the calibration corpus
@@ -35,7 +35,7 @@ from the committed tables.
 **Cross-check against independent prior analysis.** The comprehend-dev regrade
 reproduces the number the research programme computed with its own independent
 script exactly: 99/6000 cells mixed (1.65%), per-model 31/23/20/25. The
-refactor-dev regrade — a limb no prior script had regenerated — lands at
+refactor-dev regrade (a limb no prior script had regenerated) lands at
 291/6000 (4.85%), independently consistent with the upstream repository's own
 4.9% docstring assertion.
 
@@ -48,7 +48,7 @@ refactor-dev regrade — a limb no prior script had regenerated — lands at
 | refactor_dev | 1500 | 291/6000 (4.85%) | 0/8 | 6/6 SIGN-STABLE |
 
 Every one of the 18 within-task pair orderings is SIGN-STABLE across all 8
-single-draw leaderboards, with zero drawn ties; not one of the 24 single-draw
+single-draw leaderboards, with zero drawn ties. Not one of the 24 single-draw
 leaderboards misranks any pair. The smallest pooled gap anywhere
 (Llama-3.3-70B vs Mistral-Small on comprehend_test, +1.52 pp) still clears its
 minimum detectable difference eight-fold; the median pair clears it ~50-fold.
@@ -61,12 +61,12 @@ deliberately spread capability ladder: a model's score cannot move between two
 draws by more than its mixed-cell share, so with pooled gaps of 1.5–28.6 pp
 against mixed shares of 0.7–7.8%, sign flips were arithmetically nearly
 impossible on this substrate. The corpus therefore validates the instrument's
-plumbing on real data — and demonstrates the ruling a well-separated ladder
-*should* get — rather than exhibiting the misranking phenomenon, which is
-already published elsewhere (single-run evaluations misranking close models
-~29% of the time on other benchmarks). An archive of *close* models is where
-the SIGN-UNSTABLE limb earns its keep; the planted-truth layer covers that
-regime by construction.
+plumbing on real data and demonstrates the ruling a well-separated ladder
+*should* get. It does not exhibit the misranking phenomenon, which is already
+published elsewhere (single-run evaluations misranking close models ~29% of
+the time on other benchmarks). An archive of *close* models is where the
+SIGN-UNSTABLE limb earns its keep. The planted-truth layer covers that regime
+by construction.
 
 Further readings from the corpus, all with their scope caveats machine-embedded:
 
@@ -74,16 +74,16 @@ Further readings from the corpus, all with their scope caveats machine-embedded:
   orderings; per-pair sign survival is 70/70 across every disjoint
   classify/rank split on all three tables, and the selection null shows the
   stable-only gaps *shrink* slightly relative to what selection alone predicts
-  (t_gap at the null's far low side) — there is no tidiness artifact to
+  (t_gap at the null's far low side). There is no tidiness artifact to
   misread, and the stable-only ranking remains a view, not a correction.
-- **Drift guard**: UNAVAILABLE on all twelve (model, task) scopes — the
+- **Drift guard**: UNAVAILABLE on all twelve (model, task) scopes. The
   archives carry no `collected_at` and no per-draw `model_version`, so limen
-  refuses to certify drift absence; the position-proxy sub-checks (the
+  refuses to certify drift absence. The position-proxy sub-checks (the
   `raw_outputs` index is collection order within each item) found no positional
   effect, which by design reports UNAVAILABLE, never PASS.
 - **Grader defects**: the check runs (raw hashes are stored) and finds 0
   byte-identical verdict flips in 6,143 discordant draw pairs across the three
-  tables — consistent with the graders being deterministic code paths.
+  tables, consistent with the graders being deterministic code paths.
 - 14 upstream stub records (failed fetches, no stored completions) were
   skipped and counted, never silently graded; see
   `calibration/spaghetti/MANIFEST.json`.
@@ -91,7 +91,7 @@ Further readings from the corpus, all with their scope caveats machine-embedded:
 ### Boundary
 
 These results are statements about the verdict stability of those committed
-archives as re-analysed here — instruments over the same population as the
-upstream project's own reporting, not claims about any table published from
-that ladder elsewhere, and never statements about which of the four models is
-better ([Honesty](honesty.md)).
+archives as re-analysed here: instruments over the same population as the
+upstream project's own reporting. They are not claims about any table
+published from that ladder elsewhere, and never statements about which of the
+four models is better ([Honesty](honesty.md)).

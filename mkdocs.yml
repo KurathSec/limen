@@ -26,6 +26,8 @@ theme:
 nav:
   - Home: index.md
   - Quickstart: quickstart.md
+  - The ruling document: report.md
+  - Reading a ruling: reading.md
   - Honesty: honesty.md
   - Validation: validation.md
   - Spec rulings: spec/rulings.md

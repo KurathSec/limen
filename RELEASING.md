@@ -2,8 +2,8 @@
 
 1. Decide both versions: package (`src/limen/_version.py`) and rulings spec
    (`src/limen/spec/rulings/index.toml`). A spec MAJOR means a recorded
-   meaning changed — check `tools/update_calibration.py --check` is green and
-   that any golden change was made deliberately with `--confirm-spec-bump`.
+   meaning changed. Check that `tools/update_calibration.py --check` is green
+   and that any golden change was made deliberately with `--confirm-spec-bump`.
 2. Update `CHANGELOG.md`: a `## [X.Y.Z]` section stating **both** versions
    ("package X.Y.Z · rulings spec A.B.C") and the changes.
 3. Regenerate the generated docs and commit if they moved:

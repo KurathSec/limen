@@ -1,16 +1,16 @@
-limen — the same-configuration noise floor of an evaluation
+limen: the same-configuration noise floor of an evaluation
 Copyright (c) 2026 Kurath. MIT License.
 
 Claim boundaries, stated so they travel with every installed copy:
 
 1. limen rules on measurement stability only. No output of this package is a
-   statement about which model is better; a SIGN-UNSTABLE ruling means "this
+   statement about which model is better. A SIGN-UNSTABLE ruling means "this
    comparison is not supported by its own measurement", never "the other model
    wins".
 
 2. Results limen produces over the Spaghetti-Architect four-model ladder
    archives are statements about the verdict stability of those committed
-   archives as re-analysed here — instruments over the same population, not
+   archives as re-analysed here: instruments over the same population, not
    claims about, or corrections to, any table published from that ladder
    elsewhere.
 
@@ -20,4 +20,5 @@ Claim boundaries, stated so they travel with every installed copy:
 The measurement definitions (TARa@N, swap/rank-flip rate, decision-consistency
 style constancy, the exclude-then-re-rank step) are prior art, several of them
 decades old, and are cited under their original names in the documentation.
-The contribution is the installable instrument, not a phenomenon.
+The contribution is the installable instrument. limen claims no new
+phenomenon.
