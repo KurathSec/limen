@@ -1,4 +1,4 @@
 # Pinned CI toolchain: an unpinned ruff/mypy bump must not turn a green tree red.
 pytest==8.4.1
-ruff==0.12.5
+ruff==0.16.0
 mypy==1.17.0
