@@ -1,0 +1,31 @@
+title = "a drawn tie does not break stability, and zero flips carry their bound (LMN-RNK-004)"
+rulings = ["LMN-RNK-004"]
+
+[[rows]]
+model = "A"
+item = "i1"
+verdicts = [1, 1]
+
+[[rows]]
+model = "A"
+item = "i2"
+verdicts = [0, 1]
+
+[[rows]]
+model = "B"
+item = "i1"
+verdicts = [0, 0]
+
+[[rows]]
+model = "B"
+item = "i2"
+verdicts = [1, 0]
+
+[expected]
+# draw 0: 1 vs 1 tie; draw 1: 2 vs 0 agree; pooled 2 vs 1 -> A ahead
+"rulings.pair.0.sign_stability.ruling" = "SIGN-STABLE"
+"rulings.pair.0.sign_stability.n_tie.count" = 1
+"rulings.pair.0.sign_stability.n_agree.count" = 1
+"rulings.pair.0.sign_stability.n_flip.count" = 0
+# 1 - 0.05^(1/2) = 0.776393
+"rulings.pair.0.sign_stability.flip_prob_upper95" = 0.776393

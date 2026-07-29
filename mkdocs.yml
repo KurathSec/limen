@@ -1,0 +1,38 @@
+site_name: limen
+site_description: >-
+  The same-configuration noise floor of an evaluation: verdict flakiness,
+  sign-stability rulings, and a CI gate over repeated identical runs.
+site_url: https://kurathsec.github.io/limen/
+repo_url: https://github.com/KurathSec/limen
+repo_name: KurathSec/limen
+
+theme:
+  name: material
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.sections
+    - content.code.copy
+
+nav:
+  - Home: index.md
+  - Quickstart: quickstart.md
+  - Honesty: honesty.md
+  - Validation: validation.md
+  - Spec rulings: spec/rulings.md
+  - Gate sensitivity: spec/sensitivity.md
+  - Contributing: contributing.md
+
+markdown_extensions:
+  - admonition
+  - pymdownx.superfences
+  - tables

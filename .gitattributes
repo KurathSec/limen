@@ -1,0 +1,4 @@
+* text=auto eol=lf
+calibration/** -text
+tests/data/** -text
+tests/corpus/** text eol=lf

@@ -1,0 +1,1410 @@
+{
+  "content_hash": "sha256:5a0c7c81aebd2c4bc27afcd3c215f9a9874c32bfa4ce074ace471addb56227bb",
+  "dataset_digest": "sha256:e50e57389293e1a1c688b0755fbfc9fe67bad10ec894f20390ff0d294602fc54",
+  "limen_schema": "report/v1",
+  "n": {
+    "cells": 7426,
+    "excluded_low_k": [],
+    "models": [
+      "deepseek-ai-DeepSeek-V4-Flash",
+      "meta-llama-Llama-3.3-70B-Instruct-Turbo",
+      "meta-llama-Meta-Llama-3.1-8B-Instruct",
+      "mistralai-Mistral-Small-3.2-24B-Instruct-2506"
+    ],
+    "tasks": [
+      "comprehend_test"
+    ]
+  },
+  "options": {
+    "assume_index_is_collection_order": true,
+    "max_splits": 256,
+    "ragged": "error",
+    "replicates": 1000
+  },
+  "rulings": {
+    "mt": [
+      {
+        "content_hash": "sha256:edca17299166913f944a5c3d2f63370b43ce13125616048a7bc6018a59894dfa",
+        "drift": {
+          "basis": "draw_position",
+          "proxy_disclaimer": "index order within item assumed to be collection order; no timestamps; cross-item simultaneity unknown; clean results report UNAVAILABLE, not PASS",
+          "state": "UNAVAILABLE",
+          "subchecks": {
+            "lodo": {
+              "carried_by_rank": [
+                1,
+                3,
+                2,
+                2,
+                4,
+                3,
+                1,
+                2
+              ],
+              "clean": true,
+              "max_carried": 4,
+              "max_share": 0.067797,
+              "n_mixed": 59,
+              "n_mixed_floor": 4,
+              "state": "UNAVAILABLE",
+              "threshold": 0.5,
+              "vacuous": false
+            },
+            "trend": {
+              "clean": true,
+              "exchangeable_fpr": 0.021776,
+              "n_time_ties": 0,
+              "part_by_rank": [
+                157,
+                185,
+                161,
+                159,
+                203,
+                181,
+                157,
+                163
+              ],
+              "rho": 0.09581,
+              "state": "UNAVAILABLE",
+              "threshold": 0.8,
+              "zero_variance": false
+            },
+            "version_constancy": {
+              "n_cells_missing": 1860,
+              "state": "UNAVAILABLE",
+              "versions": null
+            }
+          },
+          "time_ordering_vacuous": false
+        },
+        "flakiness": {
+          "always_fail": {
+            "count": 379,
+            "denominator": 1860,
+            "rate": 0.203763
+          },
+          "always_pass": {
+            "count": 1422,
+            "denominator": 1860,
+            "rate": 0.764516
+          },
+          "constant_verdict_fraction": 0.96828,
+          "constant_verdict_n": 8,
+          "f_max": 0.571429,
+          "f_p50": 0.0,
+          "f_p90": 0.0,
+          "f_p99": 0.535714,
+          "k_uniform": 8,
+          "mean_flakiness": 0.013114,
+          "mean_flakiness_mixed_only": 0.413438,
+          "mixed": {
+            "count": 59,
+            "denominator": 1860,
+            "rate": 0.03172
+          },
+          "n_items": 1860,
+          "pooled_pair_discordance": {
+            "count": 683,
+            "denominator": 52080,
+            "rate": 0.013114
+          },
+          "tara_upper_bound_note": "upper bound on TARa@N (Atil et al., arXiv:2408.04667): verdict constancy; parsed-answer agreement can be lower on always-fail items"
+        },
+        "grader_defect": {
+          "defect_items": {
+            "count": 0,
+            "denominator": 59,
+            "rate": 0.0
+          },
+          "defect_pairs": {
+            "count": 0,
+            "denominator": 683,
+            "rate": 0.0
+          },
+          "mean_flakiness_excluding_detected_defects": 0.013114,
+          "mean_flakiness_raw": 0.013114,
+          "n_cells": 1860,
+          "n_cells_with_text": 1860,
+          "note": "this check detects grader nondeterminism only, not grader wrongness: a constant-but-wrong completion is invisible here",
+          "state": "AVAILABLE"
+        },
+        "kind": "MT",
+        "noise_floor": {
+          "k": 8,
+          "n_items_aligned": 1846,
+          "score_max": 0.780607,
+          "score_mean": 0.778508,
+          "score_min": 0.776273,
+          "score_range": 0.004334,
+          "score_resolution": 0.000542,
+          "score_sd": 0.001402
+        },
+        "ruling_id": "LIMEN-cal1-MT-0001",
+        "scope_key": {
+          "model": "deepseek-ai-DeepSeek-V4-Flash",
+          "task": "comprehend_test"
+        }
+      },
+      {
+        "content_hash": "sha256:b3b1551980087eae088ce6b6e0cee5ab4ce0bbf0ff5c1ff322947d680e792463",
+        "drift": {
+          "basis": "draw_position",
+          "proxy_disclaimer": "index order within item assumed to be collection order; no timestamps; cross-item simultaneity unknown; clean results report UNAVAILABLE, not PASS",
+          "state": "UNAVAILABLE",
+          "subchecks": {
+            "lodo": {
+              "carried_by_rank": [
+                2,
+                4,
+                2,
+                0,
+                4,
+                1,
+                1,
+                1
+              ],
+              "clean": true,
+              "max_carried": 4,
+              "max_share": 0.111111,
+              "n_mixed": 36,
+              "n_mixed_floor": 4,
+              "state": "UNAVAILABLE",
+              "threshold": 0.5,
+              "vacuous": false
+            },
+            "trend": {
+              "clean": true,
+              "exchangeable_fpr": 0.021776,
+              "n_time_ties": 0,
+              "part_by_rank": [
+                114,
+                118,
+                100,
+                84,
+                122,
+                98,
+                92,
+                92
+              ],
+              "rho": -0.514979,
+              "state": "UNAVAILABLE",
+              "threshold": 0.8,
+              "zero_variance": false
+            },
+            "version_constancy": {
+              "n_cells_missing": 1859,
+              "state": "UNAVAILABLE",
+              "versions": null
+            }
+          },
+          "time_ordering_vacuous": false
+        },
+        "flakiness": {
+          "always_fail": {
+            "count": 537,
+            "denominator": 1859,
+            "rate": 0.288865
+          },
+          "always_pass": {
+            "count": 1286,
+            "denominator": 1859,
+            "rate": 0.69177
+          },
+          "constant_verdict_fraction": 0.980635,
+          "constant_verdict_n": 8,
+          "f_max": 0.571429,
+          "f_p50": 0.0,
+          "f_p90": 0.0,
+          "f_p99": 0.428571,
+          "k_uniform": 8,
+          "mean_flakiness": 0.007877,
+          "mean_flakiness_mixed_only": 0.406746,
+          "mixed": {
+            "count": 36,
+            "denominator": 1859,
+            "rate": 0.019365
+          },
+          "n_items": 1859,
+          "pooled_pair_discordance": {
+            "count": 410,
+            "denominator": 52052,
+            "rate": 0.007877
+          },
+          "tara_upper_bound_note": "upper bound on TARa@N (Atil et al., arXiv:2408.04667): verdict constancy; parsed-answer agreement can be lower on always-fail items"
+        },
+        "grader_defect": {
+          "defect_items": {
+            "count": 0,
+            "denominator": 36,
+            "rate": 0.0
+          },
+          "defect_pairs": {
+            "count": 0,
+            "denominator": 410,
+            "rate": 0.0
+          },
+          "mean_flakiness_excluding_detected_defects": 0.007877,
+          "mean_flakiness_raw": 0.007877,
+          "n_cells": 1859,
+          "n_cells_with_text": 1859,
+          "note": "this check detects grader nondeterminism only, not grader wrongness: a constant-but-wrong completion is invisible here",
+          "state": "AVAILABLE"
+        },
+        "kind": "MT",
+        "noise_floor": {
+          "k": 8,
+          "n_items_aligned": 1846,
+          "score_max": 0.701517,
+          "score_mean": 0.699147,
+          "score_min": 0.697183,
+          "score_range": 0.004334,
+          "score_resolution": 0.000542,
+          "score_sd": 0.001417
+        },
+        "ruling_id": "LIMEN-cal1-MT-0002",
+        "scope_key": {
+          "model": "meta-llama-Llama-3.3-70B-Instruct-Turbo",
+          "task": "comprehend_test"
+        }
+      },
+      {
+        "content_hash": "sha256:31d3011e172b9f560b941e4c6dedebc3981784ce09ac613ab5591c3d34543920",
+        "drift": {
+          "basis": "draw_position",
+          "proxy_disclaimer": "index order within item assumed to be collection order; no timestamps; cross-item simultaneity unknown; clean results report UNAVAILABLE, not PASS",
+          "state": "UNAVAILABLE",
+          "subchecks": {
+            "lodo": {
+              "carried_by_rank": [
+                1,
+                4,
+                0,
+                0,
+                2,
+                1,
+                2,
+                1
+              ],
+              "clean": true,
+              "max_carried": 4,
+              "max_share": 0.181818,
+              "n_mixed": 22,
+              "n_mixed_floor": 4,
+              "state": "UNAVAILABLE",
+              "threshold": 0.5,
+              "vacuous": false
+            },
+            "trend": {
+              "clean": true,
+              "exchangeable_fpr": 0.021776,
+              "n_time_ties": 0,
+              "part_by_rank": [
+                58,
+                76,
+                52,
+                48,
+                64,
+                54,
+                62,
+                54
+              ],
+              "rho": -0.119763,
+              "state": "UNAVAILABLE",
+              "threshold": 0.8,
+              "zero_variance": false
+            },
+            "version_constancy": {
+              "n_cells_missing": 1860,
+              "state": "UNAVAILABLE",
+              "versions": null
+            }
+          },
+          "time_ordering_vacuous": false
+        },
+        "flakiness": {
+          "always_fail": {
+            "count": 916,
+            "denominator": 1860,
+            "rate": 0.492473
+          },
+          "always_pass": {
+            "count": 922,
+            "denominator": 1860,
+            "rate": 0.495699
+          },
+          "constant_verdict_fraction": 0.988172,
+          "constant_verdict_n": 8,
+          "f_max": 0.571429,
+          "f_p50": 0.0,
+          "f_p90": 0.0,
+          "f_p99": 0.25,
+          "k_uniform": 8,
+          "mean_flakiness": 0.004493,
+          "mean_flakiness_mixed_only": 0.37987,
+          "mixed": {
+            "count": 22,
+            "denominator": 1860,
+            "rate": 0.011828
+          },
+          "n_items": 1860,
+          "pooled_pair_discordance": {
+            "count": 234,
+            "denominator": 52080,
+            "rate": 0.004493
+          },
+          "tara_upper_bound_note": "upper bound on TARa@N (Atil et al., arXiv:2408.04667): verdict constancy; parsed-answer agreement can be lower on always-fail items"
+        },
+        "grader_defect": {
+          "defect_items": {
+            "count": 0,
+            "denominator": 22,
+            "rate": 0.0
+          },
+          "defect_pairs": {
+            "count": 0,
+            "denominator": 234,
+            "rate": 0.0
+          },
+          "mean_flakiness_excluding_detected_defects": 0.004493,
+          "mean_flakiness_raw": 0.004493,
+          "n_cells": 1860,
+          "n_cells_with_text": 1860,
+          "note": "this check detects grader nondeterminism only, not grader wrongness: a constant-but-wrong completion is invisible here",
+          "state": "AVAILABLE"
+        },
+        "kind": "MT",
+        "noise_floor": {
+          "k": 8,
+          "n_items_aligned": 1846,
+          "score_max": 0.504334,
+          "score_mean": 0.502979,
+          "score_min": 0.502167,
+          "score_range": 0.002167,
+          "score_resolution": 0.000542,
+          "score_sd": 0.000766
+        },
+        "ruling_id": "LIMEN-cal1-MT-0003",
+        "scope_key": {
+          "model": "meta-llama-Meta-Llama-3.1-8B-Instruct",
+          "task": "comprehend_test"
+        }
+      },
+      {
+        "content_hash": "sha256:2dfe09c3b18f98c95fbf1451d8917240e659598161f245210cca6dc32bbb9df6",
+        "drift": {
+          "basis": "draw_position",
+          "proxy_disclaimer": "index order within item assumed to be collection order; no timestamps; cross-item simultaneity unknown; clean results report UNAVAILABLE, not PASS",
+          "state": "UNAVAILABLE",
+          "subchecks": {
+            "lodo": {
+              "carried_by_rank": [
+                4,
+                4,
+                1,
+                2,
+                2,
+                5,
+                1,
+                1
+              ],
+              "clean": true,
+              "max_carried": 5,
+              "max_share": 0.108696,
+              "n_mixed": 46,
+              "n_mixed_floor": 4,
+              "state": "UNAVAILABLE",
+              "threshold": 0.5,
+              "vacuous": false
+            },
+            "trend": {
+              "clean": true,
+              "exchangeable_fpr": 0.021776,
+              "n_time_ties": 0,
+              "part_by_rank": [
+                135,
+                127,
+                115,
+                129,
+                111,
+                145,
+                107,
+                109
+              ],
+              "rho": -0.547619,
+              "state": "UNAVAILABLE",
+              "threshold": 0.8,
+              "zero_variance": false
+            },
+            "version_constancy": {
+              "n_cells_missing": 1847,
+              "state": "UNAVAILABLE",
+              "versions": null
+            }
+          },
+          "time_ordering_vacuous": false
+        },
+        "flakiness": {
+          "always_fail": {
+            "count": 564,
+            "denominator": 1847,
+            "rate": 0.30536
+          },
+          "always_pass": {
+            "count": 1237,
+            "denominator": 1847,
+            "rate": 0.669735
+          },
+          "constant_verdict_fraction": 0.975095,
+          "constant_verdict_n": 8,
+          "f_max": 0.571429,
+          "f_p50": 0.0,
+          "f_p90": 0.0,
+          "f_p99": 0.428571,
+          "k_uniform": 8,
+          "mean_flakiness": 0.009455,
+          "mean_flakiness_mixed_only": 0.379658,
+          "mixed": {
+            "count": 46,
+            "denominator": 1847,
+            "rate": 0.024905
+          },
+          "n_items": 1847,
+          "pooled_pair_discordance": {
+            "count": 489,
+            "denominator": 51716,
+            "rate": 0.009455
+          },
+          "tara_upper_bound_note": "upper bound on TARa@N (Atil et al., arXiv:2408.04667): verdict constancy; parsed-answer agreement can be lower on always-fail items"
+        },
+        "grader_defect": {
+          "defect_items": {
+            "count": 0,
+            "denominator": 46,
+            "rate": 0.0
+          },
+          "defect_pairs": {
+            "count": 0,
+            "denominator": 489,
+            "rate": 0.0
+          },
+          "mean_flakiness_excluding_detected_defects": 0.009455,
+          "mean_flakiness_raw": 0.009455,
+          "n_cells": 1847,
+          "n_cells_with_text": 1847,
+          "note": "this check detects grader nondeterminism only, not grader wrongness: a constant-but-wrong completion is invisible here",
+          "state": "AVAILABLE"
+        },
+        "kind": "MT",
+        "noise_floor": {
+          "k": 8,
+          "n_items_aligned": 1846,
+          "score_max": 0.686891,
+          "score_mean": 0.683979,
+          "score_min": 0.680932,
+          "score_range": 0.005959,
+          "score_resolution": 0.000542,
+          "score_sd": 0.00176
+        },
+        "ruling_id": "LIMEN-cal1-MT-0004",
+        "scope_key": {
+          "model": "mistralai-Mistral-Small-3.2-24B-Instruct-2506",
+          "task": "comprehend_test"
+        }
+      }
+    ],
+    "pair": [
+      {
+        "confounded_by_version_change": false,
+        "content_hash": "sha256:4265e6c44fd47a9a6de12843479bdd3375d244013d53577fd95f72cd39c388af",
+        "drift_ref": {
+          "model_a": "UNAVAILABLE",
+          "model_b": "UNAVAILABLE"
+        },
+        "kind": "PAIR",
+        "model_a": "deepseek-ai-DeepSeek-V4-Flash",
+        "model_b": "meta-llama-Llama-3.3-70B-Instruct-Turbo",
+        "n": {
+          "draws_total": 14768,
+          "items_aligned": 1846,
+          "k": 8
+        },
+        "noise": {
+          "mdd": {
+            "alpha": 0.05,
+            "assumptions": [
+              "each single-draw score is treated as approximately normal (mean over n items; CLT)",
+              "the k draws are treated as i.i.d.; the drift guard polices exactly this assumption",
+              "draws are not treated as paired across models; two-sample unpooled-variance form",
+              "df = k-1, the conservative choice (Welch df would be larger and the MDD smaller)",
+              "speaks to draw noise on this fixed item set only, not to item-sampling variability"
+            ],
+            "citation": "Kalibera & Jones, Rigorous benchmarking in reasonable time, ISMM 2013",
+            "degenerate_zero_spread": false,
+            "df": 7,
+            "low_k": false,
+            "score_resolution": 0.000542,
+            "t": 2.36462,
+            "value": 0.001666
+          },
+          "range_a": 0.004334,
+          "range_b": 0.004334,
+          "sd_a": 0.001402,
+          "sd_b": 0.001417
+        },
+        "pooled": {
+          "delta_pool": 0.079361,
+          "pass_a": {
+            "count": 11497,
+            "denominator": 14768,
+            "rate": 0.778508
+          },
+          "pass_b": {
+            "count": 10325,
+            "denominator": 14768,
+            "rate": 0.699147
+          },
+          "pooled_sign": 1,
+          "pooled_tie": false
+        },
+        "ruling_id": "LIMEN-cal1-PAIR-0001",
+        "scope_key": {
+          "model_a": "deepseek-ai-DeepSeek-V4-Flash",
+          "model_b": "meta-llama-Llama-3.3-70B-Instruct-Turbo",
+          "task": "comprehend_test"
+        },
+        "sign_stability": {
+          "flip_prob_upper95": 0.312344,
+          "flip_rate_excl_ties": 0.0,
+          "n_agree": {
+            "count": 8,
+            "denominator": 8,
+            "rate": 1.0
+          },
+          "n_flip": {
+            "count": 0,
+            "denominator": 8,
+            "rate": 0.0
+          },
+          "n_tie": {
+            "count": 0,
+            "denominator": 8,
+            "rate": 0.0
+          },
+          "pooled_tie": false,
+          "rank_flip_rate": 0.0,
+          "ruling": "SIGN-STABLE"
+        }
+      },
+      {
+        "confounded_by_version_change": false,
+        "content_hash": "sha256:2d2e726bf2be303efcbf6303f1d41419fd87a2e4f44907cb062e3a69852a2003",
+        "drift_ref": {
+          "model_a": "UNAVAILABLE",
+          "model_b": "UNAVAILABLE"
+        },
+        "kind": "PAIR",
+        "model_a": "deepseek-ai-DeepSeek-V4-Flash",
+        "model_b": "meta-llama-Meta-Llama-3.1-8B-Instruct",
+        "n": {
+          "draws_total": 14768,
+          "items_aligned": 1846,
+          "k": 8
+        },
+        "noise": {
+          "mdd": {
+            "alpha": 0.05,
+            "assumptions": [
+              "each single-draw score is treated as approximately normal (mean over n items; CLT)",
+              "the k draws are treated as i.i.d.; the drift guard polices exactly this assumption",
+              "draws are not treated as paired across models; two-sample unpooled-variance form",
+              "df = k-1, the conservative choice (Welch df would be larger and the MDD smaller)",
+              "speaks to draw noise on this fixed item set only, not to item-sampling variability"
+            ],
+            "citation": "Kalibera & Jones, Rigorous benchmarking in reasonable time, ISMM 2013",
+            "degenerate_zero_spread": false,
+            "df": 7,
+            "low_k": false,
+            "score_resolution": 0.000542,
+            "t": 2.36462,
+            "value": 0.001336
+          },
+          "range_a": 0.004334,
+          "range_b": 0.002167,
+          "sd_a": 0.001402,
+          "sd_b": 0.000766
+        },
+        "pooled": {
+          "delta_pool": 0.275528,
+          "pass_a": {
+            "count": 11497,
+            "denominator": 14768,
+            "rate": 0.778508
+          },
+          "pass_b": {
+            "count": 7428,
+            "denominator": 14768,
+            "rate": 0.502979
+          },
+          "pooled_sign": 1,
+          "pooled_tie": false
+        },
+        "ruling_id": "LIMEN-cal1-PAIR-0002",
+        "scope_key": {
+          "model_a": "deepseek-ai-DeepSeek-V4-Flash",
+          "model_b": "meta-llama-Meta-Llama-3.1-8B-Instruct",
+          "task": "comprehend_test"
+        },
+        "sign_stability": {
+          "flip_prob_upper95": 0.312344,
+          "flip_rate_excl_ties": 0.0,
+          "n_agree": {
+            "count": 8,
+            "denominator": 8,
+            "rate": 1.0
+          },
+          "n_flip": {
+            "count": 0,
+            "denominator": 8,
+            "rate": 0.0
+          },
+          "n_tie": {
+            "count": 0,
+            "denominator": 8,
+            "rate": 0.0
+          },
+          "pooled_tie": false,
+          "rank_flip_rate": 0.0,
+          "ruling": "SIGN-STABLE"
+        }
+      },
+      {
+        "confounded_by_version_change": false,
+        "content_hash": "sha256:858732aad369d4434d7a083c261e9d62d59489bc8bc5164b8223481fb4e5fe7b",
+        "drift_ref": {
+          "model_a": "UNAVAILABLE",
+          "model_b": "UNAVAILABLE"
+        },
+        "kind": "PAIR",
+        "model_a": "deepseek-ai-DeepSeek-V4-Flash",
+        "model_b": "mistralai-Mistral-Small-3.2-24B-Instruct-2506",
+        "n": {
+          "draws_total": 14768,
+          "items_aligned": 1846,
+          "k": 8
+        },
+        "noise": {
+          "mdd": {
+            "alpha": 0.05,
+            "assumptions": [
+              "each single-draw score is treated as approximately normal (mean over n items; CLT)",
+              "the k draws are treated as i.i.d.; the drift guard polices exactly this assumption",
+              "draws are not treated as paired across models; two-sample unpooled-variance form",
+              "df = k-1, the conservative choice (Welch df would be larger and the MDD smaller)",
+              "speaks to draw noise on this fixed item set only, not to item-sampling variability"
+            ],
+            "citation": "Kalibera & Jones, Rigorous benchmarking in reasonable time, ISMM 2013",
+            "degenerate_zero_spread": false,
+            "df": 7,
+            "low_k": false,
+            "score_resolution": 0.000542,
+            "t": 2.36462,
+            "value": 0.001881
+          },
+          "range_a": 0.004334,
+          "range_b": 0.005959,
+          "sd_a": 0.001402,
+          "sd_b": 0.00176
+        },
+        "pooled": {
+          "delta_pool": 0.094529,
+          "pass_a": {
+            "count": 11497,
+            "denominator": 14768,
+            "rate": 0.778508
+          },
+          "pass_b": {
+            "count": 10101,
+            "denominator": 14768,
+            "rate": 0.683979
+          },
+          "pooled_sign": 1,
+          "pooled_tie": false
+        },
+        "ruling_id": "LIMEN-cal1-PAIR-0003",
+        "scope_key": {
+          "model_a": "deepseek-ai-DeepSeek-V4-Flash",
+          "model_b": "mistralai-Mistral-Small-3.2-24B-Instruct-2506",
+          "task": "comprehend_test"
+        },
+        "sign_stability": {
+          "flip_prob_upper95": 0.312344,
+          "flip_rate_excl_ties": 0.0,
+          "n_agree": {
+            "count": 8,
+            "denominator": 8,
+            "rate": 1.0
+          },
+          "n_flip": {
+            "count": 0,
+            "denominator": 8,
+            "rate": 0.0
+          },
+          "n_tie": {
+            "count": 0,
+            "denominator": 8,
+            "rate": 0.0
+          },
+          "pooled_tie": false,
+          "rank_flip_rate": 0.0,
+          "ruling": "SIGN-STABLE"
+        }
+      },
+      {
+        "confounded_by_version_change": false,
+        "content_hash": "sha256:f557a8ebb3fdb733d30277a8d2722d11b6ef96e766a39b4d05aa9b0288ff241b",
+        "drift_ref": {
+          "model_a": "UNAVAILABLE",
+          "model_b": "UNAVAILABLE"
+        },
+        "kind": "PAIR",
+        "model_a": "meta-llama-Llama-3.3-70B-Instruct-Turbo",
+        "model_b": "meta-llama-Meta-Llama-3.1-8B-Instruct",
+        "n": {
+          "draws_total": 14768,
+          "items_aligned": 1846,
+          "k": 8
+        },
+        "noise": {
+          "mdd": {
+            "alpha": 0.05,
+            "assumptions": [
+              "each single-draw score is treated as approximately normal (mean over n items; CLT)",
+              "the k draws are treated as i.i.d.; the drift guard polices exactly this assumption",
+              "draws are not treated as paired across models; two-sample unpooled-variance form",
+              "df = k-1, the conservative choice (Welch df would be larger and the MDD smaller)",
+              "speaks to draw noise on this fixed item set only, not to item-sampling variability"
+            ],
+            "citation": "Kalibera & Jones, Rigorous benchmarking in reasonable time, ISMM 2013",
+            "degenerate_zero_spread": false,
+            "df": 7,
+            "low_k": false,
+            "score_resolution": 0.000542,
+            "t": 2.36462,
+            "value": 0.001346
+          },
+          "range_a": 0.004334,
+          "range_b": 0.002167,
+          "sd_a": 0.001417,
+          "sd_b": 0.000766
+        },
+        "pooled": {
+          "delta_pool": 0.196167,
+          "pass_a": {
+            "count": 10325,
+            "denominator": 14768,
+            "rate": 0.699147
+          },
+          "pass_b": {
+            "count": 7428,
+            "denominator": 14768,
+            "rate": 0.502979
+          },
+          "pooled_sign": 1,
+          "pooled_tie": false
+        },
+        "ruling_id": "LIMEN-cal1-PAIR-0004",
+        "scope_key": {
+          "model_a": "meta-llama-Llama-3.3-70B-Instruct-Turbo",
+          "model_b": "meta-llama-Meta-Llama-3.1-8B-Instruct",
+          "task": "comprehend_test"
+        },
+        "sign_stability": {
+          "flip_prob_upper95": 0.312344,
+          "flip_rate_excl_ties": 0.0,
+          "n_agree": {
+            "count": 8,
+            "denominator": 8,
+            "rate": 1.0
+          },
+          "n_flip": {
+            "count": 0,
+            "denominator": 8,
+            "rate": 0.0
+          },
+          "n_tie": {
+            "count": 0,
+            "denominator": 8,
+            "rate": 0.0
+          },
+          "pooled_tie": false,
+          "rank_flip_rate": 0.0,
+          "ruling": "SIGN-STABLE"
+        }
+      },
+      {
+        "confounded_by_version_change": false,
+        "content_hash": "sha256:90b45fd4fe30b7ee5453c2b9d0e8710da2c3a47ef0568baad8e604b28c9a9bd3",
+        "drift_ref": {
+          "model_a": "UNAVAILABLE",
+          "model_b": "UNAVAILABLE"
+        },
+        "kind": "PAIR",
+        "model_a": "meta-llama-Llama-3.3-70B-Instruct-Turbo",
+        "model_b": "mistralai-Mistral-Small-3.2-24B-Instruct-2506",
+        "n": {
+          "draws_total": 14768,
+          "items_aligned": 1846,
+          "k": 8
+        },
+        "noise": {
+          "mdd": {
+            "alpha": 0.05,
+            "assumptions": [
+              "each single-draw score is treated as approximately normal (mean over n items; CLT)",
+              "the k draws are treated as i.i.d.; the drift guard polices exactly this assumption",
+              "draws are not treated as paired across models; two-sample unpooled-variance form",
+              "df = k-1, the conservative choice (Welch df would be larger and the MDD smaller)",
+              "speaks to draw noise on this fixed item set only, not to item-sampling variability"
+            ],
+            "citation": "Kalibera & Jones, Rigorous benchmarking in reasonable time, ISMM 2013",
+            "degenerate_zero_spread": false,
+            "df": 7,
+            "low_k": false,
+            "score_resolution": 0.000542,
+            "t": 2.36462,
+            "value": 0.001889
+          },
+          "range_a": 0.004334,
+          "range_b": 0.005959,
+          "sd_a": 0.001417,
+          "sd_b": 0.00176
+        },
+        "pooled": {
+          "delta_pool": 0.015168,
+          "pass_a": {
+            "count": 10325,
+            "denominator": 14768,
+            "rate": 0.699147
+          },
+          "pass_b": {
+            "count": 10101,
+            "denominator": 14768,
+            "rate": 0.683979
+          },
+          "pooled_sign": 1,
+          "pooled_tie": false
+        },
+        "ruling_id": "LIMEN-cal1-PAIR-0005",
+        "scope_key": {
+          "model_a": "meta-llama-Llama-3.3-70B-Instruct-Turbo",
+          "model_b": "mistralai-Mistral-Small-3.2-24B-Instruct-2506",
+          "task": "comprehend_test"
+        },
+        "sign_stability": {
+          "flip_prob_upper95": 0.312344,
+          "flip_rate_excl_ties": 0.0,
+          "n_agree": {
+            "count": 8,
+            "denominator": 8,
+            "rate": 1.0
+          },
+          "n_flip": {
+            "count": 0,
+            "denominator": 8,
+            "rate": 0.0
+          },
+          "n_tie": {
+            "count": 0,
+            "denominator": 8,
+            "rate": 0.0
+          },
+          "pooled_tie": false,
+          "rank_flip_rate": 0.0,
+          "ruling": "SIGN-STABLE"
+        }
+      },
+      {
+        "confounded_by_version_change": false,
+        "content_hash": "sha256:a84bb712b147d28e148d460b5ff12fba86c2dfba1ea842ab82d5414249d9c2f2",
+        "drift_ref": {
+          "model_a": "UNAVAILABLE",
+          "model_b": "UNAVAILABLE"
+        },
+        "kind": "PAIR",
+        "model_a": "meta-llama-Meta-Llama-3.1-8B-Instruct",
+        "model_b": "mistralai-Mistral-Small-3.2-24B-Instruct-2506",
+        "n": {
+          "draws_total": 14768,
+          "items_aligned": 1846,
+          "k": 8
+        },
+        "noise": {
+          "mdd": {
+            "alpha": 0.05,
+            "assumptions": [
+              "each single-draw score is treated as approximately normal (mean over n items; CLT)",
+              "the k draws are treated as i.i.d.; the drift guard polices exactly this assumption",
+              "draws are not treated as paired across models; two-sample unpooled-variance form",
+              "df = k-1, the conservative choice (Welch df would be larger and the MDD smaller)",
+              "speaks to draw noise on this fixed item set only, not to item-sampling variability"
+            ],
+            "citation": "Kalibera & Jones, Rigorous benchmarking in reasonable time, ISMM 2013",
+            "degenerate_zero_spread": false,
+            "df": 7,
+            "low_k": false,
+            "score_resolution": 0.000542,
+            "t": 2.36462,
+            "value": 0.001605
+          },
+          "range_a": 0.002167,
+          "range_b": 0.005959,
+          "sd_a": 0.000766,
+          "sd_b": 0.00176
+        },
+        "pooled": {
+          "delta_pool": -0.180999,
+          "pass_a": {
+            "count": 7428,
+            "denominator": 14768,
+            "rate": 0.502979
+          },
+          "pass_b": {
+            "count": 10101,
+            "denominator": 14768,
+            "rate": 0.683979
+          },
+          "pooled_sign": -1,
+          "pooled_tie": false
+        },
+        "ruling_id": "LIMEN-cal1-PAIR-0006",
+        "scope_key": {
+          "model_a": "meta-llama-Meta-Llama-3.1-8B-Instruct",
+          "model_b": "mistralai-Mistral-Small-3.2-24B-Instruct-2506",
+          "task": "comprehend_test"
+        },
+        "sign_stability": {
+          "flip_prob_upper95": 0.312344,
+          "flip_rate_excl_ties": 0.0,
+          "n_agree": {
+            "count": 8,
+            "denominator": 8,
+            "rate": 1.0
+          },
+          "n_flip": {
+            "count": 0,
+            "denominator": 8,
+            "rate": 0.0
+          },
+          "n_tie": {
+            "count": 0,
+            "denominator": 8,
+            "rate": 0.0
+          },
+          "pooled_tie": false,
+          "rank_flip_rate": 0.0,
+          "ruling": "SIGN-STABLE"
+        }
+      }
+    ],
+    "task": [
+      {
+        "content_hash": "sha256:07784cac9ab508ac8ba38610c4aa70da5bd3a550ec53ea71acd0665f48b60d7b",
+        "kind": "TASK",
+        "misrank": {
+          "draws_misranking_any_pair": {
+            "count": 0,
+            "denominator": 8,
+            "rate": 0.0
+          }
+        },
+        "n": {
+          "cells_truncated": 0,
+          "items_aligned": 1846,
+          "k": 8,
+          "models": [
+            "deepseek-ai-DeepSeek-V4-Flash",
+            "meta-llama-Llama-3.3-70B-Instruct-Turbo",
+            "meta-llama-Meta-Llama-3.1-8B-Instruct",
+            "mistralai-Mistral-Small-3.2-24B-Instruct-2506"
+          ]
+        },
+        "pooled_flakiness": {
+          "alignment_excluded": {
+            "deepseek-ai-DeepSeek-V4-Flash": 14,
+            "meta-llama-Llama-3.3-70B-Instruct-Turbo": 13,
+            "meta-llama-Meta-Llama-3.1-8B-Instruct": 14,
+            "mistralai-Mistral-Small-3.2-24B-Instruct-2506": 1
+          },
+          "cell_pooled_mixed": {
+            "count": 163,
+            "denominator": 7426,
+            "rate": 0.02195
+          },
+          "item_union_mixed": {
+            "count": 154,
+            "denominator": 1846,
+            "rate": 0.083424
+          },
+          "n_items_aligned": 1846
+        },
+        "ruling_id": "LIMEN-cal1-TASK-0001",
+        "scope_key": {
+          "task": "comprehend_test"
+        },
+        "stable_only": {
+          "mitigations": {
+            "selection_null": {
+              "interpretation": "If the observed tidiness sits inside the null band, the stable-only ordering's tidiness is explained by selection alone and must not be presented as structure; only observed values outside the band license the claim that mixed items carry model-differential signal beyond selection.",
+              "low_k": false,
+              "null": {
+                "t_flip": {
+                  "mean": 0.0,
+                  "p2_5": 0.0,
+                  "p97_5": 0.0,
+                  "p_value_one_sided_large": 1.0,
+                  "p_value_one_sided_small": 1.0
+                },
+                "t_gap": {
+                  "mean": -0.011825,
+                  "p2_5": -0.013261,
+                  "p97_5": -0.010343,
+                  "p_value_one_sided_large": 1.0
+                },
+                "t_tau": {
+                  "mean": 1.0,
+                  "p2_5": 1.0,
+                  "p97_5": 1.0,
+                  "percentile_of_observed": 1.0
+                }
+              },
+              "observed": {
+                "n_stable": 1692,
+                "t_flip": 0,
+                "t_gap": -0.014307,
+                "t_tau": 1.0
+              },
+              "replicates": 1000,
+              "replicates_effective": 1000,
+              "replicates_empty_stable_set": 0,
+              "seed_procedure": "sha256(rulings_version|task|selection-null|replicate_index)",
+              "state": "AVAILABLE",
+              "t_flip_definition": "rank-half sign flips among classify-half-stable items (canonical split); null when k < 4 or the split-stable set is empty"
+            },
+            "split_half": {
+              "canonical_split": {
+                "classify_positions": [
+                  0,
+                  1,
+                  2,
+                  3
+                ],
+                "n_stable": {
+                  "count": 1733,
+                  "denominator": 1846,
+                  "rate": 0.938787
+                },
+                "rank_positions": [
+                  4,
+                  5,
+                  6,
+                  7
+                ],
+                "tau": {
+                  "concordant": 6,
+                  "discordant": 0,
+                  "tau_a": 1.0,
+                  "tau_b": 1.0,
+                  "ties_x": 0,
+                  "ties_y": 0,
+                  "undefined": false
+                }
+              },
+              "classify_draws": 4,
+              "n_splits": 70,
+              "sign_survival": [
+                {
+                  "indeterminate": {
+                    "count": 0,
+                    "denominator": 70,
+                    "rate": 0.0
+                  },
+                  "model_a": "deepseek-ai-DeepSeek-V4-Flash",
+                  "model_b": "meta-llama-Llama-3.3-70B-Instruct-Turbo",
+                  "survived": {
+                    "count": 70,
+                    "denominator": 70,
+                    "rate": 1.0
+                  }
+                },
+                {
+                  "indeterminate": {
+                    "count": 0,
+                    "denominator": 70,
+                    "rate": 0.0
+                  },
+                  "model_a": "deepseek-ai-DeepSeek-V4-Flash",
+                  "model_b": "meta-llama-Meta-Llama-3.1-8B-Instruct",
+                  "survived": {
+                    "count": 70,
+                    "denominator": 70,
+                    "rate": 1.0
+                  }
+                },
+                {
+                  "indeterminate": {
+                    "count": 0,
+                    "denominator": 70,
+                    "rate": 0.0
+                  },
+                  "model_a": "deepseek-ai-DeepSeek-V4-Flash",
+                  "model_b": "mistralai-Mistral-Small-3.2-24B-Instruct-2506",
+                  "survived": {
+                    "count": 70,
+                    "denominator": 70,
+                    "rate": 1.0
+                  }
+                },
+                {
+                  "indeterminate": {
+                    "count": 0,
+                    "denominator": 70,
+                    "rate": 0.0
+                  },
+                  "model_a": "meta-llama-Llama-3.3-70B-Instruct-Turbo",
+                  "model_b": "meta-llama-Meta-Llama-3.1-8B-Instruct",
+                  "survived": {
+                    "count": 70,
+                    "denominator": 70,
+                    "rate": 1.0
+                  }
+                },
+                {
+                  "indeterminate": {
+                    "count": 0,
+                    "denominator": 70,
+                    "rate": 0.0
+                  },
+                  "model_a": "meta-llama-Llama-3.3-70B-Instruct-Turbo",
+                  "model_b": "mistralai-Mistral-Small-3.2-24B-Instruct-2506",
+                  "survived": {
+                    "count": 70,
+                    "denominator": 70,
+                    "rate": 1.0
+                  }
+                },
+                {
+                  "indeterminate": {
+                    "count": 0,
+                    "denominator": 70,
+                    "rate": 0.0
+                  },
+                  "model_a": "meta-llama-Meta-Llama-3.1-8B-Instruct",
+                  "model_b": "mistralai-Mistral-Small-3.2-24B-Instruct-2506",
+                  "survived": {
+                    "count": 70,
+                    "denominator": 70,
+                    "rate": 1.0
+                  }
+                }
+              ],
+              "stable_set_size_over_splits": {
+                "max": 1751,
+                "mean": 1732.928571,
+                "min": 1713
+              },
+              "state": "AVAILABLE",
+              "tau_over_splits": {
+                "max": 1.0,
+                "mean": 1.0,
+                "min": 1.0,
+                "n_undefined": 0
+              },
+              "thinned": false
+            }
+          },
+          "naive": {
+            "n_stable": {
+              "count": 1692,
+              "denominator": 1846,
+              "rate": 0.916576
+            },
+            "pair_sign_survives": [
+              {
+                "model_a": "deepseek-ai-DeepSeek-V4-Flash",
+                "model_b": "meta-llama-Llama-3.3-70B-Instruct-Turbo",
+                "survives": true
+              },
+              {
+                "model_a": "deepseek-ai-DeepSeek-V4-Flash",
+                "model_b": "meta-llama-Meta-Llama-3.1-8B-Instruct",
+                "survives": true
+              },
+              {
+                "model_a": "deepseek-ai-DeepSeek-V4-Flash",
+                "model_b": "mistralai-Mistral-Small-3.2-24B-Instruct-2506",
+                "survives": true
+              },
+              {
+                "model_a": "meta-llama-Llama-3.3-70B-Instruct-Turbo",
+                "model_b": "meta-llama-Meta-Llama-3.1-8B-Instruct",
+                "survives": true
+              },
+              {
+                "model_a": "meta-llama-Llama-3.3-70B-Instruct-Turbo",
+                "model_b": "mistralai-Mistral-Small-3.2-24B-Instruct-2506",
+                "survives": true
+              },
+              {
+                "model_a": "meta-llama-Meta-Llama-3.1-8B-Instruct",
+                "model_b": "mistralai-Mistral-Small-3.2-24B-Instruct-2506",
+                "survives": true
+              }
+            ],
+            "ranking_all_items": [
+              {
+                "model": "deepseek-ai-DeepSeek-V4-Flash",
+                "passes": {
+                  "count": 11497,
+                  "denominator": 14768,
+                  "rate": 0.778508
+                }
+              },
+              {
+                "model": "meta-llama-Llama-3.3-70B-Instruct-Turbo",
+                "passes": {
+                  "count": 10325,
+                  "denominator": 14768,
+                  "rate": 0.699147
+                }
+              },
+              {
+                "model": "mistralai-Mistral-Small-3.2-24B-Instruct-2506",
+                "passes": {
+                  "count": 10101,
+                  "denominator": 14768,
+                  "rate": 0.683979
+                }
+              },
+              {
+                "model": "meta-llama-Meta-Llama-3.1-8B-Instruct",
+                "passes": {
+                  "count": 7428,
+                  "denominator": 14768,
+                  "rate": 0.502979
+                }
+              }
+            ],
+            "ranking_stable_only": [
+              {
+                "model": "deepseek-ai-DeepSeek-V4-Flash",
+                "passes": {
+                  "count": 10520,
+                  "denominator": 13536,
+                  "rate": 0.777187
+                }
+              },
+              {
+                "model": "meta-llama-Llama-3.3-70B-Instruct-Turbo",
+                "passes": {
+                  "count": 9672,
+                  "denominator": 13536,
+                  "rate": 0.714539
+                }
+              },
+              {
+                "model": "mistralai-Mistral-Small-3.2-24B-Instruct-2506",
+                "passes": {
+                  "count": 9520,
+                  "denominator": 13536,
+                  "rate": 0.70331
+                }
+              },
+              {
+                "model": "meta-llama-Meta-Llama-3.1-8B-Instruct",
+                "passes": {
+                  "count": 7160,
+                  "denominator": 13536,
+                  "rate": 0.52896
+                }
+              }
+            ],
+            "tau_stable_vs_all": {
+              "concordant": 6,
+              "discordant": 0,
+              "tau_a": 1.0,
+              "tau_b": 1.0,
+              "ties_x": 0,
+              "ties_y": 0,
+              "undefined": false
+            }
+          },
+          "note": "The stable-only ranking conditions on a selected subset enriched for easy items; it is one view of the data, not a corrected or true ranking.",
+          "per_model_constant": {
+            "deepseek-ai-DeepSeek-V4-Flash": {
+              "count": 1787,
+              "denominator": 1846,
+              "rate": 0.968039
+            },
+            "meta-llama-Llama-3.3-70B-Instruct-Turbo": {
+              "count": 1811,
+              "denominator": 1846,
+              "rate": 0.98104
+            },
+            "meta-llama-Meta-Llama-3.1-8B-Instruct": {
+              "count": 1824,
+              "denominator": 1846,
+              "rate": 0.988082
+            },
+            "mistralai-Mistral-Small-3.2-24B-Instruct-2506": {
+              "count": 1800,
+              "denominator": 1846,
+              "rate": 0.975081
+            }
+          }
+        }
+      }
+    ]
+  },
+  "rulings_version": "cal1",
+  "scope": {
+    "does_not_show": [
+      {
+        "code": "NO_MODEL_QUALITY_CLAIM",
+        "text": "A sign ruling is a verdict on the measurement, never on the models; a flip means 'this comparison is not supported by its own data', never 'the other model wins'."
+      },
+      {
+        "code": "NO_PRIVILEGED_DRAW",
+        "text": "No draw is the correct one; all k are equally legitimate executions of the declared configuration, and there is no true score behind them to prefer."
+      },
+      {
+        "code": "NO_FACTOR_ATTRIBUTION",
+        "text": "'Draw' is a bucket holding everything that varies between two identical calls; no seed / hardware / order / version decomposition is claimed."
+      },
+      {
+        "code": "NO_DRIFT_ABSENCE_CLAIM",
+        "text": "A drift PASS means the checks that could run found nothing; UNAVAILABLE is not PASS, and absence of evidence of drift is not evidence of its absence."
+      },
+      {
+        "code": "STABLE_SUBSET_IS_A_VIEW",
+        "text": "The stable-items-only ranking conditions on a selected subset enriched for easy items; it is one view, not a corrected or true ranking."
+      },
+      {
+        "code": "UNSTABLE_ITEMS_NOT_DEFECTIVE",
+        "text": "Instability is a joint property of item, model, serving stack, grader and protocol; an item unstable for one model and stable for another is not defective."
+      },
+      {
+        "code": "NO_K1_CERTIFICATE",
+        "text": "The spread and MDD are reported at the observed k; no sufficiency certificate is issued for k=1 or any other k, on any benchmark or provider."
+      },
+      {
+        "code": "EXACT_MATCH_GRADING_ONLY",
+        "text": "Validity is scoped to deterministic exact-match grading; nothing here says anything about judge-scored, rubric-scored or preference-scored tasks."
+      },
+      {
+        "code": "CONSTANCY_IS_NOT_CORRECTNESS",
+        "text": "Flakiness and TARa measure repeatability only; a constant-but-wrong verdict is invisible to this instrument."
+      }
+    ]
+  },
+  "spec_version": "0.1.0"
+}

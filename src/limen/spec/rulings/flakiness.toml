@@ -1,0 +1,9 @@
+[[ruling]]
+id = "LMN-FLK-001"
+title = "Per-item flakiness is the pairwise-disagreement U-statistic"
+text = "f = s(k-s)/C(k,2), the fraction of draw pairs whose verdict differs; unbiased for 2q(1-q) at every k. Items classify always_pass / always_fail / mixed, and mixed iff f > 0."
+
+[[ruling]]
+id = "LMN-FLK-002"
+title = "The constant-verdict fraction is an upper bound on TARa@N and says so"
+text = "The constant-verdict fraction is reported with an explicit note that it upper-bounds TARa@N (Atil et al., arXiv:2408.04667): TARa counts parsed-answer agreement, and two different wrong answers grade to the same 0 verdict, so verdict constancy >= TARa@N — equality is unverifiable from a verdict table. The field is emitted only when k is uniform across cells; at ragged k it is null because the quantity at mixed N is not comparable to the published metric."

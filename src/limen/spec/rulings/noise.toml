@@ -1,0 +1,4 @@
+[[ruling]]
+id = "LMN-NSE-001"
+title = "The MDD is cited, conservative, and carries its assumptions"
+text = "MDD = t_{0.975, k-1} * sqrt((sd_a^2 + sd_b^2)/k), after Kalibera & Jones (ISMM 2013) specialized to one level of repetition, with the conservative df = k-1 and a hardcoded t-table (floor lookup for untabulated df). Every MDD block prints its assumption list verbatim, flags k < 4 as low_k, and flags zero observed spread as degenerate rather than treating it as zero noise."

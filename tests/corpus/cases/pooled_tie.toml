@@ -1,0 +1,29 @@
+title = "exactly equal pooled pass counts: SIGN-UNSTABLE with pooled_tie (LMN-RNK-003)"
+rulings = ["LMN-RNK-003"]
+
+[[rows]]
+model = "A"
+item = "i1"
+verdicts = [1, 0]
+
+[[rows]]
+model = "A"
+item = "i2"
+verdicts = [0, 1]
+
+[[rows]]
+model = "B"
+item = "i1"
+verdicts = [0, 1]
+
+[[rows]]
+model = "B"
+item = "i2"
+verdicts = [1, 0]
+
+[expected]
+"rulings.pair.0.pooled.pooled_tie" = true
+"rulings.pair.0.pooled.pooled_sign" = 0
+"rulings.pair.0.sign_stability.ruling" = "SIGN-UNSTABLE"
+"rulings.pair.0.sign_stability.n_agree" = "null"
+"rulings.pair.0.sign_stability.rank_flip_rate" = "null"

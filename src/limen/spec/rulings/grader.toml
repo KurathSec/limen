@@ -1,0 +1,9 @@
+[[ruling]]
+id = "LMN-GRD-001"
+title = "A grader defect is a byte-identical flip"
+text = "An unordered draw pair with identical raw completion bytes and differing verdicts is a grader defect: the model produced the same bytes and the grader decided differently. Identity is byte identity — no strip, no case-fold, no normalization. The count is a share of all discordant draw pairs, and is reported beside raw flakiness, never replacing it."
+
+[[ruling]]
+id = "LMN-GRD-002"
+title = "No raw text means UNAVAILABLE, not zero"
+text = "When raw hashes are absent the grader-defect state is UNAVAILABLE with null counts. 'Zero defects found' is a finding; 'no text to check' is not."

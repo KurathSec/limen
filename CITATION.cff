@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+message: "If you use limen, please cite it as below."
+title: "limen: the same-configuration noise floor of an evaluation"
+type: software
+authors:
+  - name: "Kurath"
+repository-code: "https://github.com/KurathSec/limen"
+license: MIT
+keywords:
+  - evaluation
+  - reproducibility
+  - flakiness
+  - noise floor
+  - benchmark
+abstract: >-
+  An analyzer over repeated identical evaluation runs: per-item verdict
+  flakiness (TARa@N), model-pair sign-stability rulings, the minimum
+  detectable difference at the observed number of repeats, and a CI gate that
+  fails a benchmark report claiming a gain smaller than that report's own
+  measured draw noise. It makes no statement about which model is better.

@@ -1,0 +1,29 @@
+[[ruling]]
+id = "LMN-RNK-001"
+title = "Signs are computed on integers"
+text = "Every leaderboard sign is the sign of an integer pass-count difference, never of a float subtraction; a drawn tie must be exactly a tie."
+
+[[ruling]]
+id = "LMN-RNK-002"
+title = "Ties are their own count"
+text = "A single-draw tie is neither agreement nor disagreement with the pooled direction; n_agree, n_flip, and n_tie are all printed with denominator k, and the flip rate keeps ties in its denominator (a tie-excluded rate is printed beside it)."
+
+[[ruling]]
+id = "LMN-RNK-003"
+title = "A pooled tie is SIGN-UNSTABLE"
+text = "When the pooled difference is exactly zero no directional claim is supported: the ruling is SIGN-UNSTABLE with pooled_tie set, per-draw agreement fields are null (agreement with a nonexistent direction is undefined), and the gate fails the pair."
+
+[[ruling]]
+id = "LMN-RNK-004"
+title = "Zero flips carry their exact upper bound"
+text = "When no flip is observed in k draws, the ruling prints the one-sided 95% upper bound on the per-draw flip probability, 1 - 0.05**(1/k) (0.312 at k=8), so SIGN-STABLE cannot be read as flip probability ~ 0."
+
+[[ruling]]
+id = "LMN-RNK-005"
+title = "Stable-only numbers never ship without their mitigations"
+text = "The same draws that classify an item as flaky also rank the models, so naive exclusion looks tidier even under a null. Every stable-items-only number is emitted together with the disjoint classify/rank split analysis and the selection null; there is no API that returns the naive view alone."
+
+[[ruling]]
+id = "LMN-RNK-006"
+title = "The selection null resamples verdicts; permutation is invariant"
+text = "Within-cell draw-label permutation changes nothing here — classification, scores, and tau are functions of per-cell pass counts only — so a permutation 'null' would tautologically pass. The null resamples each cell i.i.d. Bernoulli(p-hat) and re-runs the entire selection pipeline, with seeds derived from the rulings version."

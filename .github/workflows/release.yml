@@ -1,0 +1,71 @@
+name: release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: read
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -e ".[dev]" -c constraints/ci.txt
+      - run: ruff check src tests tools calibration
+      - run: mypy
+      - run: pytest
+
+  build:
+    needs: gate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: tag gates
+        run: |
+          git merge-base --is-ancestor "$GITHUB_SHA" origin/main
+          VERSION=$(python -c "exec(open('src/limen/_version.py').read()); print(__version__)")
+          test "v$VERSION" = "$GITHUB_REF_NAME"
+          case "$VERSION" in *dev*) echo "dev version cannot be released"; exit 1;; esac
+          grep -q "## \[$VERSION\]" CHANGELOG.md
+      - run: pip install build -c constraints/build.txt
+      - run: python -m build
+      - name: sdist policy
+        run: |
+          tar tzf dist/*.tar.gz > /tmp/sdist.txt
+          ! grep -E "(\.github/|CLAUDE\.md|site/|scratch/|calibration/)" /tmp/sdist.txt
+      - name: wheel smoke
+        run: |
+          python -m venv /tmp/smoke && /tmp/smoke/bin/pip install dist/*.whl
+          /tmp/smoke/bin/limen env
+          /tmp/smoke/bin/limen spec list
+          cd /tmp
+          /tmp/smoke/bin/limen synth --out /tmp/rel-s --items 100 --draws 4 --seed 1
+          /tmp/smoke/bin/limen report /tmp/rel-s/archive.verdicts.csv.gz --out /tmp/rel-r --replicates 10
+          /tmp/smoke/bin/limen gate /tmp/rel-r/report.json --require-sign-stable
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    environment: pypi
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+      - uses: pypa/gh-action-pypi-publish@release/v1

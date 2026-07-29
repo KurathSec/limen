@@ -1,0 +1,9 @@
+[[ruling]]
+id = "LMN-DRF-001"
+title = "UNAVAILABLE is never PASS"
+text = "The drift guard's overall state is FAIL if any sub-check fails, else UNAVAILABLE if any sub-check could not run (missing collected_at or model_version), else PASS. A missing field can never launder into PASS."
+
+[[ruling]]
+id = "LMN-DRF-002"
+title = "Position-proxy mode can fail but cannot pass"
+text = "When timestamps are absent and the caller declares that within-cell draw order is collection order, the order-based sub-checks run on positions: a found effect is FAIL (real evidence of trouble), a clean result is UNAVAILABLE with the disclaimer attached — collected_at is still missing."

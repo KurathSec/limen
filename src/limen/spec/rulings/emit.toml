@@ -1,0 +1,29 @@
+[[ruling]]
+id = "LMN-EMIT-001"
+title = "Canonical bytes"
+text = "Ruling documents serialize as json.dumps(sort_keys=True, indent=2, ensure_ascii=True) plus a trailing newline, floats rounded half-even to 6 places with -0.0 normalized, lists in documented sort order, gzip members written with mtime=0. Regeneration from the same input is byte-identical."
+
+[[ruling]]
+id = "LMN-EMIT-002"
+title = "No count without its denominator"
+text = "Every rate in a ruling document is emitted as {count, denominator, rate}; a bare rate never appears."
+
+[[ruling]]
+id = "LMN-EMIT-003"
+title = "Seeds are derived, never wall-clock"
+text = "Every stochastic procedure derives its seeds as sha256 over (rulings_version, scope, procedure, index). No unseeded RNG and no clock anywhere in a ruling body's production."
+
+[[ruling]]
+id = "LMN-EMIT-004"
+title = "Body and provenance are split"
+text = "The ruling body contains no timestamp, package version, hostname, or absolute path — nothing that varies across a faithful regeneration. Provenance lives in a sidecar outside the byte comparison; the body pins its input via dataset_digest."
+
+[[ruling]]
+id = "LMN-EMIT-005"
+title = "The scope block ships in every report"
+text = "Every report embeds the fixed does_not_show scope codes (NO_MODEL_QUALITY_CLAIM and companions) so a ruling document cannot circulate without its own limits."
+
+[[ruling]]
+id = "LMN-EMIT-006"
+title = "Schema report/v1 has no variance-components section"
+text = "The item/model/draw variance decomposition is deliberately deferred: 8 draw levels give a wide interval, and shipping a wide interval as a headline teaches people to trust the wrong thing. Adding the section is a schema version bump, not a field."

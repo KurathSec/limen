@@ -1,0 +1,74 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "limen"
+dynamic = ["version"]
+description = "The same-configuration noise floor of an evaluation: per-item verdict flakiness, model-pair sign-stability rulings, and a CI gate, from the repeated runs you already have."
+readme = "README.md"
+requires-python = ">=3.12"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "Kurath" }]
+keywords = ["evaluation", "reproducibility", "flakiness", "noise-floor", "benchmark", "llm"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Science/Research",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
+  "Topic :: Scientific/Engineering",
+  "Topic :: Software Development :: Testing",
+  "Typing :: Typed",
+]
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "ruff>=0.6", "mypy>=1.10"]
+docs = ["mkdocs>=1.6", "mkdocs-material>=9"]
+
+[project.scripts]
+limen = "limen.cli:main"
+
+[project.urls]
+Repository = "https://github.com/KurathSec/limen"
+Issues = "https://github.com/KurathSec/limen/issues"
+Changelog = "https://github.com/KurathSec/limen/blob/main/CHANGELOG.md"
+
+[tool.hatch.version]
+path = "src/limen/_version.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/limen"]
+force-include = { "NOTICE" = "limen/NOTICE" }
+
+[tool.hatch.build.targets.sdist]
+exclude = ["/.github", "/CLAUDE.md", "/site", "/scratch", "/calibration"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "TID253"]
+ignore = ["E501"]
+
+[tool.ruff.lint.flake8-tidy-imports]
+# Architectural gate: the Spaghetti-Architect checkout exposes the generic top-level
+# names `bench`, `src`, `eval`. Nothing in limen may import them at module level;
+# the adapter imports them inside functions, lazily, and nowhere else.
+banned-module-level-imports = ["bench", "src", "eval"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+files = ["src/limen"]
+
+[[tool.mypy.overrides]]
+module = ["bench.*"]
+ignore_missing_imports = true

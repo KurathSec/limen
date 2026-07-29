@@ -1,0 +1,29 @@
+[[ruling]]
+id = "LMN-CORE-001"
+title = "Binary verdicts only; no thresholding"
+text = "A verdict enters limen as a literal 0 or 1. limen never derives a verdict from a score: choosing a threshold is a measurement decision that belongs to the evaluation, not to the instrument that audits it."
+
+[[ruling]]
+id = "LMN-CORE-002"
+title = "Table invariants are hard errors"
+text = "Duplicate (model, task, item_id, draw_id), non-binary verdicts, and partially present per-cell optional fields raise; limen never silently repairs its input."
+
+[[ruling]]
+id = "LMN-CORE-003"
+title = "Cells below min-k are excluded and counted"
+text = "Cells with fewer than min_k (default 2) draws are excluded from analysis and reported with their count; the build refuses only when no cell remains. One draw cannot be observed to flip."
+
+[[ruling]]
+id = "LMN-CORE-004"
+title = "Canonical draw order"
+text = "If every draw_id in the table parses as an integer, draws order numerically, else lexicographically. 'Draw position d' means the d-th draw in this order, everywhere."
+
+[[ruling]]
+id = "LMN-CORE-005"
+title = "Long CSV is the canonical on-disk form"
+text = "The generic long-format CSV (model, task, item_id, draw_id, verdict, plus optional score, collected_at, model_version, raw_sha256) is the canonical serialization of the verdict table; the calibration corpus and limen synth write it deterministically."
+
+[[ruling]]
+id = "LMN-CORE-006"
+title = "Absent readers are stated, not silent"
+text = "Readers deliberately absent from this release (inspect_ai .eval per-epoch, HELM, Parquet) are named in the reader registry and the docs; their absence is a scope decision, not an accident."

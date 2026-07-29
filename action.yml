@@ -1,0 +1,56 @@
+name: "limen gate"
+description: >-
+  Fail a benchmark report claiming an improvement smaller than its own measured
+  draw-noise floor, or resting on a sign-unstable model pair. Audits the report
+  against itself; makes no statement about which model is better.
+branding:
+  icon: "activity"
+  color: "gray-dark"
+inputs:
+  report:
+    description: "Path to the limen report.json to gate"
+    required: true
+  require-sign-stable:
+    description: "Fail on any SIGN-UNSTABLE pair"
+    required: false
+    default: "true"
+  min-effect-vs-noise:
+    description: "Minimum |delta_pool| / MDD ratio"
+    required: false
+    default: "1.0"
+  pairs:
+    description: "Space-separated pair claims of the form task:modelA>modelB (optional)"
+    required: false
+    default: ""
+  version:
+    description: "limen version to install from PyPI; empty installs from the action checkout"
+    required: false
+    default: ""
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/setup-python@v5
+      with:
+        python-version: "3.12"
+    - name: Install limen
+      shell: bash
+      run: |
+        if [ -n "${{ inputs.version }}" ]; then
+          pip install "limen==${{ inputs.version }}"
+        else
+          pip install "${{ github.action_path }}"
+        fi
+    - name: Run limen gate
+      shell: bash
+      run: |
+        ARGS=""
+        if [ "${{ inputs.require-sign-stable }}" = "true" ]; then
+          ARGS="$ARGS --require-sign-stable"
+        fi
+        if [ -n "${{ inputs.min-effect-vs-noise }}" ]; then
+          ARGS="$ARGS --min-effect-vs-noise ${{ inputs.min-effect-vs-noise }}"
+        fi
+        for PAIR in ${{ inputs.pairs }}; do
+          ARGS="$ARGS --pair $PAIR"
+        done
+        limen gate "${{ inputs.report }}" $ARGS

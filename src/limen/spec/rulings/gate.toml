@@ -1,0 +1,14 @@
+[[ruling]]
+id = "LMN-GTE-001"
+title = "Exit codes preserve the three-way distinction"
+text = "0: every requested check passed. 1: a requested check measurably failed. 2: a requested check could not be evaluated (UNAVAILABLE section, missing pair, unreadable report). Both 1 and 2 are red in CI, so UNAVAILABLE can never slip through as success; a measured failure outranks a missing section when both occur."
+
+[[ruling]]
+id = "LMN-GTE-002"
+title = "The claimed improvement is the report's own delta"
+text = "The gate audits a report against itself: the claimed improvement for a pair is the report's own |delta_pool|. The gate accepts no externally typed effect size; with --pair task:A>B the asserted direction must match the report's pooled sign or the pair fails with claim_contradicts_pooled_data."
+
+[[ruling]]
+id = "LMN-GTE-003"
+title = "Every gate failure reprints the quality-claim boundary"
+text = "Every FAIL verdict reprints NO_MODEL_QUALITY_CLAIM: a sign ruling is a verdict on the measurement, never on the models, and a failed pair never means the other model wins."

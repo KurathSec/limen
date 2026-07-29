@@ -1,0 +1,49 @@
+title = "one draw agrees, one flips: SIGN-UNSTABLE with rate 0.5 (LMN-RNK-001, LMN-RNK-002)"
+rulings = ["LMN-RNK-001", "LMN-RNK-002", "LMN-FLK-001"]
+
+[[rows]]
+model = "A"
+item = "i1"
+verdicts = [1, 0]
+
+[[rows]]
+model = "A"
+item = "i2"
+verdicts = [1, 0]
+
+[[rows]]
+model = "A"
+item = "i3"
+verdicts = [1, 0]
+
+[[rows]]
+model = "B"
+item = "i1"
+verdicts = [0, 1]
+
+[[rows]]
+model = "B"
+item = "i2"
+verdicts = [0, 1]
+
+[[rows]]
+model = "B"
+item = "i3"
+verdicts = [0, 0]
+
+[expected]
+"rulings.pair.0.sign_stability.ruling" = "SIGN-UNSTABLE"
+"rulings.pair.0.sign_stability.n_agree.count" = 1
+"rulings.pair.0.sign_stability.n_flip.count" = 1
+"rulings.pair.0.sign_stability.n_tie.count" = 0
+"rulings.pair.0.sign_stability.rank_flip_rate" = 0.5
+"rulings.pair.0.pooled.pooled_sign" = 1
+"rulings.pair.0.pooled.delta_pool" = 0.166667
+"rulings.task.0.misrank.draws_misranking_any_pair.count" = 1
+# model A: every item flips between its 2 draws -> f = 1 each, TARa = 0
+"rulings.mt.0.flakiness.mean_flakiness" = 1.0
+"rulings.mt.0.flakiness.constant_verdict_fraction" = 0.0
+# model B: i1, i2 mixed (f=1), i3 always_fail -> mean 2/3, TARa 1/3
+"rulings.mt.1.flakiness.mean_flakiness" = 0.666667
+"rulings.mt.1.flakiness.constant_verdict_fraction" = 0.333333
+"rulings.mt.1.flakiness.always_fail.count" = 1

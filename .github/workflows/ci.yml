@@ -1,0 +1,96 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.12", "3.13", "3.14"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - run: pip install -e ".[dev]" -c constraints/ci.txt
+      - run: ruff check src tests tools calibration
+      - run: pytest
+
+  typecheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -e ".[dev]" -c constraints/ci.txt
+      - run: mypy
+
+  gates:
+    # the three mechanical gates get their own job so a red gate is legible
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -e ".[dev]" -c constraints/ci.txt
+      - name: calibration drift gate
+        run: pytest tests/test_calibration_drift.py -q
+      - name: spec coverage gate
+        run: pytest tests/test_spec.py -q
+      - name: layering gate
+        run: pytest tests/test_layering.py -q
+      - name: golden check
+        run: python tools/update_calibration.py --check
+
+  docs-generated:
+    # the site can never state a ruling the package does not carry
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -e .
+      - run: python tools/render_rulings.py
+      - run: python tools/render_sensitivity.py --replicates 200
+      - run: git diff --exit-code docs/
+
+  gate-selftest:
+    # the shipped action, exercised end-to-end: one passing, one failing report
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -e .
+      - name: build a passing report
+        run: |
+          limen synth --out /tmp/ok --models 2 --items 400 --draws 8 --flaky-fraction 0.02 --gap 0.05 --seed 1
+          limen report /tmp/ok/archive.verdicts.csv.gz --out /tmp/ok-report --replicates 50
+      - name: gate passes
+        uses: ./
+        with:
+          report: /tmp/ok-report/report.json
+      - name: build a failing report (true gap zero)
+        run: |
+          limen synth --out /tmp/bad --models 2 --items 200 --draws 8 --flaky-fraction 0.3 --gap 0.0 --top-mu 0.5 --seed 2
+          limen report /tmp/bad/archive.verdicts.csv.gz --out /tmp/bad-report --replicates 50
+      - name: gate fails as it must
+        id: mustfail
+        continue-on-error: true
+        uses: ./
+        with:
+          report: /tmp/bad-report/report.json
+      - name: assert the failure happened
+        run: test "${{ steps.mustfail.outcome }}" = "failure"

@@ -1,0 +1,14 @@
+[[ruling]]
+id = "LMN-ADP-001"
+title = "Refuse a poisoned environment before importing"
+text = "bench.tasks reads BENCH_STRIP_ANNOTATIONS at import time into a module constant; a truthy value silently regrades against the unannotated corpus. The adapter checks the environment and refuses BEFORE any foreign import, and never modifies the checkout (imports run with bytecode writing disabled for the process)."
+
+[[ruling]]
+id = "LMN-ADP-002"
+title = "Split is injected from the filename, always"
+text = "The checkout's regrade functions default a missing 'split' to 'dev', which silently mis-grades test-split records against the dev oracle (tier A) or crashes (tiers B/C). The adapter sets rec['split'] explicitly on every record from the archive filename and never relies on the default."
+
+[[ruling]]
+id = "LMN-ADP-003"
+title = "Per-draw verdicts via public singleton regrade, no rounding"
+text = "Per-draw verdicts come from the checkout's public regrade API called on singleton copies (raw_outputs = [one draw]); the aggregate rate of a one-element list is that draw's verdict. Anything non-integral raises; the adapter never rounds a rate into a verdict. refactor x test is refused outright as upstream declares it non-reproducible."
