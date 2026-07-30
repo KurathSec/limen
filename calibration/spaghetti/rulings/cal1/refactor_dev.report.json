@@ -1,5 +1,5 @@
 {
-  "content_hash": "sha256:5f3aaea7cf1be32aa5c3b99d60db6427ea240d28ff20333f43a0a50824d667a7",
+  "content_hash": "sha256:78d5e5232c9786b4aef9495f527ff3e6ac768f5348eacfd48b4cf9322f2ba499",
   "dataset_digest": "sha256:5553875db5e70876a932db8cc31d05ba726923c774a335389162bea15dec4945",
   "limen_schema": "report/v1",
   "n": {
@@ -1406,5 +1406,5 @@
       }
     ]
   },
-  "spec_version": "0.1.0"
+  "spec_version": "0.2.0"
 }

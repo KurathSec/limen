@@ -52,7 +52,9 @@ limen gate demo-report/report.json --require-sign-stable --min-effect-vs-noise 1
 - a generic long-format CSV (`model, task, item_id, draw_id, verdict`, plus
   optional `score, collected_at, model_version, raw_sha256`),
 - lm-evaluation-harness `--log_samples` output trees (run the harness at least
-  twice, or with repeats: limen needs k >= 2 draws per item).
+  twice, or with repeats: limen needs k >= 2 draws per item),
+- inspect_ai `.eval` logs at the per-epoch layer (each epoch is one draw; no
+  inspect_ai dependency needed).
 
 ## The ruling document
 

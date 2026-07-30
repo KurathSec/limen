@@ -242,8 +242,8 @@ def _build_parser() -> argparse.ArgumentParser:
     sub = parser.add_subparsers(dest="command", required=True)
 
     p = sub.add_parser("report", help="analyze repeated-run logs into a ruling document")
-    p.add_argument("inputs", nargs="+", help="input file(s)/dir(s): long CSV or lm-eval logs")
-    p.add_argument("--format", choices=["long-csv", "lm-eval"], default=None)
+    p.add_argument("inputs", nargs="+", help="input file(s)/dir(s): long CSV, lm-eval logs, or inspect .eval logs")
+    p.add_argument("--format", choices=["long-csv", "lm-eval", "inspect"], default=None)
     p.add_argument("--out", default="limen-report", help="output directory")
     p.add_argument("--json", action="store_true", help="also print report.json to stdout")
     p.add_argument("--metric", default=None, help="lm-eval: binary metric field to use")

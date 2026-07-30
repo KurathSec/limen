@@ -49,6 +49,18 @@ limen report runs/ --out my-report
 Each sample line is one draw. Re-runs of the identical configuration stack
 into draws per item. One run alone is refused: limen needs k >= 2 draws.
 
+**inspect_ai** `.eval` logs, at the per-epoch layer:
+
+```sh
+inspect eval mytask.py --model <model> --epochs 8   # epochs are the draws
+limen report logs/ --out my-report
+```
+
+Each epoch of each sample is one draw; re-runs stack as further draws. limen
+reads the `.eval` zip directly (no inspect_ai dependency) and uses the
+per-sample `completed_at` timestamps for the drift guard. Score values must be
+binary (`C`/`I` or 0/1); with several scorers, `--metric` names the verdict.
+
 **Spaghetti-Architect checkouts** (repeated-draw archives with committed
 graders): `limen regrade --repo <checkout> --task comprehend_dev --out tables/`
 builds long-CSV verdict tables through the checkout's own public regrade API,

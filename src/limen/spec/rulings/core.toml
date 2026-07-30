@@ -27,3 +27,9 @@ text = "The generic long-format CSV (model, task, item_id, draw_id, verdict, plu
 id = "LMN-CORE-006"
 title = "Absent readers are stated, not silent"
 text = "Readers deliberately absent from this release (inspect_ai .eval per-epoch, HELM, Parquet) are named in the reader registry and the docs; their absence is a scope decision, not an accident."
+status = "superseded"
+
+[[ruling]]
+id = "LMN-CORE-007"
+title = "Absent readers are stated, not silent"
+text = "Readers deliberately absent (HELM, Parquet) are named in the reader registry and the docs; their absence is a scope decision, not an accident. Supersedes LMN-CORE-006 after the inspect_ai .eval per-epoch reader shipped: each epoch of each sample is one draw, read directly from the zip without an inspect_ai dependency, consuming exactly the layer inspect's epoch reducers collapse."

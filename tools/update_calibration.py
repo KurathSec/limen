@@ -41,6 +41,17 @@ def _major(version: str) -> str:
     return version.split(".", 1)[0]
 
 
+def _stamp_only_diff(committed_text: str, regenerated_text: str) -> bool:
+    """True when the two documents differ only in the spec_version stamp and the
+    envelope content_hash that covers it — i.e. no recorded value moved."""
+    committed = json.loads(committed_text)
+    regenerated = json.loads(regenerated_text)
+    for doc in (committed, regenerated):
+        doc["spec_version"] = None
+        doc["content_hash"] = None
+    return committed == regenerated
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     mode = parser.add_mutually_exclusive_group(required=True)
@@ -75,6 +86,17 @@ def main() -> int:
         committed = golden.read_text(encoding="utf-8")
         if committed == text:
             ok += 1
+            continue
+        if _stamp_only_diff(committed, text):
+            # only the spec_version stamp (and the envelope hash that covers it)
+            # moved; no recorded value changed, so any spec bump may refresh it
+            if args.write:
+                golden.write_text(text, encoding="utf-8", newline="")
+                print(f"  refreshed spec stamp on {golden.name} ({spec_version()})")
+                ok += 1
+            else:
+                pending_changed.append(golden.name)
+                print(f"  {golden.name}: stamp-only change pending (run --write)")
             continue
         pending_changed.append(golden.name)
         if args.write:
