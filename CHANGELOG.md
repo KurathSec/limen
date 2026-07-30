@@ -4,6 +4,33 @@ All notable changes to this project. Every stanza states both versions:
 the **package** version and the **rulings spec** version (a spec MAJOR means a
 recorded meaning changed).
 
+## [0.1.1] - 2026-07-30
+
+Package 0.1.1 · rulings spec 0.2.0.
+
+- inspect_ai `.eval` reader at the per-epoch layer: each epoch of each sample
+  is one draw, re-runs stack as further draws, per-sample `completed_at`
+  timestamps feed the drift guard. The zip is parsed with the stdlib; logs
+  whose entries use Zstandard compression (written by inspect on Python
+  3.14+) are read on Python >= 3.14 and refused with the fix named on older
+  interpreters. Fixtures were produced by a real inspect_ai run.
+- Rulings spec 0.1.0 -> 0.2.0: LMN-CORE-006 superseded by LMN-CORE-007
+  (HELM and Parquet remain the stated reader absences).
+- `tools/update_calibration.py` distinguishes stamp-only golden changes
+  (spec_version and the envelope hash over it) from recorded-value changes:
+  stamps refresh on any spec bump, values still demand a MAJOR bump and an
+  explicit flag.
+- Validation layer three: the instrument recovers the published single-run
+  pass@1 spread of "On Randomness in Agentic Evals" (Bjarnason, Silva,
+  Monperrus; Zenodo 10.5281/zenodo.18684663) exactly on data it did not
+  collect, and additionally rules both same-model temperature pairs
+  SIGN-UNSTABLE and measures harness nondeterminism via byte-identical
+  patches (`validation/on_randomness/`).
+- The gate-sensitivity sweep runs in its own workflow (tags, weekly,
+  dispatch) instead of on every push.
+- CITATION.cff carries the author's full record and the references the
+  instrument stands on.
+
 ## [0.1.0] - 2026-07-29
 
 Package 0.1.0 · rulings spec 0.1.0.
