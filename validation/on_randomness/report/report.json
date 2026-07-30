@@ -1,0 +1,2427 @@
+{
+  "content_hash": "sha256:d6d338d2867aa5a0d761a826b03b5fa029b343838df790420013a3935338b3b9",
+  "dataset_digest": "sha256:230644603b121cb1a46aee79829db6f8fa17a4bc6b3bd6305690920c5f88d670",
+  "limen_schema": "report/v1",
+  "n": {
+    "cells": 3000,
+    "excluded_low_k": [],
+    "models": [
+      "nano-agent-Qwen_Qwen3-32B",
+      "nano-agent-Qwen_Qwen3-32B-temp0",
+      "nano-agent-agentica-org_DeepSWE-Preview",
+      "nano-agent-agentica-org_DeepSWE-Preview__temp0",
+      "nano-agent-mistral_devstral-2512",
+      "nano-agent-mistral_devstral-2512__temp0"
+    ],
+    "tasks": [
+      "swebench_verified"
+    ]
+  },
+  "options": {
+    "assume_index_is_collection_order": false,
+    "max_splits": 256,
+    "ragged": "error",
+    "replicates": 1000
+  },
+  "rulings": {
+    "mt": [
+      {
+        "content_hash": "sha256:7c038d84cf4c69c7158ac1d1b99a6fc4e7855d9a00175f5e411ec68ec12dea22",
+        "drift": {
+          "basis": null,
+          "proxy_disclaimer": null,
+          "state": "UNAVAILABLE",
+          "subchecks": {
+            "lodo": {
+              "reason": "no collected_at and no declared position order",
+              "state": "UNAVAILABLE"
+            },
+            "trend": {
+              "reason": "no collected_at and no declared position order",
+              "state": "UNAVAILABLE"
+            },
+            "version_constancy": {
+              "n_cells_missing": 500,
+              "state": "UNAVAILABLE",
+              "versions": null
+            }
+          },
+          "time_ordering_vacuous": false
+        },
+        "flakiness": {
+          "always_fail": {
+            "count": 329,
+            "denominator": 500,
+            "rate": 0.658
+          },
+          "always_pass": {
+            "count": 21,
+            "denominator": 500,
+            "rate": 0.042
+          },
+          "constant_verdict_fraction": 0.7,
+          "constant_verdict_n": 10,
+          "f_max": 0.555556,
+          "f_p50": 0.0,
+          "f_p90": 0.466667,
+          "f_p99": 0.555556,
+          "k_uniform": 10,
+          "mean_flakiness": 0.111067,
+          "mean_flakiness_mixed_only": 0.370222,
+          "mixed": {
+            "count": 150,
+            "denominator": 500,
+            "rate": 0.3
+          },
+          "n_items": 500,
+          "pooled_pair_discordance": {
+            "count": 2499,
+            "denominator": 22500,
+            "rate": 0.111067
+          },
+          "tara_upper_bound_note": "upper bound on TARa@N (Atil et al., arXiv:2408.04667): verdict constancy; parsed-answer agreement can be lower on always-fail items"
+        },
+        "grader_defect": {
+          "defect_items": {
+            "count": 2,
+            "denominator": 150,
+            "rate": 0.013333
+          },
+          "defect_pairs": {
+            "count": 4,
+            "denominator": 2499,
+            "rate": 0.001601
+          },
+          "mean_flakiness_excluding_detected_defects": 0.110889,
+          "mean_flakiness_raw": 0.111067,
+          "n_cells": 500,
+          "n_cells_with_text": 500,
+          "note": "this check detects grader nondeterminism only, not grader wrongness: a constant-but-wrong completion is invisible here",
+          "state": "AVAILABLE"
+        },
+        "kind": "MT",
+        "noise_floor": {
+          "k": 10,
+          "n_items_aligned": 500,
+          "score_max": 0.172,
+          "score_mean": 0.1638,
+          "score_min": 0.15,
+          "score_range": 0.022,
+          "score_resolution": 0.002,
+          "score_sd": 0.007451
+        },
+        "ruling_id": "LIMEN-onr1-MT-0001",
+        "scope_key": {
+          "model": "nano-agent-Qwen_Qwen3-32B",
+          "task": "swebench_verified"
+        }
+      },
+      {
+        "content_hash": "sha256:31164e8e3fb02b2e0689d332ff4878914ab0493cb29bf10644dc69b67077a35f",
+        "drift": {
+          "basis": null,
+          "proxy_disclaimer": null,
+          "state": "UNAVAILABLE",
+          "subchecks": {
+            "lodo": {
+              "reason": "no collected_at and no declared position order",
+              "state": "UNAVAILABLE"
+            },
+            "trend": {
+              "reason": "no collected_at and no declared position order",
+              "state": "UNAVAILABLE"
+            },
+            "version_constancy": {
+              "n_cells_missing": 500,
+              "state": "UNAVAILABLE",
+              "versions": null
+            }
+          },
+          "time_ordering_vacuous": false
+        },
+        "flakiness": {
+          "always_fail": {
+            "count": 331,
+            "denominator": 500,
+            "rate": 0.662
+          },
+          "always_pass": {
+            "count": 25,
+            "denominator": 500,
+            "rate": 0.05
+          },
+          "constant_verdict_fraction": 0.712,
+          "constant_verdict_n": 10,
+          "f_max": 0.555556,
+          "f_p50": 0.0,
+          "f_p90": 0.466667,
+          "f_p99": 0.555556,
+          "k_uniform": 10,
+          "mean_flakiness": 0.1072,
+          "mean_flakiness_mixed_only": 0.372222,
+          "mixed": {
+            "count": 144,
+            "denominator": 500,
+            "rate": 0.288
+          },
+          "n_items": 500,
+          "pooled_pair_discordance": {
+            "count": 2412,
+            "denominator": 22500,
+            "rate": 0.1072
+          },
+          "tara_upper_bound_note": "upper bound on TARa@N (Atil et al., arXiv:2408.04667): verdict constancy; parsed-answer agreement can be lower on always-fail items"
+        },
+        "grader_defect": {
+          "defect_items": {
+            "count": 3,
+            "denominator": 144,
+            "rate": 0.020833
+          },
+          "defect_pairs": {
+            "count": 21,
+            "denominator": 2412,
+            "rate": 0.008706
+          },
+          "mean_flakiness_excluding_detected_defects": 0.106267,
+          "mean_flakiness_raw": 0.1072,
+          "n_cells": 500,
+          "n_cells_with_text": 500,
+          "note": "this check detects grader nondeterminism only, not grader wrongness: a constant-but-wrong completion is invisible here",
+          "state": "AVAILABLE"
+        },
+        "kind": "MT",
+        "noise_floor": {
+          "k": 10,
+          "n_items_aligned": 500,
+          "score_max": 0.18,
+          "score_mean": 0.1636,
+          "score_min": 0.144,
+          "score_range": 0.036,
+          "score_resolution": 0.002,
+          "score_sd": 0.01173
+        },
+        "ruling_id": "LIMEN-onr1-MT-0002",
+        "scope_key": {
+          "model": "nano-agent-Qwen_Qwen3-32B-temp0",
+          "task": "swebench_verified"
+        }
+      },
+      {
+        "content_hash": "sha256:e94660166d17c59ed8276a2ebdcada2e7b35cd4342a35e058d97a29499da7ebf",
+        "drift": {
+          "basis": null,
+          "proxy_disclaimer": null,
+          "state": "UNAVAILABLE",
+          "subchecks": {
+            "lodo": {
+              "reason": "no collected_at and no declared position order",
+              "state": "UNAVAILABLE"
+            },
+            "trend": {
+              "reason": "no collected_at and no declared position order",
+              "state": "UNAVAILABLE"
+            },
+            "version_constancy": {
+              "n_cells_missing": 500,
+              "state": "UNAVAILABLE",
+              "versions": null
+            }
+          },
+          "time_ordering_vacuous": false
+        },
+        "flakiness": {
+          "always_fail": {
+            "count": 210,
+            "denominator": 500,
+            "rate": 0.42
+          },
+          "always_pass": {
+            "count": 32,
+            "denominator": 500,
+            "rate": 0.064
+          },
+          "constant_verdict_fraction": 0.484,
+          "constant_verdict_n": 10,
+          "f_max": 0.555556,
+          "f_p50": 0.2,
+          "f_p90": 0.533333,
+          "f_p99": 0.555556,
+          "k_uniform": 10,
+          "mean_flakiness": 0.1948,
+          "mean_flakiness_mixed_only": 0.377519,
+          "mixed": {
+            "count": 258,
+            "denominator": 500,
+            "rate": 0.516
+          },
+          "n_items": 500,
+          "pooled_pair_discordance": {
+            "count": 4383,
+            "denominator": 22500,
+            "rate": 0.1948
+          },
+          "tara_upper_bound_note": "upper bound on TARa@N (Atil et al., arXiv:2408.04667): verdict constancy; parsed-answer agreement can be lower on always-fail items"
+        },
+        "grader_defect": {
+          "defect_items": {
+            "count": 161,
+            "denominator": 258,
+            "rate": 0.624031
+          },
+          "defect_pairs": {
+            "count": 896,
+            "denominator": 4383,
+            "rate": 0.204426
+          },
+          "mean_flakiness_excluding_detected_defects": 0.154978,
+          "mean_flakiness_raw": 0.1948,
+          "n_cells": 500,
+          "n_cells_with_text": 500,
+          "note": "this check detects grader nondeterminism only, not grader wrongness: a constant-but-wrong completion is invisible here",
+          "state": "AVAILABLE"
+        },
+        "kind": "MT",
+        "noise_floor": {
+          "k": 10,
+          "n_items_aligned": 500,
+          "score_max": 0.324,
+          "score_mean": 0.3138,
+          "score_min": 0.288,
+          "score_range": 0.036,
+          "score_resolution": 0.002,
+          "score_sd": 0.010218
+        },
+        "ruling_id": "LIMEN-onr1-MT-0003",
+        "scope_key": {
+          "model": "nano-agent-agentica-org_DeepSWE-Preview",
+          "task": "swebench_verified"
+        }
+      },
+      {
+        "content_hash": "sha256:85725e7a840a3d819f991cfa399947a18d1f908763bdaac17f16c68780eab53e",
+        "drift": {
+          "basis": null,
+          "proxy_disclaimer": null,
+          "state": "UNAVAILABLE",
+          "subchecks": {
+            "lodo": {
+              "reason": "no collected_at and no declared position order",
+              "state": "UNAVAILABLE"
+            },
+            "trend": {
+              "reason": "no collected_at and no declared position order",
+              "state": "UNAVAILABLE"
+            },
+            "version_constancy": {
+              "n_cells_missing": 500,
+              "state": "UNAVAILABLE",
+              "versions": null
+            }
+          },
+          "time_ordering_vacuous": false
+        },
+        "flakiness": {
+          "always_fail": {
+            "count": 288,
+            "denominator": 500,
+            "rate": 0.576
+          },
+          "always_pass": {
+            "count": 22,
+            "denominator": 500,
+            "rate": 0.044
+          },
+          "constant_verdict_fraction": 0.62,
+          "constant_verdict_n": 10,
+          "f_max": 0.555556,
+          "f_p50": 0.0,
+          "f_p90": 0.533333,
+          "f_p99": 0.555556,
+          "k_uniform": 10,
+          "mean_flakiness": 0.1424,
+          "mean_flakiness_mixed_only": 0.374737,
+          "mixed": {
+            "count": 190,
+            "denominator": 500,
+            "rate": 0.38
+          },
+          "n_items": 500,
+          "pooled_pair_discordance": {
+            "count": 3204,
+            "denominator": 22500,
+            "rate": 0.1424
+          },
+          "tara_upper_bound_note": "upper bound on TARa@N (Atil et al., arXiv:2408.04667): verdict constancy; parsed-answer agreement can be lower on always-fail items"
+        },
+        "grader_defect": {
+          "defect_items": {
+            "count": 4,
+            "denominator": 190,
+            "rate": 0.021053
+          },
+          "defect_pairs": {
+            "count": 19,
+            "denominator": 3204,
+            "rate": 0.00593
+          },
+          "mean_flakiness_excluding_detected_defects": 0.141556,
+          "mean_flakiness_raw": 0.1424,
+          "n_cells": 500,
+          "n_cells_with_text": 500,
+          "note": "this check detects grader nondeterminism only, not grader wrongness: a constant-but-wrong completion is invisible here",
+          "state": "AVAILABLE"
+        },
+        "kind": "MT",
+        "noise_floor": {
+          "k": 10,
+          "n_items_aligned": 500,
+          "score_max": 0.214,
+          "score_mean": 0.2036,
+          "score_min": 0.182,
+          "score_range": 0.032,
+          "score_resolution": 0.002,
+          "score_sd": 0.009559
+        },
+        "ruling_id": "LIMEN-onr1-MT-0004",
+        "scope_key": {
+          "model": "nano-agent-agentica-org_DeepSWE-Preview__temp0",
+          "task": "swebench_verified"
+        }
+      },
+      {
+        "content_hash": "sha256:31c45b21a426175709e41ff3048e41abfe4c45255118f982acd2457a09cbbe06",
+        "drift": {
+          "basis": null,
+          "proxy_disclaimer": null,
+          "state": "UNAVAILABLE",
+          "subchecks": {
+            "lodo": {
+              "reason": "no collected_at and no declared position order",
+              "state": "UNAVAILABLE"
+            },
+            "trend": {
+              "reason": "no collected_at and no declared position order",
+              "state": "UNAVAILABLE"
+            },
+            "version_constancy": {
+              "n_cells_missing": 500,
+              "state": "UNAVAILABLE",
+              "versions": null
+            }
+          },
+          "time_ordering_vacuous": false
+        },
+        "flakiness": {
+          "always_fail": {
+            "count": 103,
+            "denominator": 500,
+            "rate": 0.206
+          },
+          "always_pass": {
+            "count": 216,
+            "denominator": 500,
+            "rate": 0.432
+          },
+          "constant_verdict_fraction": 0.638,
+          "constant_verdict_n": 10,
+          "f_max": 0.555556,
+          "f_p50": 0.0,
+          "f_p90": 0.466667,
+          "f_p99": 0.555556,
+          "k_uniform": 10,
+          "mean_flakiness": 0.131333,
+          "mean_flakiness_mixed_only": 0.362799,
+          "mixed": {
+            "count": 181,
+            "denominator": 500,
+            "rate": 0.362
+          },
+          "n_items": 500,
+          "pooled_pair_discordance": {
+            "count": 2955,
+            "denominator": 22500,
+            "rate": 0.131333
+          },
+          "tara_upper_bound_note": "upper bound on TARa@N (Atil et al., arXiv:2408.04667): verdict constancy; parsed-answer agreement can be lower on always-fail items"
+        },
+        "grader_defect": {
+          "defect_items": {
+            "count": 0,
+            "denominator": 181,
+            "rate": 0.0
+          },
+          "defect_pairs": {
+            "count": 0,
+            "denominator": 2955,
+            "rate": 0.0
+          },
+          "mean_flakiness_excluding_detected_defects": 0.131333,
+          "mean_flakiness_raw": 0.131333,
+          "n_cells": 500,
+          "n_cells_with_text": 500,
+          "note": "this check detects grader nondeterminism only, not grader wrongness: a constant-but-wrong completion is invisible here",
+          "state": "AVAILABLE"
+        },
+        "kind": "MT",
+        "noise_floor": {
+          "k": 10,
+          "n_items_aligned": 500,
+          "score_max": 0.65,
+          "score_mean": 0.6354,
+          "score_min": 0.618,
+          "score_range": 0.032,
+          "score_resolution": 0.002,
+          "score_sd": 0.011276
+        },
+        "ruling_id": "LIMEN-onr1-MT-0005",
+        "scope_key": {
+          "model": "nano-agent-mistral_devstral-2512",
+          "task": "swebench_verified"
+        }
+      },
+      {
+        "content_hash": "sha256:ee8424d20ff8fee4e4d5d517f31c499268f9eef1fc9737400d556b1d5f29a965",
+        "drift": {
+          "basis": null,
+          "proxy_disclaimer": null,
+          "state": "UNAVAILABLE",
+          "subchecks": {
+            "lodo": {
+              "reason": "no collected_at and no declared position order",
+              "state": "UNAVAILABLE"
+            },
+            "trend": {
+              "reason": "no collected_at and no declared position order",
+              "state": "UNAVAILABLE"
+            },
+            "version_constancy": {
+              "n_cells_missing": 500,
+              "state": "UNAVAILABLE",
+              "versions": null
+            }
+          },
+          "time_ordering_vacuous": false
+        },
+        "flakiness": {
+          "always_fail": {
+            "count": 100,
+            "denominator": 500,
+            "rate": 0.2
+          },
+          "always_pass": {
+            "count": 210,
+            "denominator": 500,
+            "rate": 0.42
+          },
+          "constant_verdict_fraction": 0.62,
+          "constant_verdict_n": 10,
+          "f_max": 0.555556,
+          "f_p50": 0.0,
+          "f_p90": 0.466667,
+          "f_p99": 0.555556,
+          "k_uniform": 10,
+          "mean_flakiness": 0.136933,
+          "mean_flakiness_mixed_only": 0.360351,
+          "mixed": {
+            "count": 190,
+            "denominator": 500,
+            "rate": 0.38
+          },
+          "n_items": 500,
+          "pooled_pair_discordance": {
+            "count": 3081,
+            "denominator": 22500,
+            "rate": 0.136933
+          },
+          "tara_upper_bound_note": "upper bound on TARa@N (Atil et al., arXiv:2408.04667): verdict constancy; parsed-answer agreement can be lower on always-fail items"
+        },
+        "grader_defect": {
+          "defect_items": {
+            "count": 0,
+            "denominator": 190,
+            "rate": 0.0
+          },
+          "defect_pairs": {
+            "count": 0,
+            "denominator": 3081,
+            "rate": 0.0
+          },
+          "mean_flakiness_excluding_detected_defects": 0.136933,
+          "mean_flakiness_raw": 0.136933,
+          "n_cells": 500,
+          "n_cells_with_text": 500,
+          "note": "this check detects grader nondeterminism only, not grader wrongness: a constant-but-wrong completion is invisible here",
+          "state": "AVAILABLE"
+        },
+        "kind": "MT",
+        "noise_floor": {
+          "k": 10,
+          "n_items_aligned": 500,
+          "score_max": 0.666,
+          "score_mean": 0.6382,
+          "score_min": 0.606,
+          "score_range": 0.06,
+          "score_resolution": 0.002,
+          "score_sd": 0.016424
+        },
+        "ruling_id": "LIMEN-onr1-MT-0006",
+        "scope_key": {
+          "model": "nano-agent-mistral_devstral-2512__temp0",
+          "task": "swebench_verified"
+        }
+      }
+    ],
+    "pair": [
+      {
+        "confounded_by_version_change": false,
+        "content_hash": "sha256:6fca4a5c82e815518d4690da8f33b648a509202825010ae3beafd792dfc373ea",
+        "drift_ref": {
+          "model_a": "UNAVAILABLE",
+          "model_b": "UNAVAILABLE"
+        },
+        "kind": "PAIR",
+        "model_a": "nano-agent-Qwen_Qwen3-32B",
+        "model_b": "nano-agent-Qwen_Qwen3-32B-temp0",
+        "n": {
+          "draws_total": 5000,
+          "items_aligned": 500,
+          "k": 10
+        },
+        "noise": {
+          "mdd": {
+            "alpha": 0.05,
+            "assumptions": [
+              "each single-draw score is treated as approximately normal (mean over n items; CLT)",
+              "the k draws are treated as i.i.d.; the drift guard polices exactly this assumption",
+              "draws are not treated as paired across models; two-sample unpooled-variance form",
+              "df = k-1, the conservative choice (Welch df would be larger and the MDD smaller)",
+              "speaks to draw noise on this fixed item set only, not to item-sampling variability"
+            ],
+            "citation": "Kalibera & Jones, Rigorous benchmarking in reasonable time, ISMM 2013",
+            "degenerate_zero_spread": false,
+            "df": 9,
+            "low_k": false,
+            "score_resolution": 0.002,
+            "t": 2.26216,
+            "value": 0.009941
+          },
+          "range_a": 0.022,
+          "range_b": 0.036,
+          "sd_a": 0.007451,
+          "sd_b": 0.01173
+        },
+        "pooled": {
+          "delta_pool": 0.0002,
+          "pass_a": {
+            "count": 819,
+            "denominator": 5000,
+            "rate": 0.1638
+          },
+          "pass_b": {
+            "count": 818,
+            "denominator": 5000,
+            "rate": 0.1636
+          },
+          "pooled_sign": 1,
+          "pooled_tie": false
+        },
+        "ruling_id": "LIMEN-onr1-PAIR-0001",
+        "scope_key": {
+          "model_a": "nano-agent-Qwen_Qwen3-32B",
+          "model_b": "nano-agent-Qwen_Qwen3-32B-temp0",
+          "task": "swebench_verified"
+        },
+        "sign_stability": {
+          "flip_prob_upper95": null,
+          "flip_rate_excl_ties": 0.555556,
+          "n_agree": {
+            "count": 4,
+            "denominator": 10,
+            "rate": 0.4
+          },
+          "n_flip": {
+            "count": 5,
+            "denominator": 10,
+            "rate": 0.5
+          },
+          "n_tie": {
+            "count": 1,
+            "denominator": 10,
+            "rate": 0.1
+          },
+          "pooled_tie": false,
+          "rank_flip_rate": 0.5,
+          "ruling": "SIGN-UNSTABLE"
+        }
+      },
+      {
+        "confounded_by_version_change": false,
+        "content_hash": "sha256:8d5ba283498a4c2a66fcc806b3bc85e1d9638e46614d2e99581b53e4bcdc5a2a",
+        "drift_ref": {
+          "model_a": "UNAVAILABLE",
+          "model_b": "UNAVAILABLE"
+        },
+        "kind": "PAIR",
+        "model_a": "nano-agent-Qwen_Qwen3-32B",
+        "model_b": "nano-agent-agentica-org_DeepSWE-Preview",
+        "n": {
+          "draws_total": 5000,
+          "items_aligned": 500,
+          "k": 10
+        },
+        "noise": {
+          "mdd": {
+            "alpha": 0.05,
+            "assumptions": [
+              "each single-draw score is treated as approximately normal (mean over n items; CLT)",
+              "the k draws are treated as i.i.d.; the drift guard polices exactly this assumption",
+              "draws are not treated as paired across models; two-sample unpooled-variance form",
+              "df = k-1, the conservative choice (Welch df would be larger and the MDD smaller)",
+              "speaks to draw noise on this fixed item set only, not to item-sampling variability"
+            ],
+            "citation": "Kalibera & Jones, Rigorous benchmarking in reasonable time, ISMM 2013",
+            "degenerate_zero_spread": false,
+            "df": 9,
+            "low_k": false,
+            "score_resolution": 0.002,
+            "t": 2.26216,
+            "value": 0.009046
+          },
+          "range_a": 0.022,
+          "range_b": 0.036,
+          "sd_a": 0.007451,
+          "sd_b": 0.010218
+        },
+        "pooled": {
+          "delta_pool": -0.15,
+          "pass_a": {
+            "count": 819,
+            "denominator": 5000,
+            "rate": 0.1638
+          },
+          "pass_b": {
+            "count": 1569,
+            "denominator": 5000,
+            "rate": 0.3138
+          },
+          "pooled_sign": -1,
+          "pooled_tie": false
+        },
+        "ruling_id": "LIMEN-onr1-PAIR-0002",
+        "scope_key": {
+          "model_a": "nano-agent-Qwen_Qwen3-32B",
+          "model_b": "nano-agent-agentica-org_DeepSWE-Preview",
+          "task": "swebench_verified"
+        },
+        "sign_stability": {
+          "flip_prob_upper95": 0.258866,
+          "flip_rate_excl_ties": 0.0,
+          "n_agree": {
+            "count": 10,
+            "denominator": 10,
+            "rate": 1.0
+          },
+          "n_flip": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0
+          },
+          "n_tie": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0
+          },
+          "pooled_tie": false,
+          "rank_flip_rate": 0.0,
+          "ruling": "SIGN-STABLE"
+        }
+      },
+      {
+        "confounded_by_version_change": false,
+        "content_hash": "sha256:c2427b7de74829375e23b60ce725a856295a3f9efbc7c44825c5afd897f2c6ec",
+        "drift_ref": {
+          "model_a": "UNAVAILABLE",
+          "model_b": "UNAVAILABLE"
+        },
+        "kind": "PAIR",
+        "model_a": "nano-agent-Qwen_Qwen3-32B",
+        "model_b": "nano-agent-agentica-org_DeepSWE-Preview__temp0",
+        "n": {
+          "draws_total": 5000,
+          "items_aligned": 500,
+          "k": 10
+        },
+        "noise": {
+          "mdd": {
+            "alpha": 0.05,
+            "assumptions": [
+              "each single-draw score is treated as approximately normal (mean over n items; CLT)",
+              "the k draws are treated as i.i.d.; the drift guard polices exactly this assumption",
+              "draws are not treated as paired across models; two-sample unpooled-variance form",
+              "df = k-1, the conservative choice (Welch df would be larger and the MDD smaller)",
+              "speaks to draw noise on this fixed item set only, not to item-sampling variability"
+            ],
+            "citation": "Kalibera & Jones, Rigorous benchmarking in reasonable time, ISMM 2013",
+            "degenerate_zero_spread": false,
+            "df": 9,
+            "low_k": false,
+            "score_resolution": 0.002,
+            "t": 2.26216,
+            "value": 0.00867
+          },
+          "range_a": 0.022,
+          "range_b": 0.032,
+          "sd_a": 0.007451,
+          "sd_b": 0.009559
+        },
+        "pooled": {
+          "delta_pool": -0.0398,
+          "pass_a": {
+            "count": 819,
+            "denominator": 5000,
+            "rate": 0.1638
+          },
+          "pass_b": {
+            "count": 1018,
+            "denominator": 5000,
+            "rate": 0.2036
+          },
+          "pooled_sign": -1,
+          "pooled_tie": false
+        },
+        "ruling_id": "LIMEN-onr1-PAIR-0003",
+        "scope_key": {
+          "model_a": "nano-agent-Qwen_Qwen3-32B",
+          "model_b": "nano-agent-agentica-org_DeepSWE-Preview__temp0",
+          "task": "swebench_verified"
+        },
+        "sign_stability": {
+          "flip_prob_upper95": 0.258866,
+          "flip_rate_excl_ties": 0.0,
+          "n_agree": {
+            "count": 10,
+            "denominator": 10,
+            "rate": 1.0
+          },
+          "n_flip": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0
+          },
+          "n_tie": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0
+          },
+          "pooled_tie": false,
+          "rank_flip_rate": 0.0,
+          "ruling": "SIGN-STABLE"
+        }
+      },
+      {
+        "confounded_by_version_change": false,
+        "content_hash": "sha256:61ff8e6e528c2282c22e9d222b90c207ffc8088d979164629513737c86e55be0",
+        "drift_ref": {
+          "model_a": "UNAVAILABLE",
+          "model_b": "UNAVAILABLE"
+        },
+        "kind": "PAIR",
+        "model_a": "nano-agent-Qwen_Qwen3-32B",
+        "model_b": "nano-agent-mistral_devstral-2512",
+        "n": {
+          "draws_total": 5000,
+          "items_aligned": 500,
+          "k": 10
+        },
+        "noise": {
+          "mdd": {
+            "alpha": 0.05,
+            "assumptions": [
+              "each single-draw score is treated as approximately normal (mean over n items; CLT)",
+              "the k draws are treated as i.i.d.; the drift guard polices exactly this assumption",
+              "draws are not treated as paired across models; two-sample unpooled-variance form",
+              "df = k-1, the conservative choice (Welch df would be larger and the MDD smaller)",
+              "speaks to draw noise on this fixed item set only, not to item-sampling variability"
+            ],
+            "citation": "Kalibera & Jones, Rigorous benchmarking in reasonable time, ISMM 2013",
+            "degenerate_zero_spread": false,
+            "df": 9,
+            "low_k": false,
+            "score_resolution": 0.002,
+            "t": 2.26216,
+            "value": 0.009668
+          },
+          "range_a": 0.022,
+          "range_b": 0.032,
+          "sd_a": 0.007451,
+          "sd_b": 0.011276
+        },
+        "pooled": {
+          "delta_pool": -0.4716,
+          "pass_a": {
+            "count": 819,
+            "denominator": 5000,
+            "rate": 0.1638
+          },
+          "pass_b": {
+            "count": 3177,
+            "denominator": 5000,
+            "rate": 0.6354
+          },
+          "pooled_sign": -1,
+          "pooled_tie": false
+        },
+        "ruling_id": "LIMEN-onr1-PAIR-0004",
+        "scope_key": {
+          "model_a": "nano-agent-Qwen_Qwen3-32B",
+          "model_b": "nano-agent-mistral_devstral-2512",
+          "task": "swebench_verified"
+        },
+        "sign_stability": {
+          "flip_prob_upper95": 0.258866,
+          "flip_rate_excl_ties": 0.0,
+          "n_agree": {
+            "count": 10,
+            "denominator": 10,
+            "rate": 1.0
+          },
+          "n_flip": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0
+          },
+          "n_tie": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0
+          },
+          "pooled_tie": false,
+          "rank_flip_rate": 0.0,
+          "ruling": "SIGN-STABLE"
+        }
+      },
+      {
+        "confounded_by_version_change": false,
+        "content_hash": "sha256:104ad17220ad8d9ff8555902751d9f513157aaf8d7f1d10d55bbdf71269e6a85",
+        "drift_ref": {
+          "model_a": "UNAVAILABLE",
+          "model_b": "UNAVAILABLE"
+        },
+        "kind": "PAIR",
+        "model_a": "nano-agent-Qwen_Qwen3-32B",
+        "model_b": "nano-agent-mistral_devstral-2512__temp0",
+        "n": {
+          "draws_total": 5000,
+          "items_aligned": 500,
+          "k": 10
+        },
+        "noise": {
+          "mdd": {
+            "alpha": 0.05,
+            "assumptions": [
+              "each single-draw score is treated as approximately normal (mean over n items; CLT)",
+              "the k draws are treated as i.i.d.; the drift guard polices exactly this assumption",
+              "draws are not treated as paired across models; two-sample unpooled-variance form",
+              "df = k-1, the conservative choice (Welch df would be larger and the MDD smaller)",
+              "speaks to draw noise on this fixed item set only, not to item-sampling variability"
+            ],
+            "citation": "Kalibera & Jones, Rigorous benchmarking in reasonable time, ISMM 2013",
+            "degenerate_zero_spread": false,
+            "df": 9,
+            "low_k": false,
+            "score_resolution": 0.002,
+            "t": 2.26216,
+            "value": 0.012901
+          },
+          "range_a": 0.022,
+          "range_b": 0.06,
+          "sd_a": 0.007451,
+          "sd_b": 0.016424
+        },
+        "pooled": {
+          "delta_pool": -0.4744,
+          "pass_a": {
+            "count": 819,
+            "denominator": 5000,
+            "rate": 0.1638
+          },
+          "pass_b": {
+            "count": 3191,
+            "denominator": 5000,
+            "rate": 0.6382
+          },
+          "pooled_sign": -1,
+          "pooled_tie": false
+        },
+        "ruling_id": "LIMEN-onr1-PAIR-0005",
+        "scope_key": {
+          "model_a": "nano-agent-Qwen_Qwen3-32B",
+          "model_b": "nano-agent-mistral_devstral-2512__temp0",
+          "task": "swebench_verified"
+        },
+        "sign_stability": {
+          "flip_prob_upper95": 0.258866,
+          "flip_rate_excl_ties": 0.0,
+          "n_agree": {
+            "count": 10,
+            "denominator": 10,
+            "rate": 1.0
+          },
+          "n_flip": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0
+          },
+          "n_tie": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0
+          },
+          "pooled_tie": false,
+          "rank_flip_rate": 0.0,
+          "ruling": "SIGN-STABLE"
+        }
+      },
+      {
+        "confounded_by_version_change": false,
+        "content_hash": "sha256:1ceb423a0fd3c29d91bf4f2415876ece2de7ca3cdfdf2b47fe15dfa797628542",
+        "drift_ref": {
+          "model_a": "UNAVAILABLE",
+          "model_b": "UNAVAILABLE"
+        },
+        "kind": "PAIR",
+        "model_a": "nano-agent-Qwen_Qwen3-32B-temp0",
+        "model_b": "nano-agent-agentica-org_DeepSWE-Preview",
+        "n": {
+          "draws_total": 5000,
+          "items_aligned": 500,
+          "k": 10
+        },
+        "noise": {
+          "mdd": {
+            "alpha": 0.05,
+            "assumptions": [
+              "each single-draw score is treated as approximately normal (mean over n items; CLT)",
+              "the k draws are treated as i.i.d.; the drift guard polices exactly this assumption",
+              "draws are not treated as paired across models; two-sample unpooled-variance form",
+              "df = k-1, the conservative choice (Welch df would be larger and the MDD smaller)",
+              "speaks to draw noise on this fixed item set only, not to item-sampling variability"
+            ],
+            "citation": "Kalibera & Jones, Rigorous benchmarking in reasonable time, ISMM 2013",
+            "degenerate_zero_spread": false,
+            "df": 9,
+            "low_k": false,
+            "score_resolution": 0.002,
+            "t": 2.26216,
+            "value": 0.011128
+          },
+          "range_a": 0.036,
+          "range_b": 0.036,
+          "sd_a": 0.01173,
+          "sd_b": 0.010218
+        },
+        "pooled": {
+          "delta_pool": -0.1502,
+          "pass_a": {
+            "count": 818,
+            "denominator": 5000,
+            "rate": 0.1636
+          },
+          "pass_b": {
+            "count": 1569,
+            "denominator": 5000,
+            "rate": 0.3138
+          },
+          "pooled_sign": -1,
+          "pooled_tie": false
+        },
+        "ruling_id": "LIMEN-onr1-PAIR-0006",
+        "scope_key": {
+          "model_a": "nano-agent-Qwen_Qwen3-32B-temp0",
+          "model_b": "nano-agent-agentica-org_DeepSWE-Preview",
+          "task": "swebench_verified"
+        },
+        "sign_stability": {
+          "flip_prob_upper95": 0.258866,
+          "flip_rate_excl_ties": 0.0,
+          "n_agree": {
+            "count": 10,
+            "denominator": 10,
+            "rate": 1.0
+          },
+          "n_flip": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0
+          },
+          "n_tie": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0
+          },
+          "pooled_tie": false,
+          "rank_flip_rate": 0.0,
+          "ruling": "SIGN-STABLE"
+        }
+      },
+      {
+        "confounded_by_version_change": false,
+        "content_hash": "sha256:04aaea2b51fb1cda3fc3f07b698968e19a75aff7a7c04957f6aa0ecf6897f548",
+        "drift_ref": {
+          "model_a": "UNAVAILABLE",
+          "model_b": "UNAVAILABLE"
+        },
+        "kind": "PAIR",
+        "model_a": "nano-agent-Qwen_Qwen3-32B-temp0",
+        "model_b": "nano-agent-agentica-org_DeepSWE-Preview__temp0",
+        "n": {
+          "draws_total": 5000,
+          "items_aligned": 500,
+          "k": 10
+        },
+        "noise": {
+          "mdd": {
+            "alpha": 0.05,
+            "assumptions": [
+              "each single-draw score is treated as approximately normal (mean over n items; CLT)",
+              "the k draws are treated as i.i.d.; the drift guard polices exactly this assumption",
+              "draws are not treated as paired across models; two-sample unpooled-variance form",
+              "df = k-1, the conservative choice (Welch df would be larger and the MDD smaller)",
+              "speaks to draw noise on this fixed item set only, not to item-sampling variability"
+            ],
+            "citation": "Kalibera & Jones, Rigorous benchmarking in reasonable time, ISMM 2013",
+            "degenerate_zero_spread": false,
+            "df": 9,
+            "low_k": false,
+            "score_resolution": 0.002,
+            "t": 2.26216,
+            "value": 0.010825
+          },
+          "range_a": 0.036,
+          "range_b": 0.032,
+          "sd_a": 0.01173,
+          "sd_b": 0.009559
+        },
+        "pooled": {
+          "delta_pool": -0.04,
+          "pass_a": {
+            "count": 818,
+            "denominator": 5000,
+            "rate": 0.1636
+          },
+          "pass_b": {
+            "count": 1018,
+            "denominator": 5000,
+            "rate": 0.2036
+          },
+          "pooled_sign": -1,
+          "pooled_tie": false
+        },
+        "ruling_id": "LIMEN-onr1-PAIR-0007",
+        "scope_key": {
+          "model_a": "nano-agent-Qwen_Qwen3-32B-temp0",
+          "model_b": "nano-agent-agentica-org_DeepSWE-Preview__temp0",
+          "task": "swebench_verified"
+        },
+        "sign_stability": {
+          "flip_prob_upper95": 0.258866,
+          "flip_rate_excl_ties": 0.0,
+          "n_agree": {
+            "count": 10,
+            "denominator": 10,
+            "rate": 1.0
+          },
+          "n_flip": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0
+          },
+          "n_tie": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0
+          },
+          "pooled_tie": false,
+          "rank_flip_rate": 0.0,
+          "ruling": "SIGN-STABLE"
+        }
+      },
+      {
+        "confounded_by_version_change": false,
+        "content_hash": "sha256:ce2de543ac199345f23f580c054512a98494388d61357b889ffcff25163d0050",
+        "drift_ref": {
+          "model_a": "UNAVAILABLE",
+          "model_b": "UNAVAILABLE"
+        },
+        "kind": "PAIR",
+        "model_a": "nano-agent-Qwen_Qwen3-32B-temp0",
+        "model_b": "nano-agent-mistral_devstral-2512",
+        "n": {
+          "draws_total": 5000,
+          "items_aligned": 500,
+          "k": 10
+        },
+        "noise": {
+          "mdd": {
+            "alpha": 0.05,
+            "assumptions": [
+              "each single-draw score is treated as approximately normal (mean over n items; CLT)",
+              "the k draws are treated as i.i.d.; the drift guard polices exactly this assumption",
+              "draws are not treated as paired across models; two-sample unpooled-variance form",
+              "df = k-1, the conservative choice (Welch df would be larger and the MDD smaller)",
+              "speaks to draw noise on this fixed item set only, not to item-sampling variability"
+            ],
+            "citation": "Kalibera & Jones, Rigorous benchmarking in reasonable time, ISMM 2013",
+            "degenerate_zero_spread": false,
+            "df": 9,
+            "low_k": false,
+            "score_resolution": 0.002,
+            "t": 2.26216,
+            "value": 0.01164
+          },
+          "range_a": 0.036,
+          "range_b": 0.032,
+          "sd_a": 0.01173,
+          "sd_b": 0.011276
+        },
+        "pooled": {
+          "delta_pool": -0.4718,
+          "pass_a": {
+            "count": 818,
+            "denominator": 5000,
+            "rate": 0.1636
+          },
+          "pass_b": {
+            "count": 3177,
+            "denominator": 5000,
+            "rate": 0.6354
+          },
+          "pooled_sign": -1,
+          "pooled_tie": false
+        },
+        "ruling_id": "LIMEN-onr1-PAIR-0008",
+        "scope_key": {
+          "model_a": "nano-agent-Qwen_Qwen3-32B-temp0",
+          "model_b": "nano-agent-mistral_devstral-2512",
+          "task": "swebench_verified"
+        },
+        "sign_stability": {
+          "flip_prob_upper95": 0.258866,
+          "flip_rate_excl_ties": 0.0,
+          "n_agree": {
+            "count": 10,
+            "denominator": 10,
+            "rate": 1.0
+          },
+          "n_flip": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0
+          },
+          "n_tie": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0
+          },
+          "pooled_tie": false,
+          "rank_flip_rate": 0.0,
+          "ruling": "SIGN-STABLE"
+        }
+      },
+      {
+        "confounded_by_version_change": false,
+        "content_hash": "sha256:75c44aa9e9f9da84bb9216a04837b661b8e48fcdc1b9b422b32dea3d02caa6f7",
+        "drift_ref": {
+          "model_a": "UNAVAILABLE",
+          "model_b": "UNAVAILABLE"
+        },
+        "kind": "PAIR",
+        "model_a": "nano-agent-Qwen_Qwen3-32B-temp0",
+        "model_b": "nano-agent-mistral_devstral-2512__temp0",
+        "n": {
+          "draws_total": 5000,
+          "items_aligned": 500,
+          "k": 10
+        },
+        "noise": {
+          "mdd": {
+            "alpha": 0.05,
+            "assumptions": [
+              "each single-draw score is treated as approximately normal (mean over n items; CLT)",
+              "the k draws are treated as i.i.d.; the drift guard polices exactly this assumption",
+              "draws are not treated as paired across models; two-sample unpooled-variance form",
+              "df = k-1, the conservative choice (Welch df would be larger and the MDD smaller)",
+              "speaks to draw noise on this fixed item set only, not to item-sampling variability"
+            ],
+            "citation": "Kalibera & Jones, Rigorous benchmarking in reasonable time, ISMM 2013",
+            "degenerate_zero_spread": false,
+            "df": 9,
+            "low_k": false,
+            "score_resolution": 0.002,
+            "t": 2.26216,
+            "value": 0.014438
+          },
+          "range_a": 0.036,
+          "range_b": 0.06,
+          "sd_a": 0.01173,
+          "sd_b": 0.016424
+        },
+        "pooled": {
+          "delta_pool": -0.4746,
+          "pass_a": {
+            "count": 818,
+            "denominator": 5000,
+            "rate": 0.1636
+          },
+          "pass_b": {
+            "count": 3191,
+            "denominator": 5000,
+            "rate": 0.6382
+          },
+          "pooled_sign": -1,
+          "pooled_tie": false
+        },
+        "ruling_id": "LIMEN-onr1-PAIR-0009",
+        "scope_key": {
+          "model_a": "nano-agent-Qwen_Qwen3-32B-temp0",
+          "model_b": "nano-agent-mistral_devstral-2512__temp0",
+          "task": "swebench_verified"
+        },
+        "sign_stability": {
+          "flip_prob_upper95": 0.258866,
+          "flip_rate_excl_ties": 0.0,
+          "n_agree": {
+            "count": 10,
+            "denominator": 10,
+            "rate": 1.0
+          },
+          "n_flip": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0
+          },
+          "n_tie": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0
+          },
+          "pooled_tie": false,
+          "rank_flip_rate": 0.0,
+          "ruling": "SIGN-STABLE"
+        }
+      },
+      {
+        "confounded_by_version_change": false,
+        "content_hash": "sha256:890429a8dee8680985e7fd8fc56e7048132c1f446726ef8aeaf7eada7bda8835",
+        "drift_ref": {
+          "model_a": "UNAVAILABLE",
+          "model_b": "UNAVAILABLE"
+        },
+        "kind": "PAIR",
+        "model_a": "nano-agent-agentica-org_DeepSWE-Preview",
+        "model_b": "nano-agent-agentica-org_DeepSWE-Preview__temp0",
+        "n": {
+          "draws_total": 5000,
+          "items_aligned": 500,
+          "k": 10
+        },
+        "noise": {
+          "mdd": {
+            "alpha": 0.05,
+            "assumptions": [
+              "each single-draw score is treated as approximately normal (mean over n items; CLT)",
+              "the k draws are treated as i.i.d.; the drift guard polices exactly this assumption",
+              "draws are not treated as paired across models; two-sample unpooled-variance form",
+              "df = k-1, the conservative choice (Welch df would be larger and the MDD smaller)",
+              "speaks to draw noise on this fixed item set only, not to item-sampling variability"
+            ],
+            "citation": "Kalibera & Jones, Rigorous benchmarking in reasonable time, ISMM 2013",
+            "degenerate_zero_spread": false,
+            "df": 9,
+            "low_k": false,
+            "score_resolution": 0.002,
+            "t": 2.26216,
+            "value": 0.010009
+          },
+          "range_a": 0.036,
+          "range_b": 0.032,
+          "sd_a": 0.010218,
+          "sd_b": 0.009559
+        },
+        "pooled": {
+          "delta_pool": 0.1102,
+          "pass_a": {
+            "count": 1569,
+            "denominator": 5000,
+            "rate": 0.3138
+          },
+          "pass_b": {
+            "count": 1018,
+            "denominator": 5000,
+            "rate": 0.2036
+          },
+          "pooled_sign": 1,
+          "pooled_tie": false
+        },
+        "ruling_id": "LIMEN-onr1-PAIR-0010",
+        "scope_key": {
+          "model_a": "nano-agent-agentica-org_DeepSWE-Preview",
+          "model_b": "nano-agent-agentica-org_DeepSWE-Preview__temp0",
+          "task": "swebench_verified"
+        },
+        "sign_stability": {
+          "flip_prob_upper95": 0.258866,
+          "flip_rate_excl_ties": 0.0,
+          "n_agree": {
+            "count": 10,
+            "denominator": 10,
+            "rate": 1.0
+          },
+          "n_flip": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0
+          },
+          "n_tie": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0
+          },
+          "pooled_tie": false,
+          "rank_flip_rate": 0.0,
+          "ruling": "SIGN-STABLE"
+        }
+      },
+      {
+        "confounded_by_version_change": false,
+        "content_hash": "sha256:e05ba0ea12032fc7d1b8a810b91a75f5c4cc9d8a8ec3bee109ddc26f35b2294c",
+        "drift_ref": {
+          "model_a": "UNAVAILABLE",
+          "model_b": "UNAVAILABLE"
+        },
+        "kind": "PAIR",
+        "model_a": "nano-agent-agentica-org_DeepSWE-Preview",
+        "model_b": "nano-agent-mistral_devstral-2512",
+        "n": {
+          "draws_total": 5000,
+          "items_aligned": 500,
+          "k": 10
+        },
+        "noise": {
+          "mdd": {
+            "alpha": 0.05,
+            "assumptions": [
+              "each single-draw score is treated as approximately normal (mean over n items; CLT)",
+              "the k draws are treated as i.i.d.; the drift guard polices exactly this assumption",
+              "draws are not treated as paired across models; two-sample unpooled-variance form",
+              "df = k-1, the conservative choice (Welch df would be larger and the MDD smaller)",
+              "speaks to draw noise on this fixed item set only, not to item-sampling variability"
+            ],
+            "citation": "Kalibera & Jones, Rigorous benchmarking in reasonable time, ISMM 2013",
+            "degenerate_zero_spread": false,
+            "df": 9,
+            "low_k": false,
+            "score_resolution": 0.002,
+            "t": 2.26216,
+            "value": 0.010886
+          },
+          "range_a": 0.036,
+          "range_b": 0.032,
+          "sd_a": 0.010218,
+          "sd_b": 0.011276
+        },
+        "pooled": {
+          "delta_pool": -0.3216,
+          "pass_a": {
+            "count": 1569,
+            "denominator": 5000,
+            "rate": 0.3138
+          },
+          "pass_b": {
+            "count": 3177,
+            "denominator": 5000,
+            "rate": 0.6354
+          },
+          "pooled_sign": -1,
+          "pooled_tie": false
+        },
+        "ruling_id": "LIMEN-onr1-PAIR-0011",
+        "scope_key": {
+          "model_a": "nano-agent-agentica-org_DeepSWE-Preview",
+          "model_b": "nano-agent-mistral_devstral-2512",
+          "task": "swebench_verified"
+        },
+        "sign_stability": {
+          "flip_prob_upper95": 0.258866,
+          "flip_rate_excl_ties": 0.0,
+          "n_agree": {
+            "count": 10,
+            "denominator": 10,
+            "rate": 1.0
+          },
+          "n_flip": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0
+          },
+          "n_tie": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0
+          },
+          "pooled_tie": false,
+          "rank_flip_rate": 0.0,
+          "ruling": "SIGN-STABLE"
+        }
+      },
+      {
+        "confounded_by_version_change": false,
+        "content_hash": "sha256:342f8053b14d7edc4cc755f307b5604d5faec8708abbd542a0379b445a223829",
+        "drift_ref": {
+          "model_a": "UNAVAILABLE",
+          "model_b": "UNAVAILABLE"
+        },
+        "kind": "PAIR",
+        "model_a": "nano-agent-agentica-org_DeepSWE-Preview",
+        "model_b": "nano-agent-mistral_devstral-2512__temp0",
+        "n": {
+          "draws_total": 5000,
+          "items_aligned": 500,
+          "k": 10
+        },
+        "noise": {
+          "mdd": {
+            "alpha": 0.05,
+            "assumptions": [
+              "each single-draw score is treated as approximately normal (mean over n items; CLT)",
+              "the k draws are treated as i.i.d.; the drift guard polices exactly this assumption",
+              "draws are not treated as paired across models; two-sample unpooled-variance form",
+              "df = k-1, the conservative choice (Welch df would be larger and the MDD smaller)",
+              "speaks to draw noise on this fixed item set only, not to item-sampling variability"
+            ],
+            "citation": "Kalibera & Jones, Rigorous benchmarking in reasonable time, ISMM 2013",
+            "degenerate_zero_spread": false,
+            "df": 9,
+            "low_k": false,
+            "score_resolution": 0.002,
+            "t": 2.26216,
+            "value": 0.013837
+          },
+          "range_a": 0.036,
+          "range_b": 0.06,
+          "sd_a": 0.010218,
+          "sd_b": 0.016424
+        },
+        "pooled": {
+          "delta_pool": -0.3244,
+          "pass_a": {
+            "count": 1569,
+            "denominator": 5000,
+            "rate": 0.3138
+          },
+          "pass_b": {
+            "count": 3191,
+            "denominator": 5000,
+            "rate": 0.6382
+          },
+          "pooled_sign": -1,
+          "pooled_tie": false
+        },
+        "ruling_id": "LIMEN-onr1-PAIR-0012",
+        "scope_key": {
+          "model_a": "nano-agent-agentica-org_DeepSWE-Preview",
+          "model_b": "nano-agent-mistral_devstral-2512__temp0",
+          "task": "swebench_verified"
+        },
+        "sign_stability": {
+          "flip_prob_upper95": 0.258866,
+          "flip_rate_excl_ties": 0.0,
+          "n_agree": {
+            "count": 10,
+            "denominator": 10,
+            "rate": 1.0
+          },
+          "n_flip": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0
+          },
+          "n_tie": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0
+          },
+          "pooled_tie": false,
+          "rank_flip_rate": 0.0,
+          "ruling": "SIGN-STABLE"
+        }
+      },
+      {
+        "confounded_by_version_change": false,
+        "content_hash": "sha256:3062af70b9b861da66ae73862e9b2fd95c7c7438d01a7bbef92c27f5953e432d",
+        "drift_ref": {
+          "model_a": "UNAVAILABLE",
+          "model_b": "UNAVAILABLE"
+        },
+        "kind": "PAIR",
+        "model_a": "nano-agent-agentica-org_DeepSWE-Preview__temp0",
+        "model_b": "nano-agent-mistral_devstral-2512",
+        "n": {
+          "draws_total": 5000,
+          "items_aligned": 500,
+          "k": 10
+        },
+        "noise": {
+          "mdd": {
+            "alpha": 0.05,
+            "assumptions": [
+              "each single-draw score is treated as approximately normal (mean over n items; CLT)",
+              "the k draws are treated as i.i.d.; the drift guard polices exactly this assumption",
+              "draws are not treated as paired across models; two-sample unpooled-variance form",
+              "df = k-1, the conservative choice (Welch df would be larger and the MDD smaller)",
+              "speaks to draw noise on this fixed item set only, not to item-sampling variability"
+            ],
+            "citation": "Kalibera & Jones, Rigorous benchmarking in reasonable time, ISMM 2013",
+            "degenerate_zero_spread": false,
+            "df": 9,
+            "low_k": false,
+            "score_resolution": 0.002,
+            "t": 2.26216,
+            "value": 0.010575
+          },
+          "range_a": 0.032,
+          "range_b": 0.032,
+          "sd_a": 0.009559,
+          "sd_b": 0.011276
+        },
+        "pooled": {
+          "delta_pool": -0.4318,
+          "pass_a": {
+            "count": 1018,
+            "denominator": 5000,
+            "rate": 0.2036
+          },
+          "pass_b": {
+            "count": 3177,
+            "denominator": 5000,
+            "rate": 0.6354
+          },
+          "pooled_sign": -1,
+          "pooled_tie": false
+        },
+        "ruling_id": "LIMEN-onr1-PAIR-0013",
+        "scope_key": {
+          "model_a": "nano-agent-agentica-org_DeepSWE-Preview__temp0",
+          "model_b": "nano-agent-mistral_devstral-2512",
+          "task": "swebench_verified"
+        },
+        "sign_stability": {
+          "flip_prob_upper95": 0.258866,
+          "flip_rate_excl_ties": 0.0,
+          "n_agree": {
+            "count": 10,
+            "denominator": 10,
+            "rate": 1.0
+          },
+          "n_flip": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0
+          },
+          "n_tie": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0
+          },
+          "pooled_tie": false,
+          "rank_flip_rate": 0.0,
+          "ruling": "SIGN-STABLE"
+        }
+      },
+      {
+        "confounded_by_version_change": false,
+        "content_hash": "sha256:5908bc64236f09ae03da0c002bca5d33657a7e66fa576fd060cc8af90c9d3ee4",
+        "drift_ref": {
+          "model_a": "UNAVAILABLE",
+          "model_b": "UNAVAILABLE"
+        },
+        "kind": "PAIR",
+        "model_a": "nano-agent-agentica-org_DeepSWE-Preview__temp0",
+        "model_b": "nano-agent-mistral_devstral-2512__temp0",
+        "n": {
+          "draws_total": 5000,
+          "items_aligned": 500,
+          "k": 10
+        },
+        "noise": {
+          "mdd": {
+            "alpha": 0.05,
+            "assumptions": [
+              "each single-draw score is treated as approximately normal (mean over n items; CLT)",
+              "the k draws are treated as i.i.d.; the drift guard polices exactly this assumption",
+              "draws are not treated as paired across models; two-sample unpooled-variance form",
+              "df = k-1, the conservative choice (Welch df would be larger and the MDD smaller)",
+              "speaks to draw noise on this fixed item set only, not to item-sampling variability"
+            ],
+            "citation": "Kalibera & Jones, Rigorous benchmarking in reasonable time, ISMM 2013",
+            "degenerate_zero_spread": false,
+            "df": 9,
+            "low_k": false,
+            "score_resolution": 0.002,
+            "t": 2.26216,
+            "value": 0.013594
+          },
+          "range_a": 0.032,
+          "range_b": 0.06,
+          "sd_a": 0.009559,
+          "sd_b": 0.016424
+        },
+        "pooled": {
+          "delta_pool": -0.4346,
+          "pass_a": {
+            "count": 1018,
+            "denominator": 5000,
+            "rate": 0.2036
+          },
+          "pass_b": {
+            "count": 3191,
+            "denominator": 5000,
+            "rate": 0.6382
+          },
+          "pooled_sign": -1,
+          "pooled_tie": false
+        },
+        "ruling_id": "LIMEN-onr1-PAIR-0014",
+        "scope_key": {
+          "model_a": "nano-agent-agentica-org_DeepSWE-Preview__temp0",
+          "model_b": "nano-agent-mistral_devstral-2512__temp0",
+          "task": "swebench_verified"
+        },
+        "sign_stability": {
+          "flip_prob_upper95": 0.258866,
+          "flip_rate_excl_ties": 0.0,
+          "n_agree": {
+            "count": 10,
+            "denominator": 10,
+            "rate": 1.0
+          },
+          "n_flip": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0
+          },
+          "n_tie": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0
+          },
+          "pooled_tie": false,
+          "rank_flip_rate": 0.0,
+          "ruling": "SIGN-STABLE"
+        }
+      },
+      {
+        "confounded_by_version_change": false,
+        "content_hash": "sha256:1197dc646ce4ad77804f482c8e772a6b772db05a952c037edffc711253f9abb1",
+        "drift_ref": {
+          "model_a": "UNAVAILABLE",
+          "model_b": "UNAVAILABLE"
+        },
+        "kind": "PAIR",
+        "model_a": "nano-agent-mistral_devstral-2512",
+        "model_b": "nano-agent-mistral_devstral-2512__temp0",
+        "n": {
+          "draws_total": 5000,
+          "items_aligned": 500,
+          "k": 10
+        },
+        "noise": {
+          "mdd": {
+            "alpha": 0.05,
+            "assumptions": [
+              "each single-draw score is treated as approximately normal (mean over n items; CLT)",
+              "the k draws are treated as i.i.d.; the drift guard polices exactly this assumption",
+              "draws are not treated as paired across models; two-sample unpooled-variance form",
+              "df = k-1, the conservative choice (Welch df would be larger and the MDD smaller)",
+              "speaks to draw noise on this fixed item set only, not to item-sampling variability"
+            ],
+            "citation": "Kalibera & Jones, Rigorous benchmarking in reasonable time, ISMM 2013",
+            "degenerate_zero_spread": false,
+            "df": 9,
+            "low_k": false,
+            "score_resolution": 0.002,
+            "t": 2.26216,
+            "value": 0.014251
+          },
+          "range_a": 0.032,
+          "range_b": 0.06,
+          "sd_a": 0.011276,
+          "sd_b": 0.016424
+        },
+        "pooled": {
+          "delta_pool": -0.0028,
+          "pass_a": {
+            "count": 3177,
+            "denominator": 5000,
+            "rate": 0.6354
+          },
+          "pass_b": {
+            "count": 3191,
+            "denominator": 5000,
+            "rate": 0.6382
+          },
+          "pooled_sign": -1,
+          "pooled_tie": false
+        },
+        "ruling_id": "LIMEN-onr1-PAIR-0015",
+        "scope_key": {
+          "model_a": "nano-agent-mistral_devstral-2512",
+          "model_b": "nano-agent-mistral_devstral-2512__temp0",
+          "task": "swebench_verified"
+        },
+        "sign_stability": {
+          "flip_prob_upper95": null,
+          "flip_rate_excl_ties": 0.4,
+          "n_agree": {
+            "count": 6,
+            "denominator": 10,
+            "rate": 0.6
+          },
+          "n_flip": {
+            "count": 4,
+            "denominator": 10,
+            "rate": 0.4
+          },
+          "n_tie": {
+            "count": 0,
+            "denominator": 10,
+            "rate": 0.0
+          },
+          "pooled_tie": false,
+          "rank_flip_rate": 0.4,
+          "ruling": "SIGN-UNSTABLE"
+        }
+      }
+    ],
+    "task": [
+      {
+        "content_hash": "sha256:77fc54af12a3b49cf511241cb10441ddef9113f32a8a3979bfc7922b9f3ef1fe",
+        "kind": "TASK",
+        "misrank": {
+          "draws_misranking_any_pair": {
+            "count": 8,
+            "denominator": 10,
+            "rate": 0.8
+          }
+        },
+        "n": {
+          "cells_truncated": 0,
+          "items_aligned": 500,
+          "k": 10,
+          "models": [
+            "nano-agent-Qwen_Qwen3-32B",
+            "nano-agent-Qwen_Qwen3-32B-temp0",
+            "nano-agent-agentica-org_DeepSWE-Preview",
+            "nano-agent-agentica-org_DeepSWE-Preview__temp0",
+            "nano-agent-mistral_devstral-2512",
+            "nano-agent-mistral_devstral-2512__temp0"
+          ]
+        },
+        "pooled_flakiness": {
+          "alignment_excluded": {
+            "nano-agent-Qwen_Qwen3-32B": 0,
+            "nano-agent-Qwen_Qwen3-32B-temp0": 0,
+            "nano-agent-agentica-org_DeepSWE-Preview": 0,
+            "nano-agent-agentica-org_DeepSWE-Preview__temp0": 0,
+            "nano-agent-mistral_devstral-2512": 0,
+            "nano-agent-mistral_devstral-2512__temp0": 0
+          },
+          "cell_pooled_mixed": {
+            "count": 1113,
+            "denominator": 3000,
+            "rate": 0.371
+          },
+          "item_union_mixed": {
+            "count": 405,
+            "denominator": 500,
+            "rate": 0.81
+          },
+          "n_items_aligned": 500
+        },
+        "ruling_id": "LIMEN-onr1-TASK-0001",
+        "scope_key": {
+          "task": "swebench_verified"
+        },
+        "stable_only": {
+          "mitigations": {
+            "selection_null": {
+              "interpretation": "If the observed tidiness sits inside the null band, the stable-only ordering's tidiness is explained by selection alone and must not be presented as structure; only observed values outside the band license the claim that mixed items carry model-differential signal beyond selection.",
+              "low_k": false,
+              "null": {
+                "t_flip": {
+                  "mean": 2.901,
+                  "p2_5": 0.0,
+                  "p97_5": 6.0,
+                  "p_value_one_sided_large": 0.579421,
+                  "p_value_one_sided_small": 0.688312
+                },
+                "t_gap": {
+                  "mean": -0.165109,
+                  "p2_5": -0.182777,
+                  "p97_5": -0.146817,
+                  "p_value_one_sided_large": 0.962038
+                },
+                "t_tau": {
+                  "mean": 0.781908,
+                  "p2_5": 0.730297,
+                  "p97_5": 0.856349,
+                  "percentile_of_observed": 0.57
+                }
+              },
+              "observed": {
+                "n_stable": 95,
+                "t_flip": 3,
+                "t_gap": -0.18127,
+                "t_tau": 0.730297
+              },
+              "replicates": 1000,
+              "replicates_effective": 1000,
+              "replicates_empty_stable_set": 0,
+              "seed_procedure": "sha256(rulings_version|task|selection-null|replicate_index)",
+              "state": "AVAILABLE",
+              "t_flip_definition": "rank-half sign flips among classify-half-stable items (canonical split); null when k < 4 or the split-stable set is empty"
+            },
+            "split_half": {
+              "canonical_split": {
+                "classify_positions": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4
+                ],
+                "n_stable": {
+                  "count": 120,
+                  "denominator": 500,
+                  "rate": 0.24
+                },
+                "rank_positions": [
+                  5,
+                  6,
+                  7,
+                  8,
+                  9
+                ],
+                "tau": {
+                  "concordant": 13,
+                  "discordant": 1,
+                  "tau_a": 0.8,
+                  "tau_b": 0.828079,
+                  "ties_x": 1,
+                  "ties_y": 0,
+                  "undefined": false
+                }
+              },
+              "classify_draws": 5,
+              "n_splits": 252,
+              "sign_survival": [
+                {
+                  "indeterminate": {
+                    "count": 47,
+                    "denominator": 252,
+                    "rate": 0.186508
+                  },
+                  "model_a": "nano-agent-Qwen_Qwen3-32B",
+                  "model_b": "nano-agent-Qwen_Qwen3-32B-temp0",
+                  "survived": {
+                    "count": 95,
+                    "denominator": 252,
+                    "rate": 0.376984
+                  }
+                },
+                {
+                  "indeterminate": {
+                    "count": 0,
+                    "denominator": 252,
+                    "rate": 0.0
+                  },
+                  "model_a": "nano-agent-Qwen_Qwen3-32B",
+                  "model_b": "nano-agent-agentica-org_DeepSWE-Preview",
+                  "survived": {
+                    "count": 252,
+                    "denominator": 252,
+                    "rate": 1.0
+                  }
+                },
+                {
+                  "indeterminate": {
+                    "count": 38,
+                    "denominator": 252,
+                    "rate": 0.150794
+                  },
+                  "model_a": "nano-agent-Qwen_Qwen3-32B",
+                  "model_b": "nano-agent-agentica-org_DeepSWE-Preview__temp0",
+                  "survived": {
+                    "count": 157,
+                    "denominator": 252,
+                    "rate": 0.623016
+                  }
+                },
+                {
+                  "indeterminate": {
+                    "count": 0,
+                    "denominator": 252,
+                    "rate": 0.0
+                  },
+                  "model_a": "nano-agent-Qwen_Qwen3-32B",
+                  "model_b": "nano-agent-mistral_devstral-2512",
+                  "survived": {
+                    "count": 252,
+                    "denominator": 252,
+                    "rate": 1.0
+                  }
+                },
+                {
+                  "indeterminate": {
+                    "count": 0,
+                    "denominator": 252,
+                    "rate": 0.0
+                  },
+                  "model_a": "nano-agent-Qwen_Qwen3-32B",
+                  "model_b": "nano-agent-mistral_devstral-2512__temp0",
+                  "survived": {
+                    "count": 252,
+                    "denominator": 252,
+                    "rate": 1.0
+                  }
+                },
+                {
+                  "indeterminate": {
+                    "count": 0,
+                    "denominator": 252,
+                    "rate": 0.0
+                  },
+                  "model_a": "nano-agent-Qwen_Qwen3-32B-temp0",
+                  "model_b": "nano-agent-agentica-org_DeepSWE-Preview",
+                  "survived": {
+                    "count": 251,
+                    "denominator": 252,
+                    "rate": 0.996032
+                  }
+                },
+                {
+                  "indeterminate": {
+                    "count": 40,
+                    "denominator": 252,
+                    "rate": 0.15873
+                  },
+                  "model_a": "nano-agent-Qwen_Qwen3-32B-temp0",
+                  "model_b": "nano-agent-agentica-org_DeepSWE-Preview__temp0",
+                  "survived": {
+                    "count": 157,
+                    "denominator": 252,
+                    "rate": 0.623016
+                  }
+                },
+                {
+                  "indeterminate": {
+                    "count": 0,
+                    "denominator": 252,
+                    "rate": 0.0
+                  },
+                  "model_a": "nano-agent-Qwen_Qwen3-32B-temp0",
+                  "model_b": "nano-agent-mistral_devstral-2512",
+                  "survived": {
+                    "count": 252,
+                    "denominator": 252,
+                    "rate": 1.0
+                  }
+                },
+                {
+                  "indeterminate": {
+                    "count": 0,
+                    "denominator": 252,
+                    "rate": 0.0
+                  },
+                  "model_a": "nano-agent-Qwen_Qwen3-32B-temp0",
+                  "model_b": "nano-agent-mistral_devstral-2512__temp0",
+                  "survived": {
+                    "count": 252,
+                    "denominator": 252,
+                    "rate": 1.0
+                  }
+                },
+                {
+                  "indeterminate": {
+                    "count": 2,
+                    "denominator": 252,
+                    "rate": 0.007937
+                  },
+                  "model_a": "nano-agent-agentica-org_DeepSWE-Preview",
+                  "model_b": "nano-agent-agentica-org_DeepSWE-Preview__temp0",
+                  "survived": {
+                    "count": 250,
+                    "denominator": 252,
+                    "rate": 0.992063
+                  }
+                },
+                {
+                  "indeterminate": {
+                    "count": 0,
+                    "denominator": 252,
+                    "rate": 0.0
+                  },
+                  "model_a": "nano-agent-agentica-org_DeepSWE-Preview",
+                  "model_b": "nano-agent-mistral_devstral-2512",
+                  "survived": {
+                    "count": 252,
+                    "denominator": 252,
+                    "rate": 1.0
+                  }
+                },
+                {
+                  "indeterminate": {
+                    "count": 0,
+                    "denominator": 252,
+                    "rate": 0.0
+                  },
+                  "model_a": "nano-agent-agentica-org_DeepSWE-Preview",
+                  "model_b": "nano-agent-mistral_devstral-2512__temp0",
+                  "survived": {
+                    "count": 252,
+                    "denominator": 252,
+                    "rate": 1.0
+                  }
+                },
+                {
+                  "indeterminate": {
+                    "count": 0,
+                    "denominator": 252,
+                    "rate": 0.0
+                  },
+                  "model_a": "nano-agent-agentica-org_DeepSWE-Preview__temp0",
+                  "model_b": "nano-agent-mistral_devstral-2512",
+                  "survived": {
+                    "count": 252,
+                    "denominator": 252,
+                    "rate": 1.0
+                  }
+                },
+                {
+                  "indeterminate": {
+                    "count": 0,
+                    "denominator": 252,
+                    "rate": 0.0
+                  },
+                  "model_a": "nano-agent-agentica-org_DeepSWE-Preview__temp0",
+                  "model_b": "nano-agent-mistral_devstral-2512__temp0",
+                  "survived": {
+                    "count": 252,
+                    "denominator": 252,
+                    "rate": 1.0
+                  }
+                },
+                {
+                  "indeterminate": {
+                    "count": 15,
+                    "denominator": 252,
+                    "rate": 0.059524
+                  },
+                  "model_a": "nano-agent-mistral_devstral-2512",
+                  "model_b": "nano-agent-mistral_devstral-2512__temp0",
+                  "survived": {
+                    "count": 145,
+                    "denominator": 252,
+                    "rate": 0.575397
+                  }
+                }
+              ],
+              "stable_set_size_over_splits": {
+                "max": 141,
+                "mean": 127.579365,
+                "min": 117
+              },
+              "state": "AVAILABLE",
+              "tau_over_splits": {
+                "max": 1.0,
+                "mean": 0.800971,
+                "min": 0.414039,
+                "n_undefined": 0
+              },
+              "thinned": false
+            }
+          },
+          "naive": {
+            "n_stable": {
+              "count": 95,
+              "denominator": 500,
+              "rate": 0.19
+            },
+            "pair_sign_survives": [
+              {
+                "model_a": "nano-agent-Qwen_Qwen3-32B",
+                "model_b": "nano-agent-Qwen_Qwen3-32B-temp0",
+                "survives": false
+              },
+              {
+                "model_a": "nano-agent-Qwen_Qwen3-32B",
+                "model_b": "nano-agent-agentica-org_DeepSWE-Preview",
+                "survives": false
+              },
+              {
+                "model_a": "nano-agent-Qwen_Qwen3-32B",
+                "model_b": "nano-agent-agentica-org_DeepSWE-Preview__temp0",
+                "survives": false
+              },
+              {
+                "model_a": "nano-agent-Qwen_Qwen3-32B",
+                "model_b": "nano-agent-mistral_devstral-2512",
+                "survives": true
+              },
+              {
+                "model_a": "nano-agent-Qwen_Qwen3-32B",
+                "model_b": "nano-agent-mistral_devstral-2512__temp0",
+                "survives": true
+              },
+              {
+                "model_a": "nano-agent-Qwen_Qwen3-32B-temp0",
+                "model_b": "nano-agent-agentica-org_DeepSWE-Preview",
+                "survives": false
+              },
+              {
+                "model_a": "nano-agent-Qwen_Qwen3-32B-temp0",
+                "model_b": "nano-agent-agentica-org_DeepSWE-Preview__temp0",
+                "survives": false
+              },
+              {
+                "model_a": "nano-agent-Qwen_Qwen3-32B-temp0",
+                "model_b": "nano-agent-mistral_devstral-2512",
+                "survives": true
+              },
+              {
+                "model_a": "nano-agent-Qwen_Qwen3-32B-temp0",
+                "model_b": "nano-agent-mistral_devstral-2512__temp0",
+                "survives": true
+              },
+              {
+                "model_a": "nano-agent-agentica-org_DeepSWE-Preview",
+                "model_b": "nano-agent-agentica-org_DeepSWE-Preview__temp0",
+                "survives": false
+              },
+              {
+                "model_a": "nano-agent-agentica-org_DeepSWE-Preview",
+                "model_b": "nano-agent-mistral_devstral-2512",
+                "survives": true
+              },
+              {
+                "model_a": "nano-agent-agentica-org_DeepSWE-Preview",
+                "model_b": "nano-agent-mistral_devstral-2512__temp0",
+                "survives": true
+              },
+              {
+                "model_a": "nano-agent-agentica-org_DeepSWE-Preview__temp0",
+                "model_b": "nano-agent-mistral_devstral-2512",
+                "survives": true
+              },
+              {
+                "model_a": "nano-agent-agentica-org_DeepSWE-Preview__temp0",
+                "model_b": "nano-agent-mistral_devstral-2512__temp0",
+                "survives": true
+              },
+              {
+                "model_a": "nano-agent-mistral_devstral-2512",
+                "model_b": "nano-agent-mistral_devstral-2512__temp0",
+                "survives": false
+              }
+            ],
+            "ranking_all_items": [
+              {
+                "model": "nano-agent-mistral_devstral-2512__temp0",
+                "passes": {
+                  "count": 3191,
+                  "denominator": 5000,
+                  "rate": 0.6382
+                }
+              },
+              {
+                "model": "nano-agent-mistral_devstral-2512",
+                "passes": {
+                  "count": 3177,
+                  "denominator": 5000,
+                  "rate": 0.6354
+                }
+              },
+              {
+                "model": "nano-agent-agentica-org_DeepSWE-Preview",
+                "passes": {
+                  "count": 1569,
+                  "denominator": 5000,
+                  "rate": 0.3138
+                }
+              },
+              {
+                "model": "nano-agent-agentica-org_DeepSWE-Preview__temp0",
+                "passes": {
+                  "count": 1018,
+                  "denominator": 5000,
+                  "rate": 0.2036
+                }
+              },
+              {
+                "model": "nano-agent-Qwen_Qwen3-32B",
+                "passes": {
+                  "count": 819,
+                  "denominator": 5000,
+                  "rate": 0.1638
+                }
+              },
+              {
+                "model": "nano-agent-Qwen_Qwen3-32B-temp0",
+                "passes": {
+                  "count": 818,
+                  "denominator": 5000,
+                  "rate": 0.1636
+                }
+              }
+            ],
+            "ranking_stable_only": [
+              {
+                "model": "nano-agent-mistral_devstral-2512",
+                "passes": {
+                  "count": 180,
+                  "denominator": 950,
+                  "rate": 0.189474
+                }
+              },
+              {
+                "model": "nano-agent-mistral_devstral-2512__temp0",
+                "passes": {
+                  "count": 180,
+                  "denominator": 950,
+                  "rate": 0.189474
+                }
+              },
+              {
+                "model": "nano-agent-Qwen_Qwen3-32B",
+                "passes": {
+                  "count": 40,
+                  "denominator": 950,
+                  "rate": 0.042105
+                }
+              },
+              {
+                "model": "nano-agent-Qwen_Qwen3-32B-temp0",
+                "passes": {
+                  "count": 40,
+                  "denominator": 950,
+                  "rate": 0.042105
+                }
+              },
+              {
+                "model": "nano-agent-agentica-org_DeepSWE-Preview",
+                "passes": {
+                  "count": 40,
+                  "denominator": 950,
+                  "rate": 0.042105
+                }
+              },
+              {
+                "model": "nano-agent-agentica-org_DeepSWE-Preview__temp0",
+                "passes": {
+                  "count": 40,
+                  "denominator": 950,
+                  "rate": 0.042105
+                }
+              }
+            ],
+            "tau_stable_vs_all": {
+              "concordant": 8,
+              "discordant": 0,
+              "tau_a": 0.533333,
+              "tau_b": 0.730297,
+              "ties_x": 7,
+              "ties_y": 0,
+              "undefined": false
+            }
+          },
+          "note": "The stable-only ranking conditions on a selected subset enriched for easy items; it is one view of the data, not a corrected or true ranking.",
+          "per_model_constant": {
+            "nano-agent-Qwen_Qwen3-32B": {
+              "count": 350,
+              "denominator": 500,
+              "rate": 0.7
+            },
+            "nano-agent-Qwen_Qwen3-32B-temp0": {
+              "count": 356,
+              "denominator": 500,
+              "rate": 0.712
+            },
+            "nano-agent-agentica-org_DeepSWE-Preview": {
+              "count": 242,
+              "denominator": 500,
+              "rate": 0.484
+            },
+            "nano-agent-agentica-org_DeepSWE-Preview__temp0": {
+              "count": 310,
+              "denominator": 500,
+              "rate": 0.62
+            },
+            "nano-agent-mistral_devstral-2512": {
+              "count": 319,
+              "denominator": 500,
+              "rate": 0.638
+            },
+            "nano-agent-mistral_devstral-2512__temp0": {
+              "count": 310,
+              "denominator": 500,
+              "rate": 0.62
+            }
+          }
+        }
+      }
+    ]
+  },
+  "rulings_version": "onr1",
+  "scope": {
+    "does_not_show": [
+      {
+        "code": "NO_MODEL_QUALITY_CLAIM",
+        "text": "A sign ruling is a verdict on the measurement, never on the models; a flip means 'this comparison is not supported by its own data', never 'the other model wins'."
+      },
+      {
+        "code": "NO_PRIVILEGED_DRAW",
+        "text": "No draw is the correct one; all k are equally legitimate executions of the declared configuration, and there is no true score behind them to prefer."
+      },
+      {
+        "code": "NO_FACTOR_ATTRIBUTION",
+        "text": "'Draw' is a bucket holding everything that varies between two identical calls; no seed / hardware / order / version decomposition is claimed."
+      },
+      {
+        "code": "NO_DRIFT_ABSENCE_CLAIM",
+        "text": "A drift PASS means the checks that could run found nothing; UNAVAILABLE is not PASS, and absence of evidence of drift is not evidence of its absence."
+      },
+      {
+        "code": "STABLE_SUBSET_IS_A_VIEW",
+        "text": "The stable-items-only ranking conditions on a selected subset enriched for easy items; it is one view, not a corrected or true ranking."
+      },
+      {
+        "code": "UNSTABLE_ITEMS_NOT_DEFECTIVE",
+        "text": "Instability is a joint property of item, model, serving stack, grader and protocol; an item unstable for one model and stable for another is not defective."
+      },
+      {
+        "code": "NO_K1_CERTIFICATE",
+        "text": "The spread and MDD are reported at the observed k; no sufficiency certificate is issued for k=1 or any other k, on any benchmark or provider."
+      },
+      {
+        "code": "EXACT_MATCH_GRADING_ONLY",
+        "text": "Validity is scoped to deterministic exact-match grading; nothing here says anything about judge-scored, rubric-scored or preference-scored tasks."
+      },
+      {
+        "code": "CONSTANCY_IS_NOT_CORRECTNESS",
+        "text": "Flakiness and TARa measure repeatability only; a constant-but-wrong verdict is invisible to this instrument."
+      }
+    ]
+  },
+  "spec_version": "0.2.0"
+}

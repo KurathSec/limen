@@ -95,3 +95,27 @@ archives as re-analysed here: instruments over the same population as the
 upstream project's own reporting. They are not claims about any table
 published from that ladder elsewhere, and never statements about which of the
 four models is better ([Honesty](honesty.md)).
+
+## Layer three: reproducing a published number on third-party data
+
+The strongest thing a measurement instrument can prove about itself is that
+it recovers a published statistic on data it did not collect. limen was run
+over the released artifact of Bjarnason, Silva and Monperrus, *On Randomness
+in Agentic Evals* (Zenodo, doi 10.5281/zenodo.18684663, CC-BY-4.0): six
+configurations on SWE-Bench-Verified, 500 instances, ten identical runs each.
+
+The paper reports single-run pass@1 varying by 2.2 to 6.0 percentage points
+depending on which run is selected, with standard deviations above 1.5 pp at
+temperature 0. limen's per-configuration noise floors span ranges of exactly
+2.20 to 6.00 pp, with sd reaching 1.64 pp at temperature 0. On the same data
+the instrument adds what the paper did not report: 8 of 10 single-run
+leaderboards misrank at least one pair; both same-model temperature pairs
+rule SIGN-UNSTABLE while all 13 cross-model pairs clear their MDD 3.7x to
+49x; 37.1% of cells are mixed across identical runs (against 1.65% on the
+calibration corpus); and for one configuration, 20.4% of discordant run-pairs
+had byte-identical submitted patches, which is measured harness
+nondeterminism, separated from model nondeterminism by the grader-defect
+check.
+
+Full method, tables and scope caveats:
+[validation/on_randomness/README.md](https://github.com/KurathSec/limen/blob/main/validation/on_randomness/README.md).
