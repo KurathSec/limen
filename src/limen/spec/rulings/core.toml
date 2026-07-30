@@ -33,3 +33,8 @@ status = "superseded"
 id = "LMN-CORE-007"
 title = "Absent readers are stated, not silent"
 text = "Readers deliberately absent (HELM, Parquet) are named in the reader registry and the docs; their absence is a scope decision, not an accident. Supersedes LMN-CORE-006 after the inspect_ai .eval per-epoch reader shipped: each epoch of each sample is one draw, read directly from the zip without an inspect_ai dependency, consuming exactly the layer inspect's epoch reducers collapse."
+
+[[ruling]]
+id = "LMN-CORE-008"
+title = "Per-item labels are optional, all-or-nothing, and item-consistent"
+text = "Rows may carry label_<name> columns naming per-item strata. Within a cell labels are all-or-nothing and identical across draws, and identical across every cell of the same (task, item); violations are hard errors. Label names match [a-z0-9_]+ and values are non-empty. Label-free rows keep their exact pre-label digest bytes, so the dataset digest of an unlabeled table is unchanged by label support."

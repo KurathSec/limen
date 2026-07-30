@@ -109,3 +109,49 @@ def test_grader_defect_check_passes_with_clean_hashes() -> None:
 def test_not_a_report_raises() -> None:
     with pytest.raises(GateError, match="report/v1"):
         evaluate_gate({"limen_schema": "nope"}, GateOptions())
+
+
+def test_gate_never_reads_variance_components() -> None:
+    """LMN-VAR-004 deletion invariance: removing every variance_components
+    section leaves every gate line, verdict and exit code identical."""
+    import copy
+
+    report = _report(STABLE_GRID, with_hashes=True, with_timestamps=True, with_versions=True)
+    stripped = copy.deepcopy(report)
+    for body in stripped["rulings"]["mt"] + stripped["rulings"]["task"]:
+        body.pop("variance_components", None)
+    options_matrix = [
+        GateOptions(require_sign_stable=True, min_effect_vs_noise=1.0),
+        GateOptions(require_drift_pass=True, max_grader_defect_share=0.0),
+        GateOptions(require_gap_survives=True, max_unstable_gap_share=0.5),
+        GateOptions(pairs=("t:a>b",), require_sign_stable=True),
+    ]
+    for opts in options_matrix:
+        full = evaluate_gate(report, opts)
+        cut = evaluate_gate(stripped, opts)
+        assert full.exit_code == cut.exit_code
+        assert full.lines == cut.lines
+        assert full.pair_verdicts == cut.pair_verdicts
+
+
+def test_new_flags_rule_unevaluable_on_v1_reports() -> None:
+    """LMN-GTE-004: --require-gap-survives and --max-unstable-gap-share on a
+    genuine report/v1 document exit 2 with the regeneration named, never a
+    measured verdict either way."""
+    import json
+    from pathlib import Path
+
+    frozen = Path(__file__).parent / "data" / "frozen_v1" / "gate_mini.json"
+    report = json.loads(frozen.read_text())
+    assert report["limen_schema"] == "report/v1"
+    for opts in (
+        GateOptions(require_gap_survives=True),
+        GateOptions(max_unstable_gap_share=0.5),
+    ):
+        result = evaluate_gate(report, opts)
+        assert result.exit_code == 2
+        assert any(
+            state == "UNEVALUABLE" and "regenerate it with limen >= 0.2.0" in detail
+            for pv in result.pair_verdicts
+            for _check, state, detail in pv.checks
+        )

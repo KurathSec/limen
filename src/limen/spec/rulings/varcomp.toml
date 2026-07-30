@@ -1,0 +1,29 @@
+[[ruling]]
+id = "LMN-VAR-001"
+title = "Variance components are exact EMS method-of-moments, stdlib only"
+text = "The two-facet crossed items x draws decomposition of the binary verdict uses balanced-design ANOVA sums of squares computed exactly on integers (SS_item = sum s_i^2/k - T^2/nk, SS_draw = sum t_d^2/n - T^2/nk, SS_residual by subtraction) and the EMS relations E[MS_item] = s2_res + k*s2_item, E[MS_draw] = s2_res + n*s2_draw, E[MS_res] = s2_res. A likelihood GLMM is deliberately not used: it is not computable pure-stdlib, not byte-deterministic, and lives on a link scale that does not decompose the observed score. Ragged k is UNAVAILABLE, never approximated. Negative moment estimates truncate to zero and the raw value is printed beside the truncated estimate."
+
+[[ruling]]
+id = "LMN-VAR-002"
+title = "Component intervals are seeded item-bootstrap percentiles"
+text = "Cells are resampled with their whole draw vectors, seeds derived per LMN-EMIT-003, bands by lower-interpolation percentiles, with the truncation share printed. The draw-component interval is conditional on the observed k draws and its assumptions list says so. Satterthwaite chi-square intervals are deliberately not used: the effective df is continuous and stdlib has no chi-square inverse, mean squares of Bernoulli verdicts are not scaled chi-squares, and zero-truncation breaks the pivot."
+
+[[ruling]]
+id = "LMN-VAR-003"
+title = "The section is subordinate and the draw facet is a bucket"
+text = "Every variance_components section carries the fixed bucket note (NO_FACTOR_ATTRIBUTION) and never-headline note, and emits the fixed low-k warning whenever the draw facet has fewer than 20 levels. The CLI summary never prints a component; report.md renders the section only after the scope block with its warnings above the numbers; no component appears without its interval."
+
+[[ruling]]
+id = "LMN-VAR-004"
+title = "The gate never reads variance_components"
+text = "No gate check may consult the section: deleting every variance_components section from a report leaves every gate line, verdict and exit code identical. The section informs planning, never pass/fail."
+
+[[ruling]]
+id = "LMN-VAR-005"
+title = "The model facet is descriptive, never a component"
+text = "Models are fixed choices, not a sample from a universe. The task-level model facet is the ddof=1 variance of the pooled scores, labelled descriptive, with no interval and no random-model claim; a three-facet random-model decomposition is deliberately absent because a model variance component would be a model-quality claim (NO_MODEL_QUALITY_CLAIM) estimated on one to three degrees of freedom."
+
+[[ruling]]
+id = "LMN-VAR-006"
+title = "Design effect and planning are defined and cited"
+text = "deff = 1 + (k-1)*icc_item + (n-1)*icc_draw = (k*s2_item + n*s2_draw + s2_res)/s2_total; n_eff = nk/deff; null when total variance is zero. The draw-facet contribution to the pooled score scales exactly as 1/k, so halving it doubles k; planning numbers cite Kalibera & Jones (ISMM 2013) and issue no sufficiency certificate (NO_K1_CERTIFICATE)."

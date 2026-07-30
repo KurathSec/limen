@@ -48,6 +48,10 @@ def _cmd_report(args: argparse.Namespace) -> int:
             max_splits=args.max_splits,
             assume_index_is_collection_order=args.assume_index_is_collection_order,
             ragged=args.ragged,
+            bootstrap=args.bootstrap,
+            stratify_by=tuple(args.stratify_by or ()),
+            stratum_replicates=args.stratum_replicates,
+            stratum_floor=args.stratum_floor,
         ),
     )
     out = Path(args.out)
@@ -88,10 +92,14 @@ def _print_summary(report: dict[str, Any]) -> None:
     for body in report["rulings"]["pair"]:
         sk = body["scope_key"]
         st = body["sign_stability"]
-        print(
+        line = (
             f"  {sk['task']}: {sk['model_a']} vs {sk['model_b']}: {st['ruling']}"
             f" (delta {body['pooled']['delta_pool']:+}, MDD {body['noise']['mdd']['value']})"
         )
+        audit = body.get("gap_survival")
+        if audit is not None:
+            line += f"; audit {audit['ruling']['ruling']}"
+        print(line)
 
 
 def _render_markdown(report: dict[str, Any]) -> str:
@@ -119,8 +127,8 @@ def _render_markdown(report: dict[str, Any]) -> str:
             f"Single-draw leaderboards misranking at least one pair: "
             f"**{mis['count']}/{mis['denominator']}**",
             "",
-            "| pair | ruling | delta_pool | flips | ties | MDD | effect/MDD |",
-            "|---|---|---|---|---|---|---|",
+            "| pair | ruling | audit | delta_pool | flips | ties | MDD | effect/MDD |",
+            "|---|---|---|---|---|---|---|---|",
         ]
         for body in report["rulings"]["pair"]:
             if body["scope_key"]["task"] != task:
@@ -132,16 +140,62 @@ def _render_markdown(report: dict[str, Any]) -> str:
             ratio = f"{abs(delta) / mdd:.2f}" if mdd else "null"
             flips = "null" if st["n_flip"] is None else f"{st['n_flip']['count']}/{st['n_flip']['denominator']}"
             ties = "null" if st["n_tie"] is None else f"{st['n_tie']['count']}/{st['n_tie']['denominator']}"
+            audit = body.get("gap_survival")
+            audit_ruling = audit["ruling"]["ruling"] if audit else "n/a"
             lines.append(
                 f"| `{sk['model_a']}` vs `{sk['model_b']}` | {st['ruling']} | "
-                f"{delta:+} | {flips} | {ties} | {mdd} | {ratio} |"
+                f"{audit_ruling} | {delta:+} | {flips} | {ties} | {mdd} | {ratio} |"
             )
         lines.append("")
     lines += ["## scope", ""]
     for item in report["scope"]["does_not_show"]:
         lines.append(f"- **{item['code']}**: {item['text']}")
+    lines += _render_varcomp(report)
     lines.append("")
     return "\n".join(lines)
+
+
+def _render_varcomp(report: dict[str, Any]) -> list[str]:
+    """Variance components render only here, after the scope block, warnings
+    first, every estimate beside its interval (LMN-VAR-003)."""
+    sections = [
+        (mt["scope_key"], mt.get("variance_components"))
+        for mt in report["rulings"]["mt"]
+    ]
+    available = [(sk, vc) for sk, vc in sections if vc and vc.get("state") == "AVAILABLE"]
+    if not available:
+        return []
+    first = available[0][1]
+    lines = [
+        "",
+        "## variance components (subordinate diagnostic)",
+        "",
+        f"{first['never_headline_note']}",
+        "",
+        f"{first['bucket_note']}",
+        "",
+    ]
+    # the low-k warning is per section (LMN-VAR-003): any low-k scope in the
+    # table must be warned about, not just the first
+    low_k = [(sk, vc) for sk, vc in available if vc.get("low_k_note")]
+    if low_k:
+        scopes = ", ".join(
+            f"`{sk['model']}`/`{sk['task']}` (k={vc['k']})" for sk, vc in low_k
+        )
+        lines += [f"{low_k[0][1]['low_k_note']} Applies to: {scopes}.", ""]
+    lines += [
+        "| model, task | component | estimate | ci95 | raw |",
+        "|---|---|---|---|---|",
+    ]
+    for sk, vc in available:
+        for name, comp in vc["components"].items():
+            ci = comp.get("ci95")
+            ci_text = f"[{ci['lo']}, {ci['hi']}]" if ci else "null"
+            lines.append(
+                f"| `{sk['model']}`, `{sk['task']}` | {name} | "
+                f"{comp['estimate']} | {ci_text} | {comp['raw']} |"
+            )
+    return lines
 
 
 def _cmd_gate(args: argparse.Namespace) -> int:
@@ -160,6 +214,8 @@ def _cmd_gate(args: argparse.Namespace) -> int:
             tasks=tuple(args.task or ()),
             require_drift_pass=args.require_drift_pass,
             max_grader_defect_share=args.max_grader_defect_share,
+            require_gap_survives=args.require_gap_survives,
+            max_unstable_gap_share=args.max_unstable_gap_share,
         ),
     )
     for line in result.lines:
@@ -252,6 +308,15 @@ def _build_parser() -> argparse.ArgumentParser:
     p.add_argument("--rulings-version", default="adhoc")
     p.add_argument("--replicates", type=int, default=1000, help="selection-null replicates")
     p.add_argument("--max-splits", type=int, default=256)
+    p.add_argument("--bootstrap", type=int, default=1000, help="audit bootstrap replicates")
+    p.add_argument(
+        "--stratify-by",
+        action="append",
+        default=None,
+        help="issue per-stratum audit rulings for this label key (repeatable)",
+    )
+    p.add_argument("--stratum-replicates", type=int, default=200)
+    p.add_argument("--stratum-floor", type=int, default=30)
     p.add_argument(
         "--assume-index-is-collection-order",
         action="store_true",
@@ -274,6 +339,8 @@ def _build_parser() -> argparse.ArgumentParser:
     p.add_argument("--task", action="append", help="restrict to a task (repeatable)")
     p.add_argument("--require-drift-pass", action="store_true")
     p.add_argument("--max-grader-defect-share", type=float, default=None)
+    p.add_argument("--require-gap-survives", action="store_true")
+    p.add_argument("--max-unstable-gap-share", type=float, default=None)
     p.set_defaults(func=_cmd_gate)
 
     p = sub.add_parser("synth", help="generate a planted-truth synthetic archive")

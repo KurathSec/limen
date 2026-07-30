@@ -199,7 +199,7 @@ def misrank_summary(ds: DrawScores) -> dict[str, Any]:
 # --------------------------------------------------------------------------- #
 
 
-def _stable_items(
+def stable_items(
     verdicts: dict[tuple[str, str], tuple[int, ...]],
     models: tuple[str, ...],
     items: tuple[str, ...],
@@ -266,7 +266,7 @@ def _tau_dict(scores_x: dict[str, tuple[int, int]], scores_y: dict[str, tuple[in
     }
 
 
-def _collect_verdicts(
+def collect_verdicts(
     archive: Archive, task: str, models: tuple[str, ...], items: tuple[str, ...], k: int
 ) -> dict[tuple[str, str], tuple[int, ...]]:
     return {
@@ -289,7 +289,7 @@ def _stable_stats(
     zero. T_flip therefore reproduces the canonical split selection — classify
     on the first floor(k/2) draws, count rank-half sign flips among the
     classify-stable items — and is None when k < 4."""
-    stable = _stable_items(verdicts, models, items)
+    stable = stable_items(verdicts, models, items)
     all_scores = _scores(verdicts, models, items, None, k)
     if not stable:
         return None, None, None, 0
@@ -309,7 +309,7 @@ def _stable_stats(
     if c >= 2:
         classify = tuple(range(c))
         rank = tuple(range(c, k))
-        split_stable = _stable_items(verdicts, models, items, classify)
+        split_stable = stable_items(verdicts, models, items, classify)
         if split_stable:
             t_flip = 0
             per_draw: dict[str, list[int]] = {m: [0] * len(rank) for m in models}
@@ -367,7 +367,7 @@ def split_half_analysis(
     for split in all_splits:
         classify = tuple(split)
         rank = tuple(d for d in range(k) if d not in set(split))
-        stable = _stable_items(verdicts, models, items, classify)
+        stable = stable_items(verdicts, models, items, classify)
         stable_sizes.append(len(stable))
         rank_all = _scores(verdicts, models, items, rank, k)
         if stable:
@@ -554,9 +554,9 @@ def stable_only_block(
     This is the only public entry; the naive numbers cannot be emitted without
     their mitigations (LMN-RNK-005)."""
     models, items, k = ds.models, ds.items, ds.k
-    verdicts = _collect_verdicts(archive, task, models, items, k)
+    verdicts = collect_verdicts(archive, task, models, items, k)
 
-    stable = _stable_items(verdicts, models, items)
+    stable = stable_items(verdicts, models, items)
     all_scores = _scores(verdicts, models, items, None, k)
     pooled_signs = {
         (a, b): sign(ds.pooled_pass[a] - ds.pooled_pass[b])

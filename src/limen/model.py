@@ -21,12 +21,14 @@ integer, draws order numerically; otherwise lexicographically by the raw string.
 from __future__ import annotations
 
 import hashlib
+import re
 from collections.abc import Iterable, Mapping
 from dataclasses import dataclass, field
 
 from .errors import TableError
 
 _KEY_FIELDS = ("model", "task", "item_id", "draw_id")
+_LABEL_NAME_RE = re.compile(r"[a-z0-9_]+")
 
 
 @dataclass(frozen=True, slots=True)
@@ -42,6 +44,10 @@ class VerdictRow:
     collected_at: str | None = None
     model_version: str | None = None
     raw_sha256: str | None = None
+    #: optional per-item stratum labels, canonical form: sorted (name, value)
+    #: pairs; an item property, so identical across the item's draws and across
+    #: every model's cell of the same (task, item) (LMN-CORE-008)
+    labels: tuple[tuple[str, str], ...] | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -54,6 +60,7 @@ class Cell:
     collected_at: tuple[str, ...] | None
     model_version: tuple[str, ...] | None
     raw_sha256: tuple[str, ...] | None
+    labels: tuple[tuple[str, str], ...] | None = None
 
     @property
     def k(self) -> int:
@@ -75,6 +82,9 @@ class Archive:
         init=False, repr=False, compare=False, default_factory=dict
     )
     _digest: str = field(init=False, repr=False, compare=False, default="")
+    _labels_index: dict[tuple[str, str], tuple[tuple[str, str], ...]] = field(
+        init=False, repr=False, compare=False, default_factory=dict
+    )
 
     def __post_init__(self) -> None:
         index: dict[tuple[str, str], list[str]] = {}
@@ -82,6 +92,9 @@ class Archive:
             index.setdefault((model, task), []).append(item_id)
         for key, items in index.items():
             self._items_index[key] = tuple(sorted(items))
+        for (_model, task, item_id), cell in self.cells.items():
+            if cell.labels is not None:
+                self._labels_index[(task, item_id)] = cell.labels
 
     @property
     def models(self) -> tuple[str, ...]:
@@ -118,6 +131,18 @@ class Archive:
             for model in self.models_for(task)
         }
 
+    def label_keys(self, task: str) -> tuple[str, ...]:
+        """Sorted label names present on any item of the task."""
+        keys: set[str] = set()
+        for (t, _item), labels in self._labels_index.items():
+            if t == task:
+                keys.update(name for name, _ in labels)
+        return tuple(sorted(keys))
+
+    def item_labels(self, task: str, item_id: str) -> Mapping[str, str] | None:
+        labels = self._labels_index.get((task, item_id))
+        return dict(labels) if labels is not None else None
+
     def common_k(self, task: str) -> int | None:
         """The uniform k across all aligned cells of the task, or None if ragged."""
         ks = {
@@ -145,6 +170,7 @@ class Archive:
                         collected_at=cell.collected_at[i] if cell.collected_at else None,
                         model_version=cell.model_version[i] if cell.model_version else None,
                         raw_sha256=cell.raw_sha256[i] if cell.raw_sha256 else None,
+                        labels=cell.labels,
                     )
                 )
         return tuple(out)
@@ -163,21 +189,20 @@ def _row_digest(rows: list[VerdictRow]) -> str:
     for row in sorted(
         rows, key=lambda r: (r.model, r.task, r.item_id, r.draw_id)
     ):
-        line = _json.dumps(
-            [
-                row.model,
-                row.task,
-                row.item_id,
-                row.draw_id,
-                row.verdict,
-                None if row.score is None else repr(row.score),
-                row.collected_at,
-                row.model_version,
-                row.raw_sha256,
-            ],
-            ensure_ascii=True,
-            separators=(",", ":"),
-        )
+        fields: list[object] = [
+            row.model,
+            row.task,
+            row.item_id,
+            row.draw_id,
+            row.verdict,
+            None if row.score is None else repr(row.score),
+            row.collected_at,
+            row.model_version,
+            row.raw_sha256,
+        ]
+        if row.labels is not None:
+            fields.append([[name, value] for name, value in row.labels])
+        line = _json.dumps(fields, ensure_ascii=True, separators=(",", ":"))
         h.update(line.encode("utf-8"))
         h.update(b"\n")
     return f"sha256:{h.hexdigest()}"
@@ -206,6 +231,18 @@ def build_archive(
                     f"empty {field_name} at row {n_rows}: identity fields must be "
                     "non-empty, non-whitespace strings"
                 )
+        if row.labels is not None:
+            for name, value in row.labels:
+                if not _LABEL_NAME_RE.fullmatch(name):
+                    raise TableError(
+                        f"label name {name!r} at ({row.model!r}, {row.task!r}, "
+                        f"{row.item_id!r}) must match [a-z0-9_]+"
+                    )
+                if not value.strip():
+                    raise TableError(
+                        f"label {name!r} at ({row.model!r}, {row.task!r}, "
+                        f"{row.item_id!r}) has an empty value"
+                    )
         if row.verdict not in (0, 1):
             raise TableError(
                 f"verdict must be 0 or 1, got {row.verdict!r} at "
@@ -245,6 +282,18 @@ def build_archive(
             f"no cell has k >= {min_k} draws; limen needs repeated draws of the same "
             "configuration (re-run the evaluation with repeats/epochs >= 2)"
         )
+    item_label_map: dict[tuple[str, str], tuple[tuple[str, str], ...] | None] = {}
+    for (_model, task, item_id), cell in cells.items():
+        key2 = (task, item_id)
+        if key2 in item_label_map:
+            if item_label_map[key2] != cell.labels:
+                raise TableError(
+                    f"labels for ({task!r}, {item_id!r}) disagree across models; "
+                    "labels are item properties and must be identical everywhere "
+                    "(LMN-CORE-008)"
+                )
+        else:
+            item_label_map[key2] = cell.labels
     archive = Archive(cells=cells, meta=dict(meta or {}), excluded_low_k=excluded)
     object.__setattr__(archive, "_digest", _row_digest(all_rows))
     return archive
@@ -276,6 +325,24 @@ def _compile_cell(key: tuple[str, str, str], cell_rows: list[VerdictRow]) -> Cel
     else:
         scores = tuple(scores_present)
 
+    label_values = [r.labels for r in cell_rows]
+    labels_present = [lv for lv in label_values if lv is not None]
+    labels: tuple[tuple[str, str], ...] | None
+    if not labels_present:
+        labels = None
+    elif len(labels_present) != len(label_values):
+        raise TableError(
+            f"cell {key!r}: labels present for {len(labels_present)} of "
+            f"{len(label_values)} draws; a cell's labels are all-or-nothing"
+        )
+    elif len(set(labels_present)) != 1:
+        raise TableError(
+            f"cell {key!r}: labels differ across draws; labels are item "
+            "properties (LMN-CORE-008)"
+        )
+    else:
+        labels = labels_present[0]
+
     return Cell(
         verdicts=tuple(r.verdict for r in cell_rows),
         draw_ids=tuple(r.draw_id for r in cell_rows),
@@ -283,4 +350,5 @@ def _compile_cell(key: tuple[str, str, str], cell_rows: list[VerdictRow]) -> Cel
         collected_at=optional("collected_at"),
         model_version=optional("model_version"),
         raw_sha256=optional("raw_sha256"),
+        labels=labels,
     )

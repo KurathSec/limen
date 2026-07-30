@@ -56,13 +56,13 @@
   },
   "tables": {
     "comprehend_dev.verdicts.csv.gz": {
-      "sha256": "sha256:5891af0b8720246a100a2a18c8599a701c2d9a97ae091700aec7f63b307635a4"
+      "sha256": "sha256:c9bd15a0476312bf1d49050897ea2a62b1fb0eba35b9904637d42818abdc1a7b"
     },
     "comprehend_test.verdicts.csv.gz": {
-      "sha256": "sha256:793eadb97eed98bd9cbc549905fcbb9f510e10f31156782270c3d3ee25f1af98"
+      "sha256": "sha256:8bc71e350212307d408e5f48421a2c6963d8b5e33510c6098b8d135412059522"
     },
     "refactor_dev.verdicts.csv.gz": {
-      "sha256": "sha256:f3072b37fb86720ba01bf38b729eaf81b0fde32b15fd12380571196567ed3d0c"
+      "sha256": "sha256:377c6cdf76c637882c34eeabb9ac82fc5480dd374310851fef6e06af8a8f3a69"
     }
   }
 }

@@ -1,0 +1,39 @@
+[[ruling]]
+id = "LMN-AUD-001"
+title = "Per-item instability is min(s, k-s)/k, symmetric, never compounded with correctness"
+text = "u_i is the fraction of a system's k draws disagreeing with the item's own majority verdict: u_i = min(s, k-s)/k. At even k with s = k/2 there is no majority verdict and u_i = 0.5, the maximum. u_i is computed for both systems of a pair symmetrically and is never combined with correctness: an always-fail cell is stable. Retry-free coverage (arXiv 2606.00920) compounds stability with correctness and is reported beside u_i, never instead of it."
+
+[[ruling]]
+id = "LMN-AUD-002"
+title = "The v1 threshold is u_i == 0 for both systems, crude by design and versioned"
+text = "The stable-for-both partition uses the declared threshold version u0: u_i == 0 for both systems. It is crude by design; the principled benchmark it must be measured against is an IDR-style threshold (Li, Brown, Huang, Bickel 2011). A threshold change is a new threshold version and a spec supersession, never an edit, and every ruling prints the threshold version it used."
+
+[[ruling]]
+id = "LMN-AUD-003"
+title = "The replicate noise band is enumerated, never sampled"
+text = "The band is the p95 (lower interpolation, exact rationals) of |self-gap| over all complementary half-splits of one system's k draws, both systems of the pair pooled, computed on the ruling's item set with each half normalized by its own width; the maximum is printed beside it. Unordered splits are deduplicated by keeping the half containing draw position 0 at even k. No RNG is involved, and the enumeration is never thinned or sampled: above the printed cap of 400000 splits (k of 23 or more) the band and every band-dependent statistic rule UNAVAILABLE with the refusal stated. A zero band is degenerate and bounds nothing."
+
+[[ruling]]
+id = "LMN-AUD-004"
+title = "Rulings carry a capped, deterministic decisive-item witness"
+text = "Every SURVIVES ruling carries the greedy removal margin (stable items removed largest signed contribution first, item id ascending on ties, band held fixed, until the ruling changes); every SIGN-INVERTS or FALLS-INTO-NOISE carries the greedy re-inclusion witness, or NO_WITNESS when even full re-inclusion does not rule SURVIVES. At most 25 item ids are printed with the full count. The witness suffices to change the answer and is deterministic; minimality is claimed only on the stable side, where contributions are quantized."
+
+[[ruling]]
+id = "LMN-AUD-005"
+title = "Gap-survival rulings never ship without their selection mitigations"
+text = "The same draws classify items unstable and estimate the gap, so naive exclusion erodes the gap even under a null. Every gap_survival section carries the disjoint classify/audit split analysis and a selection null that resamples every cell i.i.d. Bernoulli(p-hat) and re-runs the entire partition-and-gap pipeline, banding gap shrinkage, unstable share, and the ruling frequencies. The noise band is held fixed under the null: the null models per-cell rates, and the band, alone among audit statistics, is sensitive to cross-item draw alignment. No API returns the naive ruling alone."
+
+[[ruling]]
+id = "LMN-AUD-006"
+title = "Ruling precedence is fixed"
+text = "In order: a pooled tie or an empty stable-for-both partition rules UNAVAILABLE; SIGN-INVERTS when the stable-gap sign is the negation of the all-items sign, both nonzero, taking precedence over the band with the within-band flag printed; FALLS-INTO-NOISE when the stable gap is a tie or its magnitude is below the band p95; otherwise SURVIVES. All signs are integer pass-count signs; all comparisons are exact rationals."
+
+[[ruling]]
+id = "LMN-AUD-007"
+title = "Differentiation from retry-free coverage ships in every audit"
+text = "Every gap_survival section reports both partitions' sizes, the Jaccard overlap of the excluded sets with its integer counts, the count of stable-but-always-wrong items (the exact set on which the two criteria differ, by containment), each system's retry-free coverage, and whether the comparison's verdict differs under the per-system coverage difference versus the u_i partition. A joint-kept RFC gap would be identically zero by construction and is deliberately not used. The section exists to falsify the re-labelling objection, not to decorate it."
+
+[[ruling]]
+id = "LMN-AUD-008"
+title = "Stratum rulings have a printed floor"
+text = "A per-stratum ruling is issued only when the stratum holds at least the declared floor of aligned items (default 30, recorded in the envelope options); below it the stratum rules UNAVAILABLE with the floor printed. Unlabelled items are counted per key and never silently pooled into a stratum. The saturation rollup is an association across strata of one archive; no mechanism is claimed (NO_SATURATION_MECHANISM_CLAIM)."

@@ -9,13 +9,13 @@
     "--replicates",
     "1000"
   ],
-  "generated_at": "2026-07-30T07:38:59.201511+00:00",
+  "generated_at": "2026-07-30T10:39:47.544848+00:00",
   "inputs": [
     {
       "path": "validation/on_randomness/tables/on_randomness.verdicts.csv.gz",
       "sha256": "sha256:b9fc92d218290ac786d589d2bb8eacc4739ea2ab8e42b396369dca4af510010f"
     }
   ],
-  "limen_version": "0.1.0",
+  "limen_version": "0.2.0",
   "rulings_version": "onr1"
 }

@@ -14,7 +14,8 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any
 
-from .canonical import content_hash, fmt_float
+from .audit import gap_survival_block, item_instability, task_differentiation_summary
+from .canonical import content_hash, counted, fmt_float
 from .drift import drift_guard
 from .errors import ReportError
 from .flakiness import model_task_flakiness, task_pooled_flakiness
@@ -30,9 +31,10 @@ from .ranking import (
     stable_only_block,
 )
 from .spec import require, spec_version
-from .stats import sample_sd
+from .stats import quantile_lower, sample_sd
+from .varcomp import mt_variance_components, task_variance_components
 
-SCHEMA = "report/v1"
+SCHEMA = "report/v2"
 
 DOES_NOT_SHOW: tuple[tuple[str, str], ...] = (
     (
@@ -82,6 +84,18 @@ DOES_NOT_SHOW: tuple[tuple[str, str], ...] = (
         "Flakiness and TARa measure repeatability only; a constant-but-wrong verdict "
         "is invisible to this instrument.",
     ),
+    (
+        "STABILITY_THRESHOLD_IS_CRUDE",
+        "The v1 stable/unstable threshold (u_i == 0 for both systems) is deliberately "
+        "crude; the principled benchmark is an IDR-style threshold, and every ruling "
+        "is stamped with the threshold version it used.",
+    ),
+    (
+        "NO_SATURATION_MECHANISM_CLAIM",
+        "The unstable-share-versus-saturation correlation is an association across "
+        "strata of one archive; no causal mechanism and no generalization beyond it "
+        "is claimed.",
+    ),
 )
 
 
@@ -91,6 +105,10 @@ class ReportOptions:
     max_splits: int = 256
     assume_index_is_collection_order: bool = False
     ragged: str = "error"
+    bootstrap: int = 1000
+    stratify_by: tuple[str, ...] = ()
+    stratum_replicates: int = 200
+    stratum_floor: int = 30
 
 
 def _ruling_id(rulings_version: str, kind: str, ordinal: int) -> str:
@@ -141,8 +159,13 @@ def build_report(
             "kind": "MT",
             "scope_key": {"task": task, "model": model},
             "flakiness": model_task_flakiness(archive, model, task),
+            "instability": _mt_instability(archive, model, task),
             "drift": drift,
             "grader_defect": grader_defects(archive, model, task),
+            "variance_components": mt_variance_components(
+                archive, model, task,
+                rulings_version=rulings_version, replicates=opts.replicates,
+            ),
         }
         ds = ds_by_task.get(task)
         if ds is not None and model in ds.models:
@@ -158,6 +181,7 @@ def build_report(
         mt_bodies.append(body)
 
     pair_bodies: list[dict[str, Any]] = []
+    pair_audits_by_task: dict[str, list[dict[str, Any]]] = {}
     pair_scopes = sorted(
         (task, a, b)
         for task, ds in ds_by_task.items()
@@ -173,6 +197,17 @@ def build_report(
             drift_by_scope[(task, m)]["subchecks"]["version_constancy"]["state"] == "FAIL"
             for m in (a, b)
         )
+        gap_survival = gap_survival_block(
+            archive, task, ds, a, b,
+            rulings_version=rulings_version,
+            bootstrap=opts.bootstrap,
+            replicates=opts.replicates,
+            max_splits=opts.max_splits,
+            stratify_by=opts.stratify_by,
+            stratum_replicates=opts.stratum_replicates,
+            stratum_floor=opts.stratum_floor,
+        )
+        pair_audits_by_task.setdefault(task, []).append(gap_survival)
         body = {
             "ruling_id": _ruling_id(rulings_version, "PAIR", ordinal),
             "kind": "PAIR",
@@ -182,6 +217,7 @@ def build_report(
                 "k": ds.k,
                 "draws_total": len(ds.items) * ds.k,
             },
+            "gap_survival": gap_survival,
             **stability,
             "noise": {
                 "sd_a": fmt_float(sd_a),
@@ -222,6 +258,14 @@ def build_report(
                 replicates=opts.replicates,
                 max_splits=opts.max_splits,
             ),
+            "variance_components": task_variance_components(
+                archive, task, ds,
+                rulings_version=rulings_version, replicates=opts.replicates,
+            ),
+            "differentiation": task_differentiation_summary(
+                pair_audits_by_task.get(task, [])
+            ),
+            "labels": _task_labels_summary(archive, task, ds.items),
         }
         body["content_hash"] = content_hash(body)
         task_bodies.append(body)
@@ -236,6 +280,10 @@ def build_report(
             "max_splits": opts.max_splits,
             "assume_index_is_collection_order": opts.assume_index_is_collection_order,
             "ragged": opts.ragged,
+            "bootstrap": opts.bootstrap,
+            "stratify_by": sorted(opts.stratify_by),
+            "stratum_replicates": opts.stratum_replicates,
+            "stratum_floor": opts.stratum_floor,
         },
         "n": {
             "models": list(archive.models),
@@ -251,3 +299,50 @@ def build_report(
     }
     envelope["content_hash"] = content_hash(envelope)
     return envelope
+
+
+def _mt_instability(archive: Archive, model: str, task: str) -> dict[str, Any]:
+    """The per-(model, task) instability block (LMN-AUD-001), sibling of the
+    flakiness block: u_i against the item's own majority verdict."""
+    items = archive.items(model, task)
+    cells = [archive.cell(model, task, item) for item in items]
+    us = sorted(item_instability(c.passes, c.k) for c in cells)
+    n = len(us)
+    n_unstable = sum(1 for u in us if u > 0)
+    n_tie = sum(1 for c in cells if c.k % 2 == 0 and c.passes * 2 == c.k)
+    return {
+        "mean_u": fmt_float(sum(us) / n),
+        "u_p50": fmt_float(quantile_lower(us, 0.50)),
+        "u_p90": fmt_float(quantile_lower(us, 0.90)),
+        "u_p99": fmt_float(quantile_lower(us, 0.99)),
+        "u_max": fmt_float(us[-1]),
+        "n_unstable": counted(n_unstable, n),
+        "n_majority_tie": counted(n_tie, n),
+    }
+
+
+def _task_labels_summary(
+    archive: Archive, task: str, items: tuple[str, ...]
+) -> dict[str, Any] | None:
+    keys = archive.label_keys(task)
+    if not keys:
+        return None
+    out = []
+    for key in keys:
+        values: dict[str, int] = {}
+        labelled = 0
+        for item in items:
+            labels = archive.item_labels(task, item)
+            if labels and key in labels:
+                labelled += 1
+                values[labels[key]] = values.get(labels[key], 0) + 1
+        out.append(
+            {
+                "key": key,
+                "n_items_labelled": counted(labelled, len(items)),
+                "values": [
+                    {"value": v, "n_items": c} for v, c in sorted(values.items())
+                ],
+            }
+        )
+    return {"keys": out}

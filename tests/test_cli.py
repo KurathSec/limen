@@ -107,3 +107,34 @@ def test_report_provenance_is_outside_the_byte_body(tmp_path: Path) -> None:
     b1 = (tmp_path / "r1" / "report.json").read_bytes()
     b2 = (tmp_path / "r2" / "report.json").read_bytes()
     assert b1 == b2  # bodies identical across runs; provenance may differ
+
+
+def test_low_k_warning_covers_every_low_k_scope_in_markdown() -> None:
+    """LMN-VAR-003: a mixed-k report must warn about every below-floor scope,
+    not just the alphabetically-first one."""
+    from conftest import rows_from_grid
+
+    from limen.cli import _render_markdown
+    from limen.model import build_archive
+    from limen.report import ReportOptions, build_report
+
+    rows = rows_from_grid(
+        {"m": {"i1": [1, 0] * 10, "i2": [0, 1] * 10, "i3": [1] * 20}}, task="a_hi"
+    ) + rows_from_grid(
+        {"m": {"i1": [1, 0, 1, 1], "i2": [0, 0, 1, 0], "i3": [1, 1, 0, 1]}}, task="b_lo"
+    )
+    archive = build_archive(rows)
+    report = build_report(
+        archive,
+        rulings_version="x",
+        options=ReportOptions(replicates=5, bootstrap=5),
+    )
+    sections = {
+        mt["scope_key"]["task"]: mt["variance_components"]
+        for mt in report["rulings"]["mt"]
+    }
+    assert sections["a_hi"]["low_k_note"] is None
+    assert sections["b_lo"]["low_k_note"]
+    markdown = _render_markdown(report)
+    assert "fewer than 20" in markdown or "20 draw levels" in markdown
+    assert "`b_lo` (k=4)" in markdown

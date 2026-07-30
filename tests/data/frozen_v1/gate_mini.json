@@ -1,0 +1,529 @@
+{
+  "content_hash": "sha256:2576ce1f3c116e08dae776180be889a98a33d9487420b4b796ce8829e07a8ff2",
+  "dataset_digest": "sha256:36280ead5ef8472eb7bb129d86c70ca70e09935d89a92aeb3b3ff9f912affb3a",
+  "limen_schema": "report/v1",
+  "n": {
+    "cells": 40,
+    "excluded_low_k": [],
+    "models": [
+      "x",
+      "y"
+    ],
+    "tasks": [
+      "synthetic"
+    ]
+  },
+  "options": {
+    "assume_index_is_collection_order": false,
+    "max_splits": 256,
+    "ragged": "error",
+    "replicates": 20
+  },
+  "rulings": {
+    "mt": [
+      {
+        "content_hash": "sha256:6ca1d01790a833707e28b74dada5790c907bdc922ae06ee81f129e6fd144c487",
+        "drift": {
+          "basis": null,
+          "proxy_disclaimer": null,
+          "state": "UNAVAILABLE",
+          "subchecks": {
+            "lodo": {
+              "reason": "no collected_at and no declared position order",
+              "state": "UNAVAILABLE"
+            },
+            "trend": {
+              "reason": "no collected_at and no declared position order",
+              "state": "UNAVAILABLE"
+            },
+            "version_constancy": {
+              "n_cells_missing": 20,
+              "state": "UNAVAILABLE",
+              "versions": null
+            }
+          },
+          "time_ordering_vacuous": false
+        },
+        "flakiness": {
+          "always_fail": {
+            "count": 7,
+            "denominator": 20,
+            "rate": 0.35
+          },
+          "always_pass": {
+            "count": 11,
+            "denominator": 20,
+            "rate": 0.55
+          },
+          "constant_verdict_fraction": 0.9,
+          "constant_verdict_n": 4,
+          "f_max": 0.666667,
+          "f_p50": 0.0,
+          "f_p90": 0.0,
+          "f_p99": 0.666667,
+          "k_uniform": 4,
+          "mean_flakiness": 0.058333,
+          "mean_flakiness_mixed_only": 0.583333,
+          "mixed": {
+            "count": 2,
+            "denominator": 20,
+            "rate": 0.1
+          },
+          "n_items": 20,
+          "pooled_pair_discordance": {
+            "count": 7,
+            "denominator": 120,
+            "rate": 0.058333
+          },
+          "tara_upper_bound_note": "upper bound on TARa@N (Atil et al., arXiv:2408.04667): verdict constancy; parsed-answer agreement can be lower on always-fail items"
+        },
+        "grader_defect": {
+          "defect_items": null,
+          "defect_pairs": null,
+          "mean_flakiness_excluding_detected_defects": null,
+          "n_cells": 20,
+          "n_cells_with_text": 0,
+          "note": "this check detects grader nondeterminism only, not grader wrongness: a constant-but-wrong completion is invisible here",
+          "state": "UNAVAILABLE"
+        },
+        "kind": "MT",
+        "noise_floor": {
+          "k": 4,
+          "n_items_aligned": 20,
+          "score_max": 0.65,
+          "score_mean": 0.6125,
+          "score_min": 0.6,
+          "score_range": 0.05,
+          "score_resolution": 0.05,
+          "score_sd": 0.025
+        },
+        "ruling_id": "LIMEN-frozen-MT-0001",
+        "scope_key": {
+          "model": "x",
+          "task": "synthetic"
+        }
+      },
+      {
+        "content_hash": "sha256:26646999603d316356f0ee5b7ea61822c15758efbdd5497ad849398760d91a61",
+        "drift": {
+          "basis": null,
+          "proxy_disclaimer": null,
+          "state": "UNAVAILABLE",
+          "subchecks": {
+            "lodo": {
+              "reason": "no collected_at and no declared position order",
+              "state": "UNAVAILABLE"
+            },
+            "trend": {
+              "reason": "no collected_at and no declared position order",
+              "state": "UNAVAILABLE"
+            },
+            "version_constancy": {
+              "n_cells_missing": 20,
+              "state": "UNAVAILABLE",
+              "versions": null
+            }
+          },
+          "time_ordering_vacuous": false
+        },
+        "flakiness": {
+          "always_fail": {
+            "count": 9,
+            "denominator": 20,
+            "rate": 0.45
+          },
+          "always_pass": {
+            "count": 10,
+            "denominator": 20,
+            "rate": 0.5
+          },
+          "constant_verdict_fraction": 0.95,
+          "constant_verdict_n": 4,
+          "f_max": 0.5,
+          "f_p50": 0.0,
+          "f_p90": 0.0,
+          "f_p99": 0.5,
+          "k_uniform": 4,
+          "mean_flakiness": 0.025,
+          "mean_flakiness_mixed_only": 0.5,
+          "mixed": {
+            "count": 1,
+            "denominator": 20,
+            "rate": 0.05
+          },
+          "n_items": 20,
+          "pooled_pair_discordance": {
+            "count": 3,
+            "denominator": 120,
+            "rate": 0.025
+          },
+          "tara_upper_bound_note": "upper bound on TARa@N (Atil et al., arXiv:2408.04667): verdict constancy; parsed-answer agreement can be lower on always-fail items"
+        },
+        "grader_defect": {
+          "defect_items": null,
+          "defect_pairs": null,
+          "mean_flakiness_excluding_detected_defects": null,
+          "n_cells": 20,
+          "n_cells_with_text": 0,
+          "note": "this check detects grader nondeterminism only, not grader wrongness: a constant-but-wrong completion is invisible here",
+          "state": "UNAVAILABLE"
+        },
+        "kind": "MT",
+        "noise_floor": {
+          "k": 4,
+          "n_items_aligned": 20,
+          "score_max": 0.55,
+          "score_mean": 0.5375,
+          "score_min": 0.5,
+          "score_range": 0.05,
+          "score_resolution": 0.05,
+          "score_sd": 0.025
+        },
+        "ruling_id": "LIMEN-frozen-MT-0002",
+        "scope_key": {
+          "model": "y",
+          "task": "synthetic"
+        }
+      }
+    ],
+    "pair": [
+      {
+        "confounded_by_version_change": false,
+        "content_hash": "sha256:1cb3dabec78e815f4706a58e0962e95043e64e16d4928f029781807140ed72d7",
+        "drift_ref": {
+          "model_a": "UNAVAILABLE",
+          "model_b": "UNAVAILABLE"
+        },
+        "kind": "PAIR",
+        "model_a": "x",
+        "model_b": "y",
+        "n": {
+          "draws_total": 80,
+          "items_aligned": 20,
+          "k": 4
+        },
+        "noise": {
+          "mdd": {
+            "alpha": 0.05,
+            "assumptions": [
+              "each single-draw score is treated as approximately normal (mean over n items; CLT)",
+              "the k draws are treated as i.i.d.; the drift guard polices exactly this assumption",
+              "draws are not treated as paired across models; two-sample unpooled-variance form",
+              "df = k-1, the conservative choice (Welch df would be larger and the MDD smaller)",
+              "speaks to draw noise on this fixed item set only, not to item-sampling variability"
+            ],
+            "citation": "Kalibera & Jones, Rigorous benchmarking in reasonable time, ISMM 2013",
+            "degenerate_zero_spread": false,
+            "df": 3,
+            "low_k": false,
+            "score_resolution": 0.05,
+            "t": 3.18245,
+            "value": 0.056258
+          },
+          "range_a": 0.05,
+          "range_b": 0.05,
+          "sd_a": 0.025,
+          "sd_b": 0.025
+        },
+        "pooled": {
+          "delta_pool": 0.075,
+          "pass_a": {
+            "count": 49,
+            "denominator": 80,
+            "rate": 0.6125
+          },
+          "pass_b": {
+            "count": 43,
+            "denominator": 80,
+            "rate": 0.5375
+          },
+          "pooled_sign": 1,
+          "pooled_tie": false
+        },
+        "ruling_id": "LIMEN-frozen-PAIR-0001",
+        "scope_key": {
+          "model_a": "x",
+          "model_b": "y",
+          "task": "synthetic"
+        },
+        "sign_stability": {
+          "flip_prob_upper95": 0.527129,
+          "flip_rate_excl_ties": 0.0,
+          "n_agree": {
+            "count": 4,
+            "denominator": 4,
+            "rate": 1.0
+          },
+          "n_flip": {
+            "count": 0,
+            "denominator": 4,
+            "rate": 0.0
+          },
+          "n_tie": {
+            "count": 0,
+            "denominator": 4,
+            "rate": 0.0
+          },
+          "pooled_tie": false,
+          "rank_flip_rate": 0.0,
+          "ruling": "SIGN-STABLE"
+        }
+      }
+    ],
+    "task": [
+      {
+        "content_hash": "sha256:bd26536f32560fc10dd3ce9badc87674ef8d28c312141dba21af8bd1aae11525",
+        "kind": "TASK",
+        "misrank": {
+          "draws_misranking_any_pair": {
+            "count": 0,
+            "denominator": 4,
+            "rate": 0.0
+          }
+        },
+        "n": {
+          "cells_truncated": 0,
+          "items_aligned": 20,
+          "k": 4,
+          "models": [
+            "x",
+            "y"
+          ]
+        },
+        "pooled_flakiness": {
+          "alignment_excluded": {
+            "x": 0,
+            "y": 0
+          },
+          "cell_pooled_mixed": {
+            "count": 3,
+            "denominator": 40,
+            "rate": 0.075
+          },
+          "item_union_mixed": {
+            "count": 2,
+            "denominator": 20,
+            "rate": 0.1
+          },
+          "n_items_aligned": 20
+        },
+        "ruling_id": "LIMEN-frozen-TASK-0001",
+        "scope_key": {
+          "task": "synthetic"
+        },
+        "stable_only": {
+          "mitigations": {
+            "selection_null": {
+              "interpretation": "If the observed tidiness sits inside the null band, the stable-only ordering's tidiness is explained by selection alone and must not be presented as structure; only observed values outside the band license the claim that mixed items carry model-differential signal beyond selection.",
+              "low_k": false,
+              "null": {
+                "t_flip": {
+                  "mean": 0.0,
+                  "p2_5": 0.0,
+                  "p97_5": 0.0,
+                  "p_value_one_sided_large": 1.0,
+                  "p_value_one_sided_small": 1.0
+                },
+                "t_gap": {
+                  "mean": 0.031272,
+                  "p2_5": -0.007237,
+                  "p97_5": 0.073611,
+                  "p_value_one_sided_large": 0.428571
+                },
+                "t_tau": {
+                  "mean": 1.0,
+                  "p2_5": 1.0,
+                  "p97_5": 1.0,
+                  "percentile_of_observed": 1.0
+                }
+              },
+              "observed": {
+                "n_stable": 18,
+                "t_flip": 0,
+                "t_gap": 0.036111,
+                "t_tau": 1.0
+              },
+              "replicates": 20,
+              "replicates_effective": 20,
+              "replicates_empty_stable_set": 0,
+              "seed_procedure": "sha256(rulings_version|task|selection-null|replicate_index)",
+              "state": "AVAILABLE",
+              "t_flip_definition": "rank-half sign flips among classify-half-stable items (canonical split); null when k < 4 or the split-stable set is empty"
+            },
+            "split_half": {
+              "canonical_split": {
+                "classify_positions": [
+                  0,
+                  1
+                ],
+                "n_stable": {
+                  "count": 19,
+                  "denominator": 20,
+                  "rate": 0.95
+                },
+                "rank_positions": [
+                  2,
+                  3
+                ],
+                "tau": {
+                  "concordant": 1,
+                  "discordant": 0,
+                  "tau_a": 1.0,
+                  "tau_b": 1.0,
+                  "ties_x": 0,
+                  "ties_y": 0,
+                  "undefined": false
+                }
+              },
+              "classify_draws": 2,
+              "n_splits": 6,
+              "sign_survival": [
+                {
+                  "indeterminate": {
+                    "count": 0,
+                    "denominator": 6,
+                    "rate": 0.0
+                  },
+                  "model_a": "x",
+                  "model_b": "y",
+                  "survived": {
+                    "count": 6,
+                    "denominator": 6,
+                    "rate": 1.0
+                  }
+                }
+              ],
+              "stable_set_size_over_splits": {
+                "max": 20,
+                "mean": 18.666667,
+                "min": 18
+              },
+              "state": "AVAILABLE",
+              "tau_over_splits": {
+                "max": 1.0,
+                "mean": 1.0,
+                "min": 1.0,
+                "n_undefined": 0
+              },
+              "thinned": false
+            }
+          },
+          "naive": {
+            "n_stable": {
+              "count": 18,
+              "denominator": 20,
+              "rate": 0.9
+            },
+            "pair_sign_survives": [
+              {
+                "model_a": "x",
+                "model_b": "y",
+                "survives": true
+              }
+            ],
+            "ranking_all_items": [
+              {
+                "model": "x",
+                "passes": {
+                  "count": 49,
+                  "denominator": 80,
+                  "rate": 0.6125
+                }
+              },
+              {
+                "model": "y",
+                "passes": {
+                  "count": 43,
+                  "denominator": 80,
+                  "rate": 0.5375
+                }
+              }
+            ],
+            "ranking_stable_only": [
+              {
+                "model": "x",
+                "passes": {
+                  "count": 44,
+                  "denominator": 72,
+                  "rate": 0.611111
+                }
+              },
+              {
+                "model": "y",
+                "passes": {
+                  "count": 36,
+                  "denominator": 72,
+                  "rate": 0.5
+                }
+              }
+            ],
+            "tau_stable_vs_all": {
+              "concordant": 1,
+              "discordant": 0,
+              "tau_a": 1.0,
+              "tau_b": 1.0,
+              "ties_x": 0,
+              "ties_y": 0,
+              "undefined": false
+            }
+          },
+          "note": "The stable-only ranking conditions on a selected subset enriched for easy items; it is one view of the data, not a corrected or true ranking.",
+          "per_model_constant": {
+            "x": {
+              "count": 18,
+              "denominator": 20,
+              "rate": 0.9
+            },
+            "y": {
+              "count": 19,
+              "denominator": 20,
+              "rate": 0.95
+            }
+          }
+        }
+      }
+    ]
+  },
+  "rulings_version": "frozen",
+  "scope": {
+    "does_not_show": [
+      {
+        "code": "NO_MODEL_QUALITY_CLAIM",
+        "text": "A sign ruling is a verdict on the measurement, never on the models; a flip means 'this comparison is not supported by its own data', never 'the other model wins'."
+      },
+      {
+        "code": "NO_PRIVILEGED_DRAW",
+        "text": "No draw is the correct one; all k are equally legitimate executions of the declared configuration, and there is no true score behind them to prefer."
+      },
+      {
+        "code": "NO_FACTOR_ATTRIBUTION",
+        "text": "'Draw' is a bucket holding everything that varies between two identical calls; no seed / hardware / order / version decomposition is claimed."
+      },
+      {
+        "code": "NO_DRIFT_ABSENCE_CLAIM",
+        "text": "A drift PASS means the checks that could run found nothing; UNAVAILABLE is not PASS, and absence of evidence of drift is not evidence of its absence."
+      },
+      {
+        "code": "STABLE_SUBSET_IS_A_VIEW",
+        "text": "The stable-items-only ranking conditions on a selected subset enriched for easy items; it is one view, not a corrected or true ranking."
+      },
+      {
+        "code": "UNSTABLE_ITEMS_NOT_DEFECTIVE",
+        "text": "Instability is a joint property of item, model, serving stack, grader and protocol; an item unstable for one model and stable for another is not defective."
+      },
+      {
+        "code": "NO_K1_CERTIFICATE",
+        "text": "The spread and MDD are reported at the observed k; no sufficiency certificate is issued for k=1 or any other k, on any benchmark or provider."
+      },
+      {
+        "code": "EXACT_MATCH_GRADING_ONLY",
+        "text": "Validity is scoped to deterministic exact-match grading; nothing here says anything about judge-scored, rubric-scored or preference-scored tasks."
+      },
+      {
+        "code": "CONSTANCY_IS_NOT_CORRECTNESS",
+        "text": "Flakiness and TARa measure repeatability only; a constant-but-wrong verdict is invisible to this instrument."
+      }
+    ]
+  },
+  "spec_version": "0.2.0"
+}

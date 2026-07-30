@@ -151,6 +151,49 @@ def expected_flip_prob(gap: float, sigma_a: float, sigma_b: float) -> float:
     return normal_cdf(-gap / sigma)
 
 
+def expected_mean_instability(cfg: PlantedConfig, model_index: int) -> float:
+    """E[mean u_i] over all items: deterministic items contribute 0; a flaky item
+    contributes E[min(s, k-s)]/k under Binomial(k, q) (exact, via the pmf)."""
+    from math import comb
+
+    q = cfg.q_for(model_index)
+    if cfg.q_shift_at_draw is not None:
+        raise ValueError("closed form assumes i.i.d. draws (no q_shift planted)")
+    k = cfg.k
+    e_min = sum(
+        comb(k, s) * q**s * (1 - q) ** (k - s) * min(s, k - s) for s in range(k + 1)
+    )
+    return (cfg.n_flaky / cfg.n_items) * e_min / k
+
+
+def expected_variance_components(cfg: PlantedConfig, model_index: int) -> dict[str, float]:
+    """Exact finite-n expectations of the RAW two-facet EMS estimators under the
+    planted model (independent Bernoulli(q_d) draws on flaky items, constants
+    elsewhere). Under i.i.d. draws S_q = 0 and the draw expectation is exactly
+    zero — draws are exchangeable; a planted q_shift makes it positive, with a
+    finite-n interaction leak that also inflates the residual."""
+    n = cfg.n_items
+    k = cfg.k
+    flaky = cfg.n_flaky
+    c = cfg.deterministic_passes(model_index)
+    q_d = [_q_effective(cfg, model_index, d) for d in range(k)]
+    q_bar = sum(q_d) / k
+    v_bar = sum(q * (1 - q) for q in q_d) / k
+    s_q = sum((q - q_bar) ** 2 for q in q_d)
+    m_bar = (c + flaky * q_bar) / n
+    sb = (
+        c * (1 - m_bar) ** 2
+        + (n - flaky - c) * m_bar**2
+        + flaky * (q_bar - m_bar) ** 2
+    )
+    e_residual = (flaky / n) * v_bar + flaky * (n - flaky) * s_q / (
+        n * (n - 1) * (k - 1)
+    )
+    e_draw = s_q * flaky * (flaky - (n - flaky) / (n - 1)) / (n**2 * (k - 1))
+    e_item = sb / (n - 1) - flaky * (n - flaky) * s_q / (n * k * (n - 1) * (k - 1))
+    return {"item": e_item, "draw": e_draw, "residual": e_residual}
+
+
 def _q_effective(cfg: PlantedConfig, model_index: int, draw: int) -> float:
     q = cfg.q_for(model_index)
     if cfg.q_shift_at_draw is not None and draw >= cfg.q_shift_at_draw[0]:

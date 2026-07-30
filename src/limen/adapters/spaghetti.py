@@ -229,6 +229,7 @@ def _grade_record(
     item_id = "|".join(
         str(rec.get(field, "")) for field in ("sample", "variant", "profile", "language")
     )
+    labels = _record_labels(rec)
     rows: list[VerdictRow] = []
     for draw_index, out in enumerate(raw_outputs):
         singleton = {**rec, "split": split, "raw_outputs": [out]}
@@ -253,9 +254,40 @@ def _grade_record(
                 draw_id=str(draw_index),
                 verdict=int(rate),
                 raw_sha256="sha256:" + hashlib.sha256(out.encode("utf-8")).hexdigest(),
+                labels=labels,
             )
         )
     return rows
+
+
+def _record_labels(rec: dict[str, Any]) -> tuple[tuple[str, str], ...] | None:
+    """Stratum labels from a record: language / variant / profile (the item-id
+    parts), the by-construction intrinsic scale, and the tier where present
+    (g3 archives). Intrinsic values must be str/int/bool; anything else is
+    refused rather than rounded (LMN-ADP-003 ethos)."""
+    labels: list[tuple[str, str]] = []
+    for field in ("language", "variant", "profile"):
+        value = rec.get(field)
+        if value:
+            labels.append((field, str(value)))
+    intrinsic = rec.get("intrinsic")
+    if isinstance(intrinsic, dict) and intrinsic:
+        parts = []
+        for key in sorted(intrinsic):
+            value = intrinsic[key]
+            if not isinstance(value, str | int | bool):
+                raise AdapterError(
+                    f"intrinsic[{key!r}] = {value!r} for {rec.get('sample')!r} is not "
+                    "a str/int/bool; refusing to coerce a scale label"
+                )
+            parts.append(f"{key}={value}")
+        labels.append(("scale", ",".join(parts)))
+    elif intrinsic not in (None, {}, ""):
+        labels.append(("scale", str(intrinsic)))
+    tier = rec.get("tier")
+    if tier:
+        labels.append(("tier", str(tier)))
+    return tuple(sorted(labels)) or None
 
 
 def build_task_archive(

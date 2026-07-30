@@ -16,6 +16,7 @@ from __future__ import annotations
 import csv
 import gzip
 import io
+import re
 from collections.abc import Iterator
 from pathlib import Path
 
@@ -27,6 +28,8 @@ from .base import ReaderOptions
 REQUIRED = ("model", "task", "item_id", "draw_id", "verdict")
 OPTIONAL = ("score", "collected_at", "model_version", "raw_sha256")
 HEADER = REQUIRED + OPTIONAL
+#: per-item stratum labels ride as additional columns (LMN-CORE-008)
+LABEL_COLUMN_RE = re.compile(r"label_([a-z0-9_]+)")
 
 
 def _open_text(path: Path) -> io.TextIOBase:
@@ -67,17 +70,29 @@ class LongCsvReader:
             header = reader.fieldnames
             if header is None:
                 raise ReaderError(f"{path}: empty file, no CSV header")
+            duplicated = sorted({c for c in header if header.count(c) > 1})
+            if duplicated:
+                raise ReaderError(
+                    f"{path}: duplicated column(s) {duplicated}; csv keeps only "
+                    "the last of a duplicated column, which silently drops data"
+                )
             missing = [c for c in REQUIRED if c not in header]
             if missing:
                 raise ReaderError(
                     f"{path}: missing required column(s) {missing}; "
                     f"the long-csv format needs {list(REQUIRED)}"
                 )
-            unknown = [c for c in header if c not in HEADER]
+            label_keys = sorted(
+                m.group(1) for c in header if (m := LABEL_COLUMN_RE.fullmatch(c))
+            )
+            unknown = [
+                c for c in header
+                if c not in HEADER and not LABEL_COLUMN_RE.fullmatch(c)
+            ]
             if unknown:
                 raise ReaderError(
                     f"{path}: unknown column(s) {unknown}; "
-                    f"long-csv accepts exactly {list(HEADER)}"
+                    f"long-csv accepts exactly {list(HEADER)} plus label_<name> columns"
                 )
             for lineno, rec in enumerate(reader, start=2):
                 verdict_raw = (rec.get("verdict") or "").strip()
@@ -93,6 +108,11 @@ class LongCsvReader:
                     raise ReaderError(
                         f"{path}:{lineno}: score {score_raw!r} is not a number"
                     ) from exc
+                labels = tuple(
+                    (key, value)
+                    for key in label_keys
+                    if (value := (rec.get(f"label_{key}") or "").strip())
+                )
                 yield VerdictRow(
                     model=(rec.get("model") or "").strip(),
                     task=(rec.get("task") or "").strip(),
@@ -103,15 +123,21 @@ class LongCsvReader:
                     collected_at=(rec.get("collected_at") or "").strip() or None,
                     model_version=(rec.get("model_version") or "").strip() or None,
                     raw_sha256=(rec.get("raw_sha256") or "").strip() or None,
+                    labels=labels or None,
                 )
 
 
 def write_archive(archive: Archive, path: Path) -> None:
-    """Write the archive as long CSV, byte-deterministically (gzip mtime=0 for .gz)."""
+    """Write the archive as long CSV, byte-deterministically (gzip mtime=0 for .gz).
+    Label columns appear, sorted, only when any row carries labels, so label-free
+    archives keep their exact pre-label bytes (LMN-CORE-008)."""
+    rows = archive.rows()
+    label_keys = sorted({name for row in rows if row.labels for name, _ in row.labels})
     buf = io.StringIO()
     writer = csv.writer(buf, lineterminator="\n")
-    writer.writerow(HEADER)
-    for row in archive.rows():
+    writer.writerow(HEADER + tuple(f"label_{key}" for key in label_keys))
+    for row in rows:
+        row_labels = dict(row.labels) if row.labels else {}
         writer.writerow(
             (
                 row.model,
@@ -124,6 +150,7 @@ def write_archive(archive: Archive, path: Path) -> None:
                 row.model_version or "",
                 row.raw_sha256 or "",
             )
+            + tuple(row_labels.get(key, "") for key in label_keys)
         )
     data = buf.getvalue().encode("utf-8")
     if path.name.endswith(".gz"):

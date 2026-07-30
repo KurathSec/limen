@@ -24,6 +24,17 @@ title = "The scope block ships in every report"
 text = "Every report embeds the fixed does_not_show scope codes (NO_MODEL_QUALITY_CLAIM and companions) so a ruling document cannot circulate without its own limits."
 
 [[ruling]]
+id = "LMN-EMIT-008"
+title = "Additive schema evolution"
+text = "A committed golden may be replaced under --write without --confirm-spec-bump only when the regenerated document strictly adds: after stripping every content_hash and exempting the spec_version and limen_schema stamps, every committed leaf is present and byte-equal at the same path, arrays are equal-length and compared positionally, and the rulings spec has moved by at least MINOR. A changed or removed value is a changed recorded meaning and still demands a spec MAJOR and the explicit flag. Adding is cheap by design so that adding is never smuggled in as changing."
+
+[[ruling]]
+id = "LMN-EMIT-007"
+title = "Schema report/v2 carries the variance-components section, subordinated"
+text = "report/v1 deliberately had no variance-components section; adding it was a schema bump, exactly as LMN-EMIT-006 prescribed, and this ruling supersedes it. In report/v2 the section exists only under the LMN-VAR guardrails: subordinate placement, mandatory intervals, bucket and never-headline notes, and a gate that never reads it (LMN-VAR-004)."
+
+[[ruling]]
 id = "LMN-EMIT-006"
 title = "Schema report/v1 has no variance-components section"
 text = "The item/model/draw variance decomposition is deliberately deferred: 8 draw levels give a wide interval, and shipping a wide interval as a headline teaches people to trust the wrong thing. Adding the section is a schema version bump, not a field."
+status = "superseded"

@@ -46,11 +46,12 @@ quietly claimed later. The first nine ship as machine-readable scope codes in
 11. **It does not show that public evaluation logs contain the required
     input.** limen needs k >= 2 committed draws; how often those exist in the
     wild is an unmeasured, separate question.
-12. **It does not report variance components.** The item/model/draw
-    decomposition is deliberately absent from schema `report/v1`
-    (LMN-EMIT-006): 8 draw levels give a wide interval, and shipping a wide
-    interval as a headline teaches people to trust the wrong thing. Adding it
-    is a schema bump for a future release, not a field.
+12. **It does not headline variance components.** Schema `report/v2` carries
+    the item/draw decomposition, but only as a subordinate diagnostic
+    (LMN-EMIT-007): the gate never reads it, the CLI summary never prints it,
+    and below 20 draw levels the section carries a fixed wide-interval
+    warning. At k = 8 or 10 the draw component is a planning number, never a
+    finding.
 
 ## Boundaries with neighbouring work
 

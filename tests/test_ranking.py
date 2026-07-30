@@ -5,8 +5,8 @@ from conftest import archive_from_grid
 
 from limen.errors import TableError
 from limen.ranking import (
-    _collect_verdicts,
     _stable_stats,
+    collect_verdicts,
     draw_scores,
     misrank_summary,
     pair_stability,
@@ -96,7 +96,7 @@ def test_ragged_k_refused_unless_truncate() -> None:
 def test_split_half_unavailable_below_k4() -> None:
     archive = archive_from_grid({"a": {"i1": [1, 0, 1]}, "b": {"i1": [0, 0, 1]}})
     ds = draw_scores(archive, "t")
-    verdicts = _collect_verdicts(archive, "t", ds.models, ds.items, ds.k)
+    verdicts = collect_verdicts(archive, "t", ds.models, ds.items, ds.k)
     result = split_half_analysis(verdicts, ds.models, ds.items, ds.k, {("a", "b"): 1})
     assert result["state"] == "UNAVAILABLE"
     assert ">= 2 classification draws" in result["reason"]
@@ -109,7 +109,7 @@ def test_split_half_enumerates_all_complementary_splits() -> None:
     }
     archive = archive_from_grid(grid)
     ds = draw_scores(archive, "t")
-    verdicts = _collect_verdicts(archive, "t", ds.models, ds.items, ds.k)
+    verdicts = collect_verdicts(archive, "t", ds.models, ds.items, ds.k)
     result = split_half_analysis(verdicts, ds.models, ds.items, ds.k, {("a", "b"): 1})
     assert result["state"] == "AVAILABLE"
     assert result["n_splits"] == 6  # C(4,2)
@@ -126,7 +126,7 @@ def test_selection_null_is_not_a_permutation_null() -> None:
         }
     )
     ds = draw_scores(archive, "t")
-    verdicts = _collect_verdicts(archive, "t", ds.models, ds.items, ds.k)
+    verdicts = collect_verdicts(archive, "t", ds.models, ds.items, ds.k)
     baseline = _stable_stats(verdicts, ds.models, ds.items, ds.k)
     # permute each cell's draws (reverse; a nontrivial permutation)
     permuted = {key: tuple(reversed(vs)) for key, vs in verdicts.items()}
@@ -145,7 +145,7 @@ def test_selection_null_deterministic_given_version() -> None:
         }
     )
     ds = draw_scores(archive, "t")
-    verdicts = _collect_verdicts(archive, "t", ds.models, ds.items, ds.k)
+    verdicts = collect_verdicts(archive, "t", ds.models, ds.items, ds.k)
     kwargs = dict(rulings_version="x", task="t", replicates=25)
     r1 = selection_null(verdicts, ds.models, ds.items, ds.k, **kwargs)
     r2 = selection_null(verdicts, ds.models, ds.items, ds.k, **kwargs)

@@ -1,0 +1,61 @@
+title = "stable items favor B while the flaky mass favors A: SIGN-INVERTS, share > 1 (LMN-AUD-006)"
+rulings = ["LMN-AUD-001", "LMN-AUD-006", "LMN-AUD-007"]
+
+[[rows]]
+model = "A"
+item = "s1"
+verdicts = [0, 0]
+
+[[rows]]
+model = "A"
+item = "m1"
+verdicts = [1, 0]
+
+[[rows]]
+model = "A"
+item = "m2"
+verdicts = [1, 1]
+
+[[rows]]
+model = "A"
+item = "m3"
+verdicts = [1, 0]
+
+[[rows]]
+model = "B"
+item = "s1"
+verdicts = [1, 1]
+
+[[rows]]
+model = "B"
+item = "m1"
+verdicts = [0, 0]
+
+[[rows]]
+model = "B"
+item = "m2"
+verdicts = [1, 0]
+
+[[rows]]
+model = "B"
+item = "m3"
+verdicts = [0, 0]
+
+[expected]
+# N_all = -2 +1 +1 +1 = +1 (A ahead); stable {s1} N_S = -2 -> inversion
+"rulings.pair.0.gap_survival.ruling.ruling" = "SIGN-INVERTS"
+"rulings.pair.0.gap_survival.ruling.also_within_noise_band" = false
+"rulings.pair.0.gap_survival.partition.stable_both.count" = 1
+"rulings.pair.0.gap_survival.partition.unstable_either.count" = 3
+# band: A |3/4 - 1/4| = 0.5, B |1/2 - 1/4| = 0.25 -> p95 = 0.5
+"rulings.pair.0.gap_survival.noise_band.p95" = 0.5
+# share: carried +3 over total +1 -> 3.0, partition signs oppose
+"rulings.pair.0.gap_survival.share_unstable.share" = 3.0
+"rulings.pair.0.gap_survival.share_unstable.opposing_partition_signs" = true
+# re-including every unstable item never rules SURVIVES (all-items gap 1/8 < band)
+"rulings.pair.0.gap_survival.decisive_items.state" = "NO_WITNESS"
+"rulings.pair.0.gap_survival.decisive_items.n_items.count" = 3
+# RFC keeps nothing (B all-fails s1's complement; no item passes all draws for both)
+"rulings.pair.0.gap_survival.rfc_differentiation.rfc_kept.count" = 0
+"rulings.pair.0.gap_survival.rfc_differentiation.stable_but_always_wrong.count" = 1
+"rulings.pair.0.gap_survival.rfc_differentiation.rulings_differ" = true

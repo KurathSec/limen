@@ -11,8 +11,8 @@ from conftest import archive_from_grid
 from limen.flakiness import model_task_flakiness
 from limen.graderdefect import grader_defects
 from limen.ranking import (
-    _collect_verdicts,
     _stable_stats,
+    collect_verdicts,
     draw_scores,
     selection_null,
     single_draw_score_list,
@@ -102,7 +102,7 @@ def test_selection_null_pvalues_healthy_under_null() -> None:
     for seed in range(8):
         archive, _ = generate(cfg, seed=seed)
         ds = draw_scores(archive, "synthetic")
-        verdicts = _collect_verdicts(archive, "synthetic", ds.models, ds.items, ds.k)
+        verdicts = collect_verdicts(archive, "synthetic", ds.models, ds.items, ds.k)
         result = selection_null(
             verdicts,
             ds.models,
@@ -134,7 +134,7 @@ def test_selection_null_detects_draw_coherent_structure() -> None:
         grid["b"][f"q{j}"] = [0, 0, 0, 0, 0, 0, 0, 0]
     archive = archive_from_grid(grid)
     ds = draw_scores(archive, "t")
-    verdicts = _collect_verdicts(archive, "t", ds.models, ds.items, ds.k)
+    verdicts = collect_verdicts(archive, "t", ds.models, ds.items, ds.k)
     observed = _stable_stats(verdicts, ds.models, ds.items, ds.k)
     assert observed[1] is not None and observed[1] >= 2  # rank-half flips observed
     result = selection_null(

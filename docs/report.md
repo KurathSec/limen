@@ -41,6 +41,10 @@ named here. If the format moves, this page has to move with it.
 | `options.max_splits` | Cap on enumerated classify/rank splits. |
 | `options.assume_index_is_collection_order` | Whether drift ran in position-proxy mode. |
 | `options.ragged` | `error` or `truncate`; how ragged k was handled. |
+| `options.bootstrap` | Audit bootstrap replicates per gap estimand. |
+| `options.stratify_by` | Label keys per-stratum audit rulings were issued for (sorted; empty when none). |
+| `options.stratum_replicates` | Bootstrap and null replicates inside each stratum. |
+| `options.stratum_floor` | Minimum aligned items for a stratum to receive a ruling. |
 | `n.models[]`, `n.tasks[]` | Sorted model and task names. |
 | `n.cells` | Number of (model, task, item) cells that survived the min-k filter. |
 | `n.excluded_low_k[].{model,task,count}` | Cells excluded for having fewer than min-k draws, counted per scope. Empty list when nothing was excluded. |
@@ -70,6 +74,46 @@ Identity: `ruling_id` (`LIMEN-<version>-MT-<nnnn>`, ordinal by sorted scope),
 | `pooled_pair_discordance.{count,denominator,rate}` | Discordant draw pairs over all draw pairs. Equals mean flakiness at uniform k and differs under ragged k. |
 | `f_max`, `f_p50`, `f_p90`, `f_p99` | The f distribution: maximum and lower-interpolation quantiles. |
 
+### `instability`
+
+The repaudit companion of the flakiness block: `u_i = min(s, k-s)/k`, the
+fraction of draws disagreeing with the item's own majority verdict, never
+compounded with correctness. `n_unstable` equals the flakiness block's mixed
+count by construction.
+
+| field | meaning |
+|---|---|
+| `mean_u`, `u_p50`, `u_p90`, `u_p99`, `u_max` | The u distribution over this model's items. |
+| `n_unstable.{count,denominator,rate}` | Items with u above zero. |
+| `n_majority_tie.{count,denominator,rate}` | Even-k items at s = k/2: no majority verdict exists and u = 0.5. |
+
+### `variance_components`
+
+The subordinate two-facet items x draws decomposition (exact EMS method of
+moments). The gate never reads this section; the CLI summary never prints it;
+`report.md` renders it only after the scope block. `state` is `UNAVAILABLE`
+(with `reason`) at ragged k or below two items, and the `bucket_note` and
+`never_headline_note` travel with it either way.
+
+| field | meaning |
+|---|---|
+| `state`, `reason` | Availability; the reason names the refusal. |
+| `design` | Fixed text naming the crossed design and its crossing key. |
+| `n_items`, `k` | The matrix behind the decomposition. |
+| `grand_mean.{count,denominator,rate}` | Total passes over n*k. |
+| `mean_squares.{item,draw,residual,df_item,df_draw,df_residual}` | The exact ANOVA mean squares and their degrees of freedom. |
+| `components.item.{estimate,raw,truncated,ci95,boot_share_truncated}` | The item component: truncated-at-zero estimate beside the raw moment value, a seeded item-bootstrap percentile interval (`ci95.{lo,hi}`), and the share of bootstrap replicates that truncated. |
+| `components.draw.{estimate,raw,truncated,ci95,boot_share_truncated}` | The draw component, same shape. Zero in expectation when draws are exchangeable. |
+| `components.residual.{estimate,raw,truncated,ci95,boot_share_truncated}` | The item x draw interaction confounded with error; never negative. |
+| `shares.{item,draw,residual}` | Of total variance; `null` when the total is zero. |
+| `icc_item`, `icc_draw` | Intraclass correlations. |
+| `design_effect.{deff,n_eff,definition}` | Kish design effect and effective sample size, with the definition printed. |
+| `planning.{model_implied_single_draw_score_sd,pooled_sd_at_observed_k,draw_facet_share_of_pooled_variance,k_to_halve_draw_contribution,k_where_item_facet_dominates,note,citation}` | Kalibera-Jones-style sizing: the draw-facet contribution scales exactly as 1/k. |
+| `interval.{method,replicates,seed_procedure,assumptions}` | How the intervals were produced, with the assumption list printed verbatim. |
+| `low_draw_levels`, `draw_levels_floor`, `low_k_note` | The fixed warning fires below 20 draw levels. |
+| `bucket_note`, `never_headline_note` | The section's own limits; always present. |
+| `degenerate_all_constant` | True when the archive carries zero variance. |
+
 ### `noise_floor`
 
 The spread of this model's k single-draw scores over the aligned item set.
@@ -85,14 +129,10 @@ The spread of this model's k single-draw scores over the aligned item set.
 
 | field | meaning |
 |---|---|
-| `state` | `PASS`, `FAIL` or `UNAVAILABLE`. FAIL wins over UNAVAILABLE wins over PASS. |
-| `basis` | `collected_at`, `draw_position` (proxy mode) or `null` (no ordering available). |
-| `time_ordering_vacuous` | True when timestamps exist but never differ within any cell. Clean results then report UNAVAILABLE. |
-| `proxy_disclaimer` | Fixed disclaimer text in proxy or vacuous mode, else `null`. |
+| `{state,basis,time_ordering_vacuous,proxy_disclaimer}` | Overall state (FAIL wins over UNAVAILABLE wins over PASS), the ordering basis, the vacuous-timestamps flag (clean results then report UNAVAILABLE), and the fixed proxy disclaimer, else `null`. |
 | `subchecks.version_constancy.{state,versions,n_cells_missing}` | Byte equality of `model_version` across all draws. Two distinct values anywhere is FAIL; missing fields are UNAVAILABLE. `versions` lists the distinct values seen. |
-| `subchecks.lodo.{state,vacuous,clean,n_mixed,n_mixed_floor,carried_by_rank,max_carried,max_share,threshold}` | Leave-one-draw-out: `carried_by_rank[]` counts how many items stop being mixed when that rank is removed. FAIL when one rank carries more than `threshold` of the flips and `n_mixed` is at least `n_mixed_floor`. Below the floor the majority rule cannot discriminate and the state is UNAVAILABLE. |
-| `subchecks.trend.{state,rho,zero_variance,clean,part_by_rank,threshold,exchangeable_fpr,n_time_ties}` | Spearman trend of flip participation against collection order. FAIL when abs(rho) exceeds `threshold`. `exchangeable_fpr` is the exact false-positive rate of that threshold under a random ordering at this k. |
-| `subchecks.<name>.reason` | Present instead of the detail fields when a sub-check could not run at all (no ordering basis, ragged k, or k below 4 for the trend). |
+| `subchecks.lodo.{state,reason,vacuous,clean,n_mixed,n_mixed_floor,carried_by_rank,max_carried,max_share,threshold}` | Leave-one-draw-out: `carried_by_rank[]` counts how many items stop being mixed when that rank is removed. FAIL when one rank carries more than `threshold` of the flips and `n_mixed` is at least `n_mixed_floor`. Below the floor the majority rule cannot discriminate and the state is UNAVAILABLE. |
+| `subchecks.trend.{state,reason,rho,zero_variance,clean,part_by_rank,threshold,exchangeable_fpr,n_time_ties}` | Spearman trend of flip participation against collection order. FAIL when abs(rho) exceeds `threshold`. `exchangeable_fpr` is the exact false-positive rate of that threshold under a random ordering at this k. |
 
 ### `grader_defect`
 
@@ -133,6 +173,34 @@ body. Direction is carried by the sign of the delta, never by pair order.
 | `confounded_by_version_change` | True when either model's version-constancy sub-check failed. The gate refuses effect attribution for such pairs. |
 | `drift_ref.{model_a,model_b}` | The two models' overall drift states, repeated here for the gate. |
 
+### `gap_survival`
+
+The repaudit section: does the pair's ordering survive removing the items the
+systems cannot reproduce against themselves? Never emitted without both
+selection mitigations. All signs are integer pass-count signs; all band
+comparisons are exact rationals.
+
+| field | meaning |
+|---|---|
+| `note` | Fixed text: a ruling is a verdict on the measurement. |
+| `threshold.{version,rule,note}` | The declared partition threshold (`u0`: u = 0 for both systems), with the IDR benchmark named. |
+| `instability.u_tie_rule` | Fixed text for the even-k no-majority case. |
+| `instability.a.{mean_u,max_u}`, `instability.b.{mean_u,max_u}` | Pair-scoped instability summaries per side. |
+| `partition.{stable_both,unstable_either,unstable_a_only,unstable_b_only,unstable_both}` | The partition, every cell a counted triad. |
+| `gaps.all.{state,n_items,pass_a,pass_b,delta,sign,ci95}` | The all-items gap; `delta` equals the PAIR body's `pooled.delta_pool` byte-for-byte. `ci95.{lo,hi,replicates}` is the two-stage paired bootstrap interval. |
+| `gaps.stable_both.{state,n_items,pass_a,pass_b,delta,sign,ci95}` | The gap over items stable for both systems; `UNAVAILABLE` with nulls when the partition is empty. |
+| `gaps.unstable_either.{state,n_items,pass_a,pass_b,delta,sign,ci95}` | The gap over the unstable remainder. |
+| `share_unstable.{carried_draw_delta,total_draw_delta,share,opposing_partition_signs}` | The signed share of the gap carried by unstable items, with the raw integers printed; the share exceeds 1 or drops below 0 exactly when the partition gaps oppose, and the flag says so. |
+| `bootstrap.{method,replicates,seed_procedure,note}` | The CI recipe; CIs are conditional on the observed partition. |
+| `noise_band.{statistic,p95,max,per_system_max,n_splits,half_sizes,enumeration_cap,low_k,item_set,degenerate_zero_band,note}` | The enumerated replicate band: p95 of \|self-gap\| over ALL complementary half-splits, both systems pooled (`per_system_max.{a,b}` printed). No RNG and no thinning; above `enumeration_cap` splits (k of 23 or more) the block instead carries `{state,reason,n_splits,enumeration_cap,half_sizes,item_set,note}` with state UNAVAILABLE, and the ruling, selection null and coverage comparison go UNAVAILABLE with it. `item_set` is `all_aligned` at the pair level and `stratum` inside a stratum block. |
+| `ruling.{ruling,reason,stable_tie,also_within_noise_band,band_statistic_used}` | SURVIVES / SIGN-INVERTS / FALLS-INTO-NOISE / UNAVAILABLE under the fixed precedence; an inversion inside the band stays SIGN-INVERTS with the flag printed. |
+| `decisive_items.{state,direction,n_items,terminal_ruling,ids,cap,truncated,note}` | The auditable witness: the greedy removal margin (SURVIVES) or re-inclusion set (otherwise), capped at 25 printed ids; `NO_WITNESS` when even full re-inclusion cannot rule SURVIVES. |
+| `rfc_differentiation.{citation,coverage_a,coverage_b,rfc_kept,ui_kept,excluded_intersection,excluded_union,jaccard_excluded,stable_but_always_wrong,ruling_under_rfc,rulings_differ}` | The mandated comparison against retry-free coverage. RFC is per-system, so `ruling_under_rfc.{ruling,reason,delta,sign}` rules on the coverage difference `coverage_a - coverage_b`; a joint-kept gap would be identically zero by construction and is not used. |
+| `mitigations.split_half.{state,reason,n_splits,thinned,classify_draws,survived,inverted,indeterminate,share_unstable_over_splits,stable_both_size_over_splits,canonical_split}` | Disjoint classify/audit halves; `canonical_split.{classify_positions,audit_positions,n_stable,stable_sign,all_sign}` reported alone; `share_unstable_over_splits.{mean,min,max}` and `stable_both_size_over_splits.{mean,min,max}` across splits. |
+| `mitigations.selection_null.{state,reason,replicates,replicates_effective,replicates_pooled_tie,band_held_fixed,seed_procedure,low_k,observed,null,interpretation}` | The selection null: `observed.{t_shrink,t_share,ruling}`; `null.t_shrink.{mean,p2_5,p97_5,p_value_one_sided_small,p_value_one_sided_large}`; `null.t_share.{mean,p2_5,p97_5,percentile_of_observed}`; `null.ruling_frequencies.{SURVIVES,SIGN-INVERTS,FALLS-INTO-NOISE,UNAVAILABLE}` as counted triads — the selection-only base rates. |
+| `strata.{state,reason,by}` | Per-stratum rulings when requested: `by[].{label,n_items_unlabelled,strata}`; each stratum entry is `{value,state,n_items,...}` with either `reason`/`floor` (below the floor) or a full nested `audit` block (same shape as this section, minus differentiation and strata). |
+| `unstable_share_vs_saturation[].{label,n_strata,spearman_rho,points}` | The saturation rollup per label key; `points[].{value,n_items,saturation,unstable_share}`. Association only; no mechanism claimed. |
+
 ## TASK rulings: one per task
 
 Identity: `ruling_id` (`LIMEN-<version>-TASK-<nnnn>`), `kind` (`TASK`),
@@ -146,6 +214,9 @@ Identity: `ruling_id` (`LIMEN-<version>-TASK-<nnnn>`), `kind` (`TASK`),
 | `pooled_flakiness.n_items_aligned` | The aligned denominator. |
 | `pooled_flakiness.alignment_excluded.<model>` | Per model, how many of its items fell outside the aligned intersection. |
 | `misrank.draws_misranking_any_pair.{count,denominator,rate}` | Single-draw leaderboards that reverse at least one pair's pooled sign. |
+| `variance_components.{state,reason,substrate,per_model,model_facet,low_draw_levels,draw_levels_floor,low_k_note,bucket_note,never_headline_note}` | The task-level decomposition over the aligned substrate: `substrate.{items_aligned,k}`; `per_model[].{model,grand_mean,components,shares,icc_item,icc_draw,design_effect}` (same component shape as the MT section); `model_facet.{kind,n_models,between_model_variance,between_model_sd,note}` is descriptive, never a component. |
+| `differentiation.{n_pairs,pairs_rulings_differ,jaccard_min,jaccard_max,stable_but_always_wrong_max,interpretation}` | The task rollup of the per-pair RFC differentiation. |
+| `labels.keys[].{key,n_items_labelled,values}` | Label coverage: `values[].{value,n_items}` per key; `null` when the input carries no labels. |
 
 ### `stable_only`
 
@@ -169,6 +240,7 @@ classification draws exists. Otherwise:
 
 | field | meaning |
 |---|---|
+| `state`, `reason` | Availability; the reason names the refusal. |
 | `n_splits`, `thinned`, `classify_draws` | How many complementary classify/rank splits ran, whether the enumeration was deterministically thinned, and the classify-half size. |
 | `sign_survival[].{model_a,model_b}` | The pair each row scores. |
 | `sign_survival[].survived.{count,denominator,rate}` | Splits where the stable-only rank-half sign matched the headline pooled sign. |
@@ -196,6 +268,9 @@ classification draws exists. Otherwise:
 
 ## What is deliberately absent
 
-Schema `report/v1` has no variance-components section (LMN-EMIT-006), no
-timestamp, no package version and no absolute paths. Adding any of these is a
-schema version bump.
+Ruling bodies carry no timestamp, no package version and no absolute paths
+(LMN-EMIT-004). Schema `report/v1` had no variance-components section; adding
+it in `report/v2` was a schema bump, exactly as the deferral prescribed
+(LMN-EMIT-007), and the section exists only under its guardrails: the gate
+never reads it, and it renders after the scope block. Removing or altering any
+recorded value is a spec MAJOR, never a quiet edit (LMN-EMIT-008).

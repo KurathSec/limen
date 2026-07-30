@@ -30,13 +30,23 @@ def test_scope_block_present_with_all_codes() -> None:
     assert "NO_MODEL_QUALITY_CLAIM" in codes
     assert "STABLE_SUBSET_IS_A_VIEW" in codes
     assert "EXACT_MATCH_GRADING_ONLY" in codes
-    assert len(codes) == 9
+    assert "STABILITY_THRESHOLD_IS_CRUDE" in codes
+    assert "NO_SATURATION_MECHANISM_CLAIM" in codes
+    assert len(codes) == 11
 
 
-def test_no_variance_components_section() -> None:
-    # LMN-EMIT-006: schema report/v1 must not contain a variance-components section
-    text = canonical_json(_report())
-    assert "variance_components" not in text
+def test_variance_components_present_and_subordinated() -> None:
+    # LMN-EMIT-007: report/v2 carries the section under the LMN-VAR guardrails
+    report = _report()
+    for mt in report["rulings"]["mt"]:
+        section = mt["variance_components"]
+        assert section["state"] in ("AVAILABLE", "UNAVAILABLE")
+        assert "never_headline_note" in section
+        assert "bucket_note" in section
+        if section["state"] == "AVAILABLE":
+            assert section["low_draw_levels"] is True  # k=4 in the test grid
+            for component in section["components"].values():
+                assert "ci95" in component and "raw" in component
 
 
 def test_ruling_ids_deterministic_and_ordered() -> None:

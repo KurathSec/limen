@@ -1,4 +1,4 @@
 # The rulings-spec version. Independent of the package version: it moves when a
 # recorded meaning changes (MAJOR), a ruling is added (MINOR), or wording is
 # clarified without changing meaning (PATCH). Both versions appear in CHANGELOG.md.
-version = "0.2.0"
+version = "1.0.0"

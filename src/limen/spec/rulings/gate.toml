@@ -12,3 +12,8 @@ text = "The gate audits a report against itself: the claimed improvement for a p
 id = "LMN-GTE-003"
 title = "Every gate failure reprints the quality-claim boundary"
 text = "Every FAIL verdict reprints NO_MODEL_QUALITY_CLAIM: a sign ruling is a verdict on the measurement, never on the models, and a failed pair never means the other model wins."
+
+[[ruling]]
+id = "LMN-GTE-004"
+title = "The gate accepts report/v1 and report/v2"
+text = "report/v2 is additive: every field the gate reads is byte-identical in shape and meaning in report/v1, so both schemas are accepted; v2-only checks rule UNEVALUABLE on v1 documents with the regeneration named. An unknown or newer schema exits 2 (unevaluable), never 0. A schema leaves the accepted set only when a change removes or alters a gate-read field, which is a spec MAJOR."

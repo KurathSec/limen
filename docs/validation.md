@@ -88,6 +88,68 @@ Further readings from the corpus, all with their scope caveats machine-embedded:
   skipped and counted, never silently graded; see
   `calibration/spaghetti/MANIFEST.json`.
 
+### Kill tests for the 0.2.0 audit sections
+
+Release 0.2.0 added the gap-survival audit and the variance-component
+section. Before shipping, three pre-specified kill tests ran against this
+corpus; the numbers below come from the committed goldens
+(`calibration/spaghetti/rulings/cal1/`, rulings spec 1.0.0), which CI
+regenerates byte-for-byte.
+
+**KT1 — the partition must not degenerate, and the ladder must survive it.**
+On a well-separated temperature-0 ladder the stable-for-both partition could
+have collapsed to "everything" (making the audit vacuous) or the exclusions
+could have erased the gaps (making it destructive). Neither happened. The
+partition keeps 1,299–1,457 of 1,500 items per pair (1,742–1,790 of 1,846 on
+comprehend-test), and all 18 pair orderings rule SURVIVES. The decisive-item
+margin (how many stable items, removed adversarially largest-first, it takes
+to change the ruling) runs from 18 (Meta-Llama-3.1-8B vs Mistral-Small on
+comprehend-test, the closest pair) to 468; the share of each pooled gap
+riding on unstable items runs 4.8% to 43.4%. The selection null manufactured
+zero SIGN-INVERTS rulings in 1,000 replicates on every one of the 18 pairs.
+The per-system retry-free-coverage comparison (arXiv 2606.00920) agrees with
+every u_i ruling here while the two criteria disagree item-wise on 51–897
+stable-but-always-wrong items per pair (Jaccard overlap of the exclusion
+sets 0.06–0.69): on this corpus the differentiation block shows the two
+lenses reach the same verdicts for different reasons, which is exactly what
+it exists to make visible.
+
+**KT2 — rulings must hold up under strata and leave-one-language-out.**
+With per-language stratification (floor 30), 89 of the 90 language-stratum
+rulings are issued; on comprehend-dev all 30 rule SURVIVES, and the noise
+concentrates where the gaps are thinnest: refactor-dev javascript rules
+FALLS-INTO-NOISE for 3 of 6 pairs and python for 2 (plus one stratum-level
+UNAVAILABLE on a pooled tie). Leave-one-language-out re-rulings hold on 89
+of 90 (table, pair, held-out language) subsets. The one flip is informative,
+and it is printed here rather than smoothed over: DeepSeek-V3 vs
+Llama-3.3-70B on refactor-dev — the pair with the largest unstable gap share
+(43.4%) — falls into noise when java is held out, because its java stratum
+(SURVIVES 6/6 across pairs) carries the gap. Leave-one-profile-out was not
+run: with 3 profiles the subsets are two-thirds removals, which this corpus
+cannot support as a stability probe.
+
+**KT3 — the saturation rollup must report association without inventing
+mechanism.** Across label keys and tables the Spearman association between
+stratum saturation and unstable-gap share has no consistent sign: for the
+first pair alone, language gives rho 0.3 / 0.4 / −0.7 across the three
+tables, scale gives −0.60 / −0.37 / −0.95, variant gives 0.31 / −0.26 /
+−0.35, and profile's ±1.0 rests on 3 strata. The rollup prints `n_strata`
+beside every rho, and the scope block carries
+`NO_SATURATION_MECHANISM_CLAIM`; this corpus is a demonstration of why that
+code exists.
+
+**Variance components, pre-specified outcomes.** Before computing, two
+readings were fixed: a draw main-effect component indistinguishable from
+zero means the instability is item-local with no draw-wide effect; a nonzero
+one means some draw index systematically differs (an infrastructure or
+ordering effect the drift guard should then be pointed at). The corpus
+lands on the first: raw draw components of 3.0e-06, −2.0e-06 and 0.0
+(bootstrap 95% intervals all containing zero, upper ends at or below
+1.4e-05), with the item facet at 91–97% of the variance and the remaining
+3–9% in the item-by-draw residual, which is where the 1.65–4.85% mixed cells
+live. All intervals carry the low-draw-levels warning (k=8 is below the
+20-level floor), as designed.
+
 ### Boundary
 
 These results are statements about the verdict stability of those committed
@@ -116,6 +178,31 @@ calibration corpus); and for one configuration, 20.4% of discordant run-pairs
 had byte-identical submitted patches, which is measured harness
 nondeterminism, separated from model nondeterminism by the grader-defect
 check.
+
+The report was regenerated under 0.2.0 (schema report/v2, spec 1.0.0), and
+the new sections split the picture three ways. The three same-model
+temperature pairs rule FALLS-INTO-NOISE with 100% of each gap riding on
+unstable items, agreeing with their SIGN-UNSTABLE or near-zero-effect
+rulings from the 0.1.x layer. The nine pairs involving devstral rule
+SURVIVES, with removal margins of 24 to 82 items. The instructive case is
+the third group: Qwen3-32B vs DeepSWE-Preview clears its MDD 16-fold
+(a 15.0 pp pooled gap), yet rules FALLS-INTO-NOISE, because 98.7% of that
+gap rides on unstable items — DeepSWE's advantage is real against draw
+noise of the mean but rests almost entirely on items it solves only some
+of the time. The two limbs answer different questions and here they
+diverge; the audit does not overturn the MDD statement, and the stable-only
+view remains a view, not a correction (the threshold is crude by design,
+LMN-AUD-002). A reader who wants a gap that persists under
+consistently-decided items must ask for it explicitly, and the gate flag
+`--require-gap-survives` is that question. The variance components run against the
+pre-specified readings splits by configuration: five of six put the draw
+main effect at zero (intervals containing zero, item facet 55–72%, the rest
+in the item-by-run residual), but devstral-2512 at temperature 0 shows a
+small nonzero draw component (raw 1.33e-04, interval [2.6e-05, 6.17e-04],
+0.06% of variance) — the nonzero limb of the pre-specification, small enough
+to matter to nobody's leaderboard and exactly the kind of run-indexed effect
+the drift guard exists to be pointed at. All intervals carry the
+low-draw-levels warning at k=10.
 
 Full method, tables and scope caveats:
 [validation/on_randomness/README.md](https://github.com/KurathSec/limen/blob/main/validation/on_randomness/README.md).

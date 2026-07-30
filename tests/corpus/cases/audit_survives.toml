@@ -1,0 +1,55 @@
+title = "a stable gap clearing the band: SURVIVES with a hand-computed margin (LMN-AUD-004)"
+rulings = ["LMN-AUD-003", "LMN-AUD-004"]
+
+[[rows]]
+model = "A"
+item = "i1"
+verdicts = [1, 1]
+
+[[rows]]
+model = "A"
+item = "i2"
+verdicts = [1, 1]
+
+[[rows]]
+model = "A"
+item = "i3"
+verdicts = [1, 1]
+
+[[rows]]
+model = "A"
+item = "u1"
+verdicts = [1, 0]
+
+[[rows]]
+model = "B"
+item = "i1"
+verdicts = [0, 0]
+
+[[rows]]
+model = "B"
+item = "i2"
+verdicts = [0, 0]
+
+[[rows]]
+model = "B"
+item = "i3"
+verdicts = [0, 0]
+
+[[rows]]
+model = "B"
+item = "u1"
+verdicts = [0, 0]
+
+[expected]
+"rulings.pair.0.gap_survival.ruling.ruling" = "SURVIVES"
+"rulings.pair.0.gap_survival.partition.stable_both.count" = 3
+# band: A |1 - 3/4| = 0.25, B 0 -> p95 = 0.25; stable gap 1.0 clears it
+"rulings.pair.0.gap_survival.noise_band.p95" = 0.25
+"rulings.pair.0.gap_survival.gaps.stable_both.delta" = 1.0
+# removing all three stable items is what it takes to change the ruling
+"rulings.pair.0.gap_survival.decisive_items.state" = "WITNESS"
+"rulings.pair.0.gap_survival.decisive_items.direction" = "removal_from_stable"
+"rulings.pair.0.gap_survival.decisive_items.n_items.count" = 3
+"rulings.pair.0.gap_survival.decisive_items.terminal_ruling" = "UNAVAILABLE"
+"rulings.pair.0.gap_survival.share_unstable.share" = 0.142857

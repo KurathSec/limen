@@ -20,7 +20,13 @@ CALIBRATION = Path(__file__).resolve().parent.parent / "calibration" / "spaghett
 TABLES = sorted(CALIBRATION.glob("tables/*.verdicts.csv.gz"))
 RULINGS_VERSION = "cal1"
 REPORT_OPTIONS = ReportOptions(
-    replicates=1000, max_splits=256, assume_index_is_collection_order=True
+    replicates=1000,
+    max_splits=256,
+    assume_index_is_collection_order=True,
+    bootstrap=1000,
+    stratify_by=("language",),
+    stratum_replicates=200,
+    stratum_floor=30,
 )
 
 pytestmark = pytest.mark.skipif(

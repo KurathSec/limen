@@ -17,6 +17,8 @@ from typing import Any
 from .errors import GateError
 from .spec import require
 
+ACCEPTED_SCHEMAS = ("report/v1", "report/v2")
+
 
 @dataclass(frozen=True, slots=True)
 class GateOptions:
@@ -26,6 +28,8 @@ class GateOptions:
     tasks: tuple[str, ...] = ()
     require_drift_pass: bool = False
     max_grader_defect_share: float | None = None
+    require_gap_survives: bool = False
+    max_unstable_gap_share: float | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -81,9 +85,13 @@ def evaluate_gate(report: dict[str, Any], opts: GateOptions) -> GateResult:
 
 def _evaluate(report: dict[str, Any], opts: GateOptions) -> GateResult:
     require("LMN-GTE-001")
-    if report.get("limen_schema") != "report/v1":
+    # LMN-GTE-004: report/v2 is additive over v1 and the gate never reads the
+    # added variance_components section (LMN-VAR-004), so both schemas are
+    # evaluable; an unknown or newer schema is unevaluable, never a silent pass
+    if report.get("limen_schema") not in ACCEPTED_SCHEMAS:
         raise GateError(
-            f"not a limen report/v1 document (limen_schema={report.get('limen_schema')!r})"
+            f"unknown limen schema {report.get('limen_schema')!r}; this gate "
+            f"accepts {list(ACCEPTED_SCHEMAS)}"
         )
     pair_rulings: list[dict[str, Any]] = list(report["rulings"]["pair"])
     mt_index: dict[tuple[str, str], dict[str, Any]] = {
@@ -252,6 +260,88 @@ def _evaluate(report: dict[str, Any], opts: GateOptions) -> GateResult:
             # a measured failure outranks a missing section (same precedence as exits)
             state = "FAIL" if any_fail else "UNEVALUABLE" if any_unavailable else "PASS"
             checks.append(("grader-defects", state, "; ".join(detail)))
+
+        if opts.require_gap_survives:
+            audit = body.get("gap_survival")
+            if audit is None:
+                checks.append(
+                    (
+                        "gap-survives",
+                        "UNEVALUABLE",
+                        "no gap_survival section in this report (report/v1); "
+                        "regenerate it with limen >= 0.2.0",
+                    )
+                )
+            else:
+                audit_ruling = audit["ruling"]["ruling"]
+                band = audit["noise_band"]["p95"]
+                if audit_ruling == "SURVIVES":
+                    margin = (
+                        audit["decisive_items"]["n_items"]["count"]
+                        if audit["decisive_items"]
+                        else None
+                    )
+                    checks.append(
+                        (
+                            "gap-survives",
+                            "PASS",
+                            f"stable delta {audit['gaps']['stable_both']['delta']}, "
+                            f"band p95 {band}, survival margin {margin} items",
+                        )
+                    )
+                elif audit_ruling == "UNAVAILABLE":
+                    checks.append(
+                        (
+                            "gap-survives",
+                            "UNEVALUABLE",
+                            f"audit unavailable: {audit['ruling']['reason']}",
+                        )
+                    )
+                else:
+                    witness = audit["decisive_items"]
+                    detail_text = (
+                        f"{audit_ruling}: stable delta "
+                        f"{audit['gaps']['stable_both']['delta']}, band p95 {band}"
+                    )
+                    if witness and witness.get("state") == "WITNESS":
+                        detail_text += (
+                            f"; {witness['n_items']['count']} re-included items "
+                            "would flip the ruling"
+                        )
+                    checks.append(("gap-survives", "FAIL", detail_text))
+
+        if opts.max_unstable_gap_share is not None:
+            audit = body.get("gap_survival")
+            share = audit["share_unstable"]["share"] if audit else None
+            if audit is None:
+                checks.append(
+                    (
+                        "unstable-gap-share",
+                        "UNEVALUABLE",
+                        "no gap_survival section in this report (report/v1); "
+                        "regenerate it with limen >= 0.2.0",
+                    )
+                )
+            elif share is None:
+                checks.append(
+                    (
+                        "unstable-gap-share",
+                        "UNEVALUABLE",
+                        "share undefined (pooled tie)",
+                    )
+                )
+            else:
+                over = abs(share) > opts.max_unstable_gap_share
+                opposing = audit["share_unstable"]["opposing_partition_signs"]
+                checks.append(
+                    (
+                        "unstable-gap-share",
+                        "FAIL" if over else "PASS",
+                        f"|share| {abs(share)} vs threshold "
+                        f"{opts.max_unstable_gap_share}"
+                        + ("; partition signs oppose" if opposing else ""),
+                    )
+                )
 
         states = [state for _, state, _ in checks]
         verdict = (

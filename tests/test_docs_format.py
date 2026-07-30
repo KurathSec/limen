@@ -67,6 +67,37 @@ def _report_union() -> set[str]:
     ) + [VerdictRow(model="a", task="t", item_id="stray", draw_id="0", verdict=1)]
     bare = build_archive(rows)
     union |= _paths(build_report(bare, rulings_version="doc", options=ReportOptions(replicates=8)))
+    # single aligned item: variance_components UNAVAILABLE with reason
+    solo = archive_from_grid({"a": {"solo": [1, 0]}, "b": {"solo": [0, 1]}})
+    union |= _paths(build_report(solo, rulings_version="doc", options=ReportOptions(replicates=4)))
+    # labeled archive with stratification: labels summary, strata, saturation rollup
+    labeled_rows = []
+    for j in range(4):
+        for model, verdicts in (("a", [1, 0, 1, 1]), ("b", [0, 1, 0, 0])):
+            for d, v in enumerate(verdicts):
+                labeled_rows.append(
+                    VerdictRow(
+                        model=model, task="t", item_id=f"i{j}", draw_id=str(d),
+                        verdict=v if j < 2 else (1 if model == "a" else 0),
+                        labels=(("lang", "py" if j % 2 == 0 else "go"),),
+                    )
+                )
+    labeled = build_archive(labeled_rows)
+    union |= _paths(
+        build_report(
+            labeled,
+            rulings_version="doc",
+            options=ReportOptions(replicates=6, stratify_by=("lang",), stratum_floor=2),
+        )
+    )
+    # near-tied pair with aligned flips: FALLS-INTO-NOISE and a NO_WITNESS block
+    noisy = archive_from_grid(
+        {
+            "a": {"i1": [1, 0], "i2": [1, 0], "i3": [1, 1]},
+            "b": {"i1": [0, 0], "i2": [0, 0], "i3": [1, 1]},
+        }
+    )
+    union |= _paths(build_report(noisy, rulings_version="doc", options=ReportOptions(replicates=4)))
     return union
 
 
@@ -75,87 +106,96 @@ _ROOTS = (
     "limen_schema", "rulings_version", "spec_version", "dataset_digest",
     "content_hash", "options.", "n.", "scope.", "rulings.",
 )
+_TOKEN_RE = re.compile(r"^[A-Za-z0-9_<>.,{}\[\]-]+$")
+_H2_PREFIX = {
+    "Envelope": "",
+    "MT rulings": "rulings.mt[].",
+    "PAIR rulings": "rulings.pair[].",
+    "TASK rulings": "rulings.task[].",
+}
+
+
+def _expand_braces(token: str) -> list[str]:
+    candidates = [token]
+    while any("{" in c for c in candidates):
+        expanded = []
+        for cand in candidates:
+            m = _BRACE.match(cand)
+            if m:
+                expanded += [m.group(1) + part + m.group(3) for part in m.group(2).split(",")]
+            else:
+                expanded.append(cand)
+        candidates = expanded
+    return candidates
 
 
 def _doc_paths() -> set[str]:
+    """Collect field paths with heading-aware context: '### `flakiness`' under
+    '## MT rulings' prefixes that section's bare tokens with
+    'rulings.mt[].flakiness.'."""
     out: set[str] = set()
-    for token in re.findall(r"`([^`]+)`", DOC.read_text(encoding="utf-8")):
-        candidates = [token]
-        while any("{" in c for c in candidates):
-            expanded = []
-            for cand in candidates:
-                m = _BRACE.match(cand)
-                if m:
-                    expanded += [m.group(1) + part + m.group(3) for part in m.group(2).split(",")]
-                else:
-                    expanded.append(cand)
-            candidates = expanded
-        for cand in candidates:
-            if cand.startswith(_ROOTS) or cand in ("limen_schema", "rulings_version",
-                                                   "spec_version", "dataset_digest",
-                                                   "content_hash"):
-                out.add(cand)
+    h2: str | None = None
+    h3: str | None = None
+    h4: str | None = None
+    for line in DOC.read_text(encoding="utf-8").splitlines():
+        if line.startswith("## "):
+            title = line[3:].strip()
+            h2 = next((p for name, p in _H2_PREFIX.items() if title.startswith(name)), None)
+            h3 = h4 = None
+            continue
+        if line.startswith("### "):
+            m = re.match(r"### `([A-Za-z0-9_.]+)`", line)
+            h3 = (h2 + m.group(1) + ".") if (m and h2 is not None) else None
+            h4 = None
+            continue
+        if line.startswith("#### "):
+            m = re.match(r"#### `([A-Za-z0-9_.]+)`", line)
+            h4 = (h3 + m.group(1) + ".") if (m and h3 is not None) else None
+            continue
+        prefix = h4 if h4 is not None else h3 if h3 is not None else h2
+        # only the FIRST column of a table row names field paths; description
+        # cells and prose backticks are commentary, not the contract
+        if line.startswith("| "):
+            first_cell = line.split(" | ")[0][2:]
+        else:
+            first_cell = ""
+        for token in re.findall(r"`([^`]+)`", first_cell):
+            if not _TOKEN_RE.match(token):
+                continue
+            for cand in _expand_braces(token):
+                in_section = prefix is not None and prefix != ""
+                if in_section and not cand.startswith("rulings."):
+                    if re.match(r"^[A-Za-z0-9_<>-]", cand) and not cand.endswith("."):
+                        out.add(prefix + cand)
+                elif cand.startswith(_ROOTS) or cand in (
+                    "limen_schema", "rulings_version", "spec_version",
+                    "dataset_digest", "content_hash",
+                ):
+                    out.add(cand)
     return out
-
-
-def _contextualize(doc_paths: set[str]) -> set[str]:
-    """Doc tables abbreviate deep paths; expand section-relative mentions."""
-    expanded = set(doc_paths)
-    prefixes = {
-        "flakiness.": "rulings.mt[].",
-        "noise_floor.": "rulings.mt[].",
-        "drift.": "rulings.mt[].",
-        "grader_defect.": "rulings.mt[].",
-        "subchecks.": "rulings.mt[].drift.",
-        "pooled.": "rulings.pair[].",
-        "sign_stability.": "rulings.pair[].",
-        "noise.": "rulings.pair[].",
-        "drift_ref.": "rulings.pair[].",
-        "pooled_flakiness.": "rulings.task[].",
-        "misrank.": "rulings.task[].",
-        "stable_only.": "rulings.task[].",
-        "per_model_constant.": "rulings.task[].stable_only.",
-        "naive.": "rulings.task[].stable_only.",
-        "mitigations.": "rulings.task[].stable_only.",
-        "split_half.": "rulings.task[].stable_only.mitigations.",
-        "sign_survival[]": "rulings.task[].stable_only.mitigations.split_half.",
-        "tau_over_splits.": "rulings.task[].stable_only.mitigations.split_half.",
-        "stable_set_size_over_splits.": "rulings.task[].stable_only.mitigations.split_half.",
-        "canonical_split.": "rulings.task[].stable_only.mitigations.split_half.",
-        "observed.": "rulings.task[].stable_only.mitigations.selection_null.",
-        "null.": "rulings.task[].stable_only.mitigations.selection_null.",
-    }
-    for path in doc_paths:
-        for short, prefix in prefixes.items():
-            if path.startswith(short):
-                expanded.add(prefix + path)
-    return expanded
 
 
 def test_every_documented_path_exists_in_a_real_report() -> None:
     union = _report_union()
-    documented = _contextualize(_doc_paths())
-    identity_extras = {
-        "ruling_id", "kind", "content_hash",
-        "scope_key.task", "scope_key.model", "scope_key.model_a", "scope_key.model_b",
-    }
     missing = []
     for path in sorted(_doc_paths()):
-        full_candidates = [p for p in documented if p.endswith(path)]
         if not any(
-            u == c or u.startswith(c + ".") or u.startswith(c + "[]")
-            for c in full_candidates
+            u == path or u.startswith(path + ".") or u.startswith(path + "[]")
+            or path in u
             for u in union
-        ) and path not in identity_extras and not any(
-            path in u for u in union
         ):
             missing.append(path)
     assert not missing, f"docs/report.md names fields no real report emits: {missing}"
 
 
+#: bare container mentions in the envelope table must not blanket-cover every
+#: leaf underneath them, or the completeness direction loses its teeth
+_NON_COVERING = {"rulings.mt[]", "rulings.pair[]", "rulings.task[]", "rulings."}
+
+
 def test_every_emitted_path_is_documented() -> None:
     union = _report_union()
-    documented = _contextualize(_doc_paths())
+    documented = _doc_paths() - _NON_COVERING
     identity_re = re.compile(
         r"(ruling_id|kind|content_hash|scope_key\.(task|model(_a|_b)?)|"
         r"model_a|model_b)$"

@@ -4,6 +4,41 @@ All notable changes to this project. Every stanza states both versions:
 the **package** version and the **rulings spec** version (a spec MAJOR means a
 recorded meaning changed).
 
+## [0.2.0] - 2026-07-30
+
+Package 0.2.0 · rulings spec 1.0.0 · schema report/v2.
+
+- **Gap-survival audit** (the repaudit sections, LMN-AUD-001..008): per-item
+  instability u = min(s, k-s)/k against the item's own majority verdict,
+  never compounded with correctness; the stable-for-both partition at the
+  versioned threshold u0; the pairwise gap recomputed three ways with
+  two-stage paired bootstrap intervals; an enumerated replicate noise band;
+  SURVIVES / SIGN-INVERTS / FALLS-INTO-NOISE rulings with a capped
+  deterministic decisive-item witness; the mandated differentiation against
+  retry-free coverage (arXiv 2606.00920); both selection mitigations in
+  every block; per-stratum rulings over item labels with a floor, plus the
+  saturation rollup. Gate flags `--require-gap-survives` and
+  `--max-unstable-gap-share`.
+- **Variance components** (LMN-VAR-001..006): the exact EMS two-facet
+  items x draws decomposition with truncation-aware raw values, seeded
+  item-bootstrap intervals, design effect and Kalibera-Jones planning
+  numbers — shipped strictly subordinated: the gate never reads the section
+  (deletion-invariance tested), the CLI summary never prints it, and the
+  wide-interval warning fires below 20 draw levels.
+- **Per-item labels** (LMN-CORE-008): `label_<name>` CSV columns, item-
+  consistent and all-or-nothing; the Spaghetti adapter emits language,
+  variant, profile, scale and tier; unlabeled tables keep their digests.
+- **Additive schema evolution** (LMN-EMIT-008): `limen.evolution` classifies
+  golden diffs (identical / stamp-only / additive / changed); additive
+  refreshes need only a spec MINOR, changed values still demand MAJOR plus
+  the explicit flag.
+- Schema report/v1 -> report/v2 (LMN-EMIT-007 supersedes 006); the gate
+  accepts both (LMN-GTE-004), and every v1 field value is byte-identical in
+  v2 (regression-pinned against frozen v1 fixtures). Two new scope codes:
+  STABILITY_THRESHOLD_IS_CRUDE, NO_SATURATION_MECHANISM_CLAIM.
+- Calibration tables carry labels (verdict-identical migration, checked);
+  goldens regenerated under spec 1.0.0 with per-language strata.
+
 ## [0.1.1] - 2026-07-30
 
 Package 0.1.1 · rulings spec 0.2.0.

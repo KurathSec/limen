@@ -1,0 +1,967 @@
+{
+  "content_hash": "sha256:69d32c33cff770486c2e829a54b085633b994a69084eaacdd947e98bdd022c60",
+  "dataset_digest": "sha256:e073d1df3e7998ed99f0d3fd3abf2e6b41d5a3c21c1b0fdd7e7821b776e16fc8",
+  "limen_schema": "report/v1",
+  "n": {
+    "cells": 180,
+    "excluded_low_k": [],
+    "models": [
+      "frozen-a",
+      "frozen-b",
+      "frozen-c"
+    ],
+    "tasks": [
+      "synthetic"
+    ]
+  },
+  "options": {
+    "assume_index_is_collection_order": false,
+    "max_splits": 256,
+    "ragged": "error",
+    "replicates": 50
+  },
+  "rulings": {
+    "mt": [
+      {
+        "content_hash": "sha256:6cb36f1e2e7850fecf494c117b4033d09a14a7301b239882658287d391c8d7ba",
+        "drift": {
+          "basis": "collected_at",
+          "proxy_disclaimer": null,
+          "state": "PASS",
+          "subchecks": {
+            "lodo": {
+              "carried_by_rank": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "clean": true,
+              "max_carried": 0,
+              "max_share": 0.0,
+              "n_mixed": 9,
+              "n_mixed_floor": 4,
+              "state": "PASS",
+              "threshold": 0.5,
+              "vacuous": false
+            },
+            "trend": {
+              "clean": true,
+              "exchangeable_fpr": 0.021776,
+              "n_time_ties": 0,
+              "part_by_rank": [
+                31,
+                37,
+                29,
+                37,
+                31,
+                31,
+                35,
+                31
+              ],
+              "rho": -0.051081,
+              "state": "PASS",
+              "threshold": 0.8,
+              "zero_variance": false
+            },
+            "version_constancy": {
+              "n_cells_missing": 0,
+              "state": "PASS",
+              "versions": [
+                "v1"
+              ]
+            }
+          },
+          "time_ordering_vacuous": false
+        },
+        "flakiness": {
+          "always_fail": {
+            "count": 13,
+            "denominator": 60,
+            "rate": 0.216667
+          },
+          "always_pass": {
+            "count": 38,
+            "denominator": 60,
+            "rate": 0.633333
+          },
+          "constant_verdict_fraction": 0.85,
+          "constant_verdict_n": 8,
+          "f_max": 0.571429,
+          "f_p50": 0.0,
+          "f_p90": 0.535714,
+          "f_p99": 0.571429,
+          "k_uniform": 8,
+          "mean_flakiness": 0.077976,
+          "mean_flakiness_mixed_only": 0.519841,
+          "mixed": {
+            "count": 9,
+            "denominator": 60,
+            "rate": 0.15
+          },
+          "n_items": 60,
+          "pooled_pair_discordance": {
+            "count": 131,
+            "denominator": 1680,
+            "rate": 0.077976
+          },
+          "tara_upper_bound_note": "upper bound on TARa@N (Atil et al., arXiv:2408.04667): verdict constancy; parsed-answer agreement can be lower on always-fail items"
+        },
+        "grader_defect": {
+          "defect_items": {
+            "count": 2,
+            "denominator": 9,
+            "rate": 0.222222
+          },
+          "defect_pairs": {
+            "count": 2,
+            "denominator": 131,
+            "rate": 0.015267
+          },
+          "mean_flakiness_excluding_detected_defects": 0.076786,
+          "mean_flakiness_raw": 0.077976,
+          "n_cells": 60,
+          "n_cells_with_text": 60,
+          "note": "this check detects grader nondeterminism only, not grader wrongness: a constant-but-wrong completion is invisible here",
+          "state": "AVAILABLE"
+        },
+        "kind": "MT",
+        "noise_floor": {
+          "k": 8,
+          "n_items_aligned": 60,
+          "score_max": 0.75,
+          "score_mean": 0.71875,
+          "score_min": 0.683333,
+          "score_range": 0.066667,
+          "score_resolution": 0.016667,
+          "score_sd": 0.024296
+        },
+        "ruling_id": "LIMEN-frozen-MT-0001",
+        "scope_key": {
+          "model": "frozen-a",
+          "task": "synthetic"
+        }
+      },
+      {
+        "content_hash": "sha256:33b2bfbcc60218b0abf2d5fd02fef7f4d6dc5f19afbc6534146c3fd906361bc7",
+        "drift": {
+          "basis": "collected_at",
+          "proxy_disclaimer": null,
+          "state": "PASS",
+          "subchecks": {
+            "lodo": {
+              "carried_by_rank": [
+                0,
+                1,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0
+              ],
+              "clean": true,
+              "max_carried": 1,
+              "max_share": 0.111111,
+              "n_mixed": 9,
+              "n_mixed_floor": 4,
+              "state": "PASS",
+              "threshold": 0.5,
+              "vacuous": false
+            },
+            "trend": {
+              "clean": true,
+              "exchangeable_fpr": 0.021776,
+              "n_time_ties": 0,
+              "part_by_rank": [
+                29,
+                33,
+                29,
+                27,
+                37,
+                27,
+                29,
+                31
+              ],
+              "rho": -0.024551,
+              "state": "PASS",
+              "threshold": 0.8,
+              "zero_variance": false
+            },
+            "version_constancy": {
+              "n_cells_missing": 0,
+              "state": "PASS",
+              "versions": [
+                "v1"
+              ]
+            }
+          },
+          "time_ordering_vacuous": false
+        },
+        "flakiness": {
+          "always_fail": {
+            "count": 17,
+            "denominator": 60,
+            "rate": 0.283333
+          },
+          "always_pass": {
+            "count": 34,
+            "denominator": 60,
+            "rate": 0.566667
+          },
+          "constant_verdict_fraction": 0.85,
+          "constant_verdict_n": 8,
+          "f_max": 0.571429,
+          "f_p50": 0.0,
+          "f_p90": 0.535714,
+          "f_p99": 0.571429,
+          "k_uniform": 8,
+          "mean_flakiness": 0.072024,
+          "mean_flakiness_mixed_only": 0.480159,
+          "mixed": {
+            "count": 9,
+            "denominator": 60,
+            "rate": 0.15
+          },
+          "n_items": 60,
+          "pooled_pair_discordance": {
+            "count": 121,
+            "denominator": 1680,
+            "rate": 0.072024
+          },
+          "tara_upper_bound_note": "upper bound on TARa@N (Atil et al., arXiv:2408.04667): verdict constancy; parsed-answer agreement can be lower on always-fail items"
+        },
+        "grader_defect": {
+          "defect_items": {
+            "count": 2,
+            "denominator": 9,
+            "rate": 0.222222
+          },
+          "defect_pairs": {
+            "count": 2,
+            "denominator": 121,
+            "rate": 0.016529
+          },
+          "mean_flakiness_excluding_detected_defects": 0.070833,
+          "mean_flakiness_raw": 0.072024,
+          "n_cells": 60,
+          "n_cells_with_text": 60,
+          "note": "this check detects grader nondeterminism only, not grader wrongness: a constant-but-wrong completion is invisible here",
+          "state": "AVAILABLE"
+        },
+        "kind": "MT",
+        "noise_floor": {
+          "k": 8,
+          "n_items_aligned": 60,
+          "score_max": 0.666667,
+          "score_mean": 0.64375,
+          "score_min": 0.616667,
+          "score_range": 0.05,
+          "score_resolution": 0.016667,
+          "score_sd": 0.019796
+        },
+        "ruling_id": "LIMEN-frozen-MT-0002",
+        "scope_key": {
+          "model": "frozen-b",
+          "task": "synthetic"
+        }
+      },
+      {
+        "content_hash": "sha256:27f4659af1035f4d59f84e90685c7c44f26cb9612ef47954d7312a8455008827",
+        "drift": {
+          "basis": "collected_at",
+          "proxy_disclaimer": null,
+          "state": "PASS",
+          "subchecks": {
+            "lodo": {
+              "carried_by_rank": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0
+              ],
+              "clean": true,
+              "max_carried": 1,
+              "max_share": 0.111111,
+              "n_mixed": 9,
+              "n_mixed_floor": 4,
+              "state": "PASS",
+              "threshold": 0.5,
+              "vacuous": false
+            },
+            "trend": {
+              "clean": true,
+              "exchangeable_fpr": 0.021776,
+              "n_time_ties": 0,
+              "part_by_rank": [
+                31,
+                31,
+                25,
+                27,
+                25,
+                41,
+                35,
+                27
+              ],
+              "rho": 0.133355,
+              "state": "PASS",
+              "threshold": 0.8,
+              "zero_variance": false
+            },
+            "version_constancy": {
+              "n_cells_missing": 0,
+              "state": "PASS",
+              "versions": [
+                "v1"
+              ]
+            }
+          },
+          "time_ordering_vacuous": false
+        },
+        "flakiness": {
+          "always_fail": {
+            "count": 25,
+            "denominator": 60,
+            "rate": 0.416667
+          },
+          "always_pass": {
+            "count": 26,
+            "denominator": 60,
+            "rate": 0.433333
+          },
+          "constant_verdict_fraction": 0.85,
+          "constant_verdict_n": 8,
+          "f_max": 0.571429,
+          "f_p50": 0.0,
+          "f_p90": 0.428571,
+          "f_p99": 0.571429,
+          "k_uniform": 8,
+          "mean_flakiness": 0.072024,
+          "mean_flakiness_mixed_only": 0.480159,
+          "mixed": {
+            "count": 9,
+            "denominator": 60,
+            "rate": 0.15
+          },
+          "n_items": 60,
+          "pooled_pair_discordance": {
+            "count": 121,
+            "denominator": 1680,
+            "rate": 0.072024
+          },
+          "tara_upper_bound_note": "upper bound on TARa@N (Atil et al., arXiv:2408.04667): verdict constancy; parsed-answer agreement can be lower on always-fail items"
+        },
+        "grader_defect": {
+          "defect_items": {
+            "count": 2,
+            "denominator": 9,
+            "rate": 0.222222
+          },
+          "defect_pairs": {
+            "count": 2,
+            "denominator": 121,
+            "rate": 0.016529
+          },
+          "mean_flakiness_excluding_detected_defects": 0.070833,
+          "mean_flakiness_raw": 0.072024,
+          "n_cells": 60,
+          "n_cells_with_text": 60,
+          "note": "this check detects grader nondeterminism only, not grader wrongness: a constant-but-wrong completion is invisible here",
+          "state": "AVAILABLE"
+        },
+        "kind": "MT",
+        "noise_floor": {
+          "k": 8,
+          "n_items_aligned": 60,
+          "score_max": 0.533333,
+          "score_mean": 0.510417,
+          "score_min": 0.45,
+          "score_range": 0.083333,
+          "score_resolution": 0.016667,
+          "score_sd": 0.029463
+        },
+        "ruling_id": "LIMEN-frozen-MT-0003",
+        "scope_key": {
+          "model": "frozen-c",
+          "task": "synthetic"
+        }
+      }
+    ],
+    "pair": [
+      {
+        "confounded_by_version_change": false,
+        "content_hash": "sha256:28dba4299b4218f70aad36f6093cdf6802a71554afc6f801aefa31bbc02ed04a",
+        "drift_ref": {
+          "model_a": "PASS",
+          "model_b": "PASS"
+        },
+        "kind": "PAIR",
+        "model_a": "frozen-a",
+        "model_b": "frozen-b",
+        "n": {
+          "draws_total": 480,
+          "items_aligned": 60,
+          "k": 8
+        },
+        "noise": {
+          "mdd": {
+            "alpha": 0.05,
+            "assumptions": [
+              "each single-draw score is treated as approximately normal (mean over n items; CLT)",
+              "the k draws are treated as i.i.d.; the drift guard polices exactly this assumption",
+              "draws are not treated as paired across models; two-sample unpooled-variance form",
+              "df = k-1, the conservative choice (Welch df would be larger and the MDD smaller)",
+              "speaks to draw noise on this fixed item set only, not to item-sampling variability"
+            ],
+            "citation": "Kalibera & Jones, Rigorous benchmarking in reasonable time, ISMM 2013",
+            "degenerate_zero_spread": false,
+            "df": 7,
+            "low_k": false,
+            "score_resolution": 0.016667,
+            "t": 2.36462,
+            "value": 0.0262
+          },
+          "range_a": 0.066667,
+          "range_b": 0.05,
+          "sd_a": 0.024296,
+          "sd_b": 0.019796
+        },
+        "pooled": {
+          "delta_pool": 0.075,
+          "pass_a": {
+            "count": 345,
+            "denominator": 480,
+            "rate": 0.71875
+          },
+          "pass_b": {
+            "count": 309,
+            "denominator": 480,
+            "rate": 0.64375
+          },
+          "pooled_sign": 1,
+          "pooled_tie": false
+        },
+        "ruling_id": "LIMEN-frozen-PAIR-0001",
+        "scope_key": {
+          "model_a": "frozen-a",
+          "model_b": "frozen-b",
+          "task": "synthetic"
+        },
+        "sign_stability": {
+          "flip_prob_upper95": 0.312344,
+          "flip_rate_excl_ties": 0.0,
+          "n_agree": {
+            "count": 8,
+            "denominator": 8,
+            "rate": 1.0
+          },
+          "n_flip": {
+            "count": 0,
+            "denominator": 8,
+            "rate": 0.0
+          },
+          "n_tie": {
+            "count": 0,
+            "denominator": 8,
+            "rate": 0.0
+          },
+          "pooled_tie": false,
+          "rank_flip_rate": 0.0,
+          "ruling": "SIGN-STABLE"
+        }
+      },
+      {
+        "confounded_by_version_change": false,
+        "content_hash": "sha256:9ad7bf4f2526c2b6b372eb9ddd1198f9f0cb956bd30a5ffa40d181e601cd965d",
+        "drift_ref": {
+          "model_a": "PASS",
+          "model_b": "PASS"
+        },
+        "kind": "PAIR",
+        "model_a": "frozen-a",
+        "model_b": "frozen-c",
+        "n": {
+          "draws_total": 480,
+          "items_aligned": 60,
+          "k": 8
+        },
+        "noise": {
+          "mdd": {
+            "alpha": 0.05,
+            "assumptions": [
+              "each single-draw score is treated as approximately normal (mean over n items; CLT)",
+              "the k draws are treated as i.i.d.; the drift guard polices exactly this assumption",
+              "draws are not treated as paired across models; two-sample unpooled-variance form",
+              "df = k-1, the conservative choice (Welch df would be larger and the MDD smaller)",
+              "speaks to draw noise on this fixed item set only, not to item-sampling variability"
+            ],
+            "citation": "Kalibera & Jones, Rigorous benchmarking in reasonable time, ISMM 2013",
+            "degenerate_zero_spread": false,
+            "df": 7,
+            "low_k": false,
+            "score_resolution": 0.016667,
+            "t": 2.36462,
+            "value": 0.031926
+          },
+          "range_a": 0.066667,
+          "range_b": 0.083333,
+          "sd_a": 0.024296,
+          "sd_b": 0.029463
+        },
+        "pooled": {
+          "delta_pool": 0.208333,
+          "pass_a": {
+            "count": 345,
+            "denominator": 480,
+            "rate": 0.71875
+          },
+          "pass_b": {
+            "count": 245,
+            "denominator": 480,
+            "rate": 0.510417
+          },
+          "pooled_sign": 1,
+          "pooled_tie": false
+        },
+        "ruling_id": "LIMEN-frozen-PAIR-0002",
+        "scope_key": {
+          "model_a": "frozen-a",
+          "model_b": "frozen-c",
+          "task": "synthetic"
+        },
+        "sign_stability": {
+          "flip_prob_upper95": 0.312344,
+          "flip_rate_excl_ties": 0.0,
+          "n_agree": {
+            "count": 8,
+            "denominator": 8,
+            "rate": 1.0
+          },
+          "n_flip": {
+            "count": 0,
+            "denominator": 8,
+            "rate": 0.0
+          },
+          "n_tie": {
+            "count": 0,
+            "denominator": 8,
+            "rate": 0.0
+          },
+          "pooled_tie": false,
+          "rank_flip_rate": 0.0,
+          "ruling": "SIGN-STABLE"
+        }
+      },
+      {
+        "confounded_by_version_change": false,
+        "content_hash": "sha256:b38969a1af25327862a5e8a545107451457c73d76e51dc41bf509f81a617233c",
+        "drift_ref": {
+          "model_a": "PASS",
+          "model_b": "PASS"
+        },
+        "kind": "PAIR",
+        "model_a": "frozen-b",
+        "model_b": "frozen-c",
+        "n": {
+          "draws_total": 480,
+          "items_aligned": 60,
+          "k": 8
+        },
+        "noise": {
+          "mdd": {
+            "alpha": 0.05,
+            "assumptions": [
+              "each single-draw score is treated as approximately normal (mean over n items; CLT)",
+              "the k draws are treated as i.i.d.; the drift guard polices exactly this assumption",
+              "draws are not treated as paired across models; two-sample unpooled-variance form",
+              "df = k-1, the conservative choice (Welch df would be larger and the MDD smaller)",
+              "speaks to draw noise on this fixed item set only, not to item-sampling variability"
+            ],
+            "citation": "Kalibera & Jones, Rigorous benchmarking in reasonable time, ISMM 2013",
+            "degenerate_zero_spread": false,
+            "df": 7,
+            "low_k": false,
+            "score_resolution": 0.016667,
+            "t": 2.36462,
+            "value": 0.029675
+          },
+          "range_a": 0.05,
+          "range_b": 0.083333,
+          "sd_a": 0.019796,
+          "sd_b": 0.029463
+        },
+        "pooled": {
+          "delta_pool": 0.133333,
+          "pass_a": {
+            "count": 309,
+            "denominator": 480,
+            "rate": 0.64375
+          },
+          "pass_b": {
+            "count": 245,
+            "denominator": 480,
+            "rate": 0.510417
+          },
+          "pooled_sign": 1,
+          "pooled_tie": false
+        },
+        "ruling_id": "LIMEN-frozen-PAIR-0003",
+        "scope_key": {
+          "model_a": "frozen-b",
+          "model_b": "frozen-c",
+          "task": "synthetic"
+        },
+        "sign_stability": {
+          "flip_prob_upper95": 0.312344,
+          "flip_rate_excl_ties": 0.0,
+          "n_agree": {
+            "count": 8,
+            "denominator": 8,
+            "rate": 1.0
+          },
+          "n_flip": {
+            "count": 0,
+            "denominator": 8,
+            "rate": 0.0
+          },
+          "n_tie": {
+            "count": 0,
+            "denominator": 8,
+            "rate": 0.0
+          },
+          "pooled_tie": false,
+          "rank_flip_rate": 0.0,
+          "ruling": "SIGN-STABLE"
+        }
+      }
+    ],
+    "task": [
+      {
+        "content_hash": "sha256:fbd2d62aa258947bd670ec8bb089ee725f682cbeec1e36014f134edb7c83c1cc",
+        "kind": "TASK",
+        "misrank": {
+          "draws_misranking_any_pair": {
+            "count": 0,
+            "denominator": 8,
+            "rate": 0.0
+          }
+        },
+        "n": {
+          "cells_truncated": 0,
+          "items_aligned": 60,
+          "k": 8,
+          "models": [
+            "frozen-a",
+            "frozen-b",
+            "frozen-c"
+          ]
+        },
+        "pooled_flakiness": {
+          "alignment_excluded": {
+            "frozen-a": 0,
+            "frozen-b": 0,
+            "frozen-c": 0
+          },
+          "cell_pooled_mixed": {
+            "count": 27,
+            "denominator": 180,
+            "rate": 0.15
+          },
+          "item_union_mixed": {
+            "count": 9,
+            "denominator": 60,
+            "rate": 0.15
+          },
+          "n_items_aligned": 60
+        },
+        "ruling_id": "LIMEN-frozen-TASK-0001",
+        "scope_key": {
+          "task": "synthetic"
+        },
+        "stable_only": {
+          "mitigations": {
+            "selection_null": {
+              "interpretation": "If the observed tidiness sits inside the null band, the stable-only ordering's tidiness is explained by selection alone and must not be presented as structure; only observed values outside the band license the claim that mixed items carry model-differential signal beyond selection.",
+              "low_k": false,
+              "null": {
+                "t_flip": {
+                  "mean": 0.0,
+                  "p2_5": 0.0,
+                  "p97_5": 0.0,
+                  "p_value_one_sided_large": 1.0,
+                  "p_value_one_sided_small": 1.0
+                },
+                "t_gap": {
+                  "mean": 0.017613,
+                  "p2_5": 0.006863,
+                  "p97_5": 0.037418,
+                  "p_value_one_sided_large": 0.411765
+                },
+                "t_tau": {
+                  "mean": 1.0,
+                  "p2_5": 1.0,
+                  "p97_5": 1.0,
+                  "percentile_of_observed": 1.0
+                }
+              },
+              "observed": {
+                "n_stable": 51,
+                "t_flip": 0,
+                "t_gap": 0.017974,
+                "t_tau": 1.0
+              },
+              "replicates": 50,
+              "replicates_effective": 50,
+              "replicates_empty_stable_set": 0,
+              "seed_procedure": "sha256(rulings_version|task|selection-null|replicate_index)",
+              "state": "AVAILABLE",
+              "t_flip_definition": "rank-half sign flips among classify-half-stable items (canonical split); null when k < 4 or the split-stable set is empty"
+            },
+            "split_half": {
+              "canonical_split": {
+                "classify_positions": [
+                  0,
+                  1,
+                  2,
+                  3
+                ],
+                "n_stable": {
+                  "count": 51,
+                  "denominator": 60,
+                  "rate": 0.85
+                },
+                "rank_positions": [
+                  4,
+                  5,
+                  6,
+                  7
+                ],
+                "tau": {
+                  "concordant": 3,
+                  "discordant": 0,
+                  "tau_a": 1.0,
+                  "tau_b": 1.0,
+                  "ties_x": 0,
+                  "ties_y": 0,
+                  "undefined": false
+                }
+              },
+              "classify_draws": 4,
+              "n_splits": 70,
+              "sign_survival": [
+                {
+                  "indeterminate": {
+                    "count": 0,
+                    "denominator": 70,
+                    "rate": 0.0
+                  },
+                  "model_a": "frozen-a",
+                  "model_b": "frozen-b",
+                  "survived": {
+                    "count": 70,
+                    "denominator": 70,
+                    "rate": 1.0
+                  }
+                },
+                {
+                  "indeterminate": {
+                    "count": 0,
+                    "denominator": 70,
+                    "rate": 0.0
+                  },
+                  "model_a": "frozen-a",
+                  "model_b": "frozen-c",
+                  "survived": {
+                    "count": 70,
+                    "denominator": 70,
+                    "rate": 1.0
+                  }
+                },
+                {
+                  "indeterminate": {
+                    "count": 0,
+                    "denominator": 70,
+                    "rate": 0.0
+                  },
+                  "model_a": "frozen-b",
+                  "model_b": "frozen-c",
+                  "survived": {
+                    "count": 70,
+                    "denominator": 70,
+                    "rate": 1.0
+                  }
+                }
+              ],
+              "stable_set_size_over_splits": {
+                "max": 52,
+                "mean": 51.014286,
+                "min": 51
+              },
+              "state": "AVAILABLE",
+              "tau_over_splits": {
+                "max": 1.0,
+                "mean": 1.0,
+                "min": 1.0,
+                "n_undefined": 0
+              },
+              "thinned": false
+            }
+          },
+          "naive": {
+            "n_stable": {
+              "count": 51,
+              "denominator": 60,
+              "rate": 0.85
+            },
+            "pair_sign_survives": [
+              {
+                "model_a": "frozen-a",
+                "model_b": "frozen-b",
+                "survives": true
+              },
+              {
+                "model_a": "frozen-a",
+                "model_b": "frozen-c",
+                "survives": true
+              },
+              {
+                "model_a": "frozen-b",
+                "model_b": "frozen-c",
+                "survives": true
+              }
+            ],
+            "ranking_all_items": [
+              {
+                "model": "frozen-a",
+                "passes": {
+                  "count": 345,
+                  "denominator": 480,
+                  "rate": 0.71875
+                }
+              },
+              {
+                "model": "frozen-b",
+                "passes": {
+                  "count": 309,
+                  "denominator": 480,
+                  "rate": 0.64375
+                }
+              },
+              {
+                "model": "frozen-c",
+                "passes": {
+                  "count": 245,
+                  "denominator": 480,
+                  "rate": 0.510417
+                }
+              }
+            ],
+            "ranking_stable_only": [
+              {
+                "model": "frozen-a",
+                "passes": {
+                  "count": 304,
+                  "denominator": 408,
+                  "rate": 0.745098
+                }
+              },
+              {
+                "model": "frozen-b",
+                "passes": {
+                  "count": 272,
+                  "denominator": 408,
+                  "rate": 0.666667
+                }
+              },
+              {
+                "model": "frozen-c",
+                "passes": {
+                  "count": 208,
+                  "denominator": 408,
+                  "rate": 0.509804
+                }
+              }
+            ],
+            "tau_stable_vs_all": {
+              "concordant": 3,
+              "discordant": 0,
+              "tau_a": 1.0,
+              "tau_b": 1.0,
+              "ties_x": 0,
+              "ties_y": 0,
+              "undefined": false
+            }
+          },
+          "note": "The stable-only ranking conditions on a selected subset enriched for easy items; it is one view of the data, not a corrected or true ranking.",
+          "per_model_constant": {
+            "frozen-a": {
+              "count": 51,
+              "denominator": 60,
+              "rate": 0.85
+            },
+            "frozen-b": {
+              "count": 51,
+              "denominator": 60,
+              "rate": 0.85
+            },
+            "frozen-c": {
+              "count": 51,
+              "denominator": 60,
+              "rate": 0.85
+            }
+          }
+        }
+      }
+    ]
+  },
+  "rulings_version": "frozen",
+  "scope": {
+    "does_not_show": [
+      {
+        "code": "NO_MODEL_QUALITY_CLAIM",
+        "text": "A sign ruling is a verdict on the measurement, never on the models; a flip means 'this comparison is not supported by its own data', never 'the other model wins'."
+      },
+      {
+        "code": "NO_PRIVILEGED_DRAW",
+        "text": "No draw is the correct one; all k are equally legitimate executions of the declared configuration, and there is no true score behind them to prefer."
+      },
+      {
+        "code": "NO_FACTOR_ATTRIBUTION",
+        "text": "'Draw' is a bucket holding everything that varies between two identical calls; no seed / hardware / order / version decomposition is claimed."
+      },
+      {
+        "code": "NO_DRIFT_ABSENCE_CLAIM",
+        "text": "A drift PASS means the checks that could run found nothing; UNAVAILABLE is not PASS, and absence of evidence of drift is not evidence of its absence."
+      },
+      {
+        "code": "STABLE_SUBSET_IS_A_VIEW",
+        "text": "The stable-items-only ranking conditions on a selected subset enriched for easy items; it is one view, not a corrected or true ranking."
+      },
+      {
+        "code": "UNSTABLE_ITEMS_NOT_DEFECTIVE",
+        "text": "Instability is a joint property of item, model, serving stack, grader and protocol; an item unstable for one model and stable for another is not defective."
+      },
+      {
+        "code": "NO_K1_CERTIFICATE",
+        "text": "The spread and MDD are reported at the observed k; no sufficiency certificate is issued for k=1 or any other k, on any benchmark or provider."
+      },
+      {
+        "code": "EXACT_MATCH_GRADING_ONLY",
+        "text": "Validity is scoped to deterministic exact-match grading; nothing here says anything about judge-scored, rubric-scored or preference-scored tasks."
+      },
+      {
+        "code": "CONSTANCY_IS_NOT_CORRECTNESS",
+        "text": "Flakiness and TARa measure repeatability only; a constant-but-wrong verdict is invisible to this instrument."
+      }
+    ]
+  },
+  "spec_version": "0.2.0"
+}

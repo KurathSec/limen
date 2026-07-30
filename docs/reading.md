@@ -93,6 +93,34 @@ items are enriched for hard and near-threshold cases; dropping them answers a
 different question, and `UNSTABLE_ITEMS_NOT_DEFECTIVE` applies to the items
 themselves.
 
+## The gap-survival ruling
+
+SURVIVES says the pair's ordering does not depend on the items the systems
+cannot reproduce against themselves: the stable-for-both gap keeps the
+all-items sign and clears the replicate noise band, with the survival margin
+(how many stable items it would take to change that) printed. SIGN-INVERTS
+says the published direction is carried entirely by irreproducible items; the
+witness lists the unstable items whose re-inclusion would restore it. It
+never means the other model wins. FALLS-INTO-NOISE says the stable gap is
+smaller than the band the system shows against itself. Check the selection
+null before reading any erosion as structure: naive exclusion shrinks gaps
+even under a null, and the `ruling_frequencies` show how often selection
+alone produces each ruling on an archive with these rates. The
+`rfc_differentiation` block says whether the same conclusion follows from
+retry-free coverage; the two criteria differ exactly on stable-but-always-
+wrong items.
+
+## Variance components, read as planning numbers
+
+The decomposition answers one practical question: where would another unit of
+compute help? A large item share means more items; a large draw or residual
+share means more draws (the draw-facet contribution scales exactly as 1/k, so
+`k_to_halve_draw_contribution` is always 2k). Read the components only beside
+their intervals, remember the low-k warning (below 20 draw levels the draw
+and residual components are wide by construction), and never quote them as
+headline findings: the gate does not read this section, and "draw" remains a
+bucket that attributes nothing inside itself.
+
 ## Grader defects
 
 A nonzero `defect_pairs` count means some of your measured flakiness is the
