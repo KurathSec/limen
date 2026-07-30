@@ -4,8 +4,13 @@ The fixtures under tests/data/inspect/ were produced by a real inspect_ai run
 (mockllm, offline) with planted verdict patterns, so the parsing is pinned to
 the actual .eval format: run 1 has 4 epochs (q1 misses epoch 3, q2 clean, q3
 always wrong), run 2 has 2 epochs (q1 clean, q2 misses epoch 2, q3 wrong).
+The zip entries were recompressed to deflate so every supported Python can
+read them; tests/data/inspect_zstd/ keeps an untouched original whose entries
+are Zstandard-compressed (inspect on Python 3.14+ writes those), which only
+Python >= 3.14 can decompress.
 """
 
+import sys
 from pathlib import Path
 
 import pytest
@@ -16,6 +21,7 @@ from limen.readers.base import ReaderOptions
 from limen.readers.inspect import InspectReader, _verdict_from
 
 FIXTURES = Path(__file__).parent / "data" / "inspect"
+ZSTD_FIXTURES = Path(__file__).parent / "data" / "inspect_zstd"
 TASK = "fixture_task"
 MODEL = "mockllm/model"
 
@@ -82,3 +88,15 @@ def test_not_a_zip_refused(tmp_path: Path) -> None:
         load(fake)
     with pytest.raises(ReaderError, match="not a valid .eval"):
         InspectReader().read(fake, ReaderOptions())
+
+
+@pytest.mark.skipif(sys.version_info < (3, 14), reason="zstd zip needs Python >= 3.14")
+def test_zstd_compressed_eval_reads_on_supported_python() -> None:
+    archive = load(ZSTD_FIXTURES)
+    assert archive.cell(MODEL, TASK, "q1").k == 2
+
+
+@pytest.mark.skipif(sys.version_info >= (3, 14), reason="refusal path only below 3.14")
+def test_zstd_compressed_eval_refused_with_fix_named() -> None:
+    with pytest.raises(ReaderError, match="Zstandard.*3.14"):
+        load(ZSTD_FIXTURES)

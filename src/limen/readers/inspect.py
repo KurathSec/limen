@@ -35,6 +35,17 @@ from .base import ReaderOptions
 _SAMPLE_RE = re.compile(r"^samples/(?P<stem>.+)_epoch_(?P<epoch>\d+)\.json$")
 
 
+def _zstd_message(path: Path) -> str:
+    # inspect_ai on Python 3.14+ writes Zstandard zip entries (method 93),
+    # which older stdlib zipfile cannot decompress
+    return (
+        f"{path}: this .eval uses a zip compression method this Python cannot "
+        "read (likely Zstandard, written by inspect running on Python 3.14+); "
+        "read it on Python >= 3.14, or re-write the log with inspect on an "
+        "older Python"
+    )
+
+
 def _verdict_from(value: object, scorer: str, sample_id: object, path: Path) -> int:
     if value == "C":
         return 1
@@ -113,6 +124,8 @@ class InspectReader:
                 header = json.loads(archive.read("header.json"))
             except KeyError as exc:
                 raise ReaderError(f"{path}: no header.json; not an .eval log") from exc
+            except NotImplementedError as exc:
+                raise ReaderError(_zstd_message(path)) from exc
             eval_info = header.get("eval", {})
             task = str(eval_info.get("task") or "task")
             model = options.model_name or str(eval_info.get("model") or "model")
@@ -128,7 +141,10 @@ class InspectReader:
             for name in sorted(sample_names):
                 match = _SAMPLE_RE.match(name)
                 assert match is not None
-                sample = json.loads(archive.read(name))
+                try:
+                    sample = json.loads(archive.read(name))
+                except NotImplementedError as exc:
+                    raise ReaderError(_zstd_message(path)) from exc
                 scores: dict[str, Any] = sample.get("scores") or {}
                 scorer = self._pick_scorer(scores, options, path, sample.get("id"))
                 verdict = _verdict_from(
