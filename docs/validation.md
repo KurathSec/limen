@@ -103,8 +103,8 @@ could have erased the gaps (making it destructive). Neither happened. The
 partition keeps 1,299–1,457 of 1,500 items per pair (1,742–1,790 of 1,846 on
 comprehend-test), and all 18 pair orderings rule SURVIVES. The decisive-item
 margin (how many stable items, removed adversarially largest-first, it takes
-to change the ruling) runs from 18 (Meta-Llama-3.1-8B vs Mistral-Small on
-comprehend-test, the closest pair) to 468; the share of each pooled gap
+to change the ruling) runs from 18 (Llama-3.3-70B vs Mistral-Small on
+comprehend-test, the smallest-gap pair) to 468; the share of each pooled gap
 riding on unstable items runs 4.8% to 43.4%. The selection null manufactured
 zero SIGN-INVERTS rulings in 1,000 replicates on every one of the 18 pairs.
 The per-system retry-free-coverage comparison (arXiv 2606.00920) agrees with
