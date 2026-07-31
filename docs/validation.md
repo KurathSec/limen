@@ -206,3 +206,12 @@ low-draw-levels warning at k=10.
 
 Full method, tables and scope caveats:
 [validation/on_randomness/README.md](https://github.com/KurathSec/limen/blob/main/validation/on_randomness/README.md).
+
+A second close-models reproduction is pre-registered and blocked: the
+target ("When Agents Disagree With Themselves", arXiv 2602.11619; 29.3% of
+single-run evaluations misranking four models on HotpotQA) has not released
+its data as of 2026-07-31. The full protocol - ingest, rulings, the exact
+statistics to compare, and the falsifiable expectations - was committed
+before seeing any of that data, at
+[validation/when_agents_disagree/README.md](https://github.com/KurathSec/limen/blob/main/validation/when_agents_disagree/README.md).
+No numbers are claimed until the data exists.
