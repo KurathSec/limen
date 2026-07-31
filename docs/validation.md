@@ -121,7 +121,7 @@ concentrates where the gaps are thinnest: refactor-dev javascript rules
 FALLS-INTO-NOISE for 3 of 6 pairs and python for 2 (plus one stratum-level
 UNAVAILABLE on a pooled tie). Leave-one-language-out re-rulings hold on 89
 of 90 (table, pair, held-out language) subsets. The one flip is informative,
-and it is printed here rather than smoothed over: DeepSeek-V3 vs
+and it is printed here rather than smoothed over: DeepSeek-V4-Flash vs
 Llama-3.3-70B on refactor-dev — the pair with the largest unstable gap share
 (43.4%) — falls into noise when java is held out, because its java stratum
 (SURVIVES 6/6 across pairs) carries the gap. Leave-one-profile-out was not
