@@ -1,0 +1,25 @@
+{
+  "argv": [
+    "report",
+    "tables/wad_replication.verdicts.csv.gz",
+    "--out",
+    "report",
+    "--rulings-version",
+    "wad1",
+    "--replicates",
+    "1000",
+    "--bootstrap",
+    "1000",
+    "--stratify-by",
+    "type"
+  ],
+  "generated_at": "2026-08-01T04:53:53.746723+00:00",
+  "inputs": [
+    {
+      "path": "tables/wad_replication.verdicts.csv.gz",
+      "sha256": "sha256:87b7409cfd62f615ebe3ec84af5438ca79e30cd7d1d22325886887532ab9db0e"
+    }
+  ],
+  "limen_version": "0.2.0",
+  "rulings_version": "wad1"
+}

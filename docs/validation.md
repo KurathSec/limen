@@ -207,11 +207,22 @@ low-draw-levels warning at k=10.
 Full method, tables and scope caveats:
 [validation/on_randomness/README.md](https://github.com/KurathSec/limen/blob/main/validation/on_randomness/README.md).
 
-A second close-models reproduction is pre-registered and blocked: the
-target ("When Agents Disagree With Themselves", arXiv 2602.11619; 29.3% of
-single-run evaluations misranking four models on HotpotQA) has not released
-its data as of 2026-07-31. The full protocol - ingest, rulings, the exact
-statistics to compare, and the falsifiable expectations - was committed
-before seeing any of that data, at
+A second close-models study is pre-registered against "When Agents Disagree
+With Themselves" (arXiv 2602.11619; 29.3% of single-run evaluations
+misranking four models on HotpotQA). Its data remains unreleased as of
+2026-08-01, so the exact-reproduction limb stays blocked; the protocol was
+committed before seeing any of it, at
 [validation/when_agents_disagree/README.md](https://github.com/KurathSec/limen/blob/main/validation/when_agents_disagree/README.md).
-No numbers are claimed until the data exists.
+The fallback limb ran instead: a conceptual replication of the design on
+four open models we collected ourselves (8,000 ReAct episodes on HotpotQA
+distractor, temperature 0.7, k=10, $3.51 of inference). The top three
+models landed within 0.9pp; under the paper's own statistic 77.3%
+[76.4, 78.1] of single-run evaluations misrank (closer models, more
+misranking), all three close pairs rule SIGN-UNSTABLE, and two of the
+three ~13.8pp pairs rule FALLS-INTO-NOISE with 92 to 96% of the gap on
+unstable items — the SWE-bench divergence on a second task family. Two
+pre-registered expectations missed and are reported as misses, including
+the phi-4 stable-partition accuracy inversion that makes the
+verdict-stability vs path-consistency boundary concrete. Full scored
+scorecard:
+[validation/when_agents_disagree/replication/README.md](https://github.com/KurathSec/limen/blob/main/validation/when_agents_disagree/replication/README.md).
