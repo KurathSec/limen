@@ -215,14 +215,15 @@ committed before seeing any of it, at
 [validation/when_agents_disagree/README.md](https://github.com/KurathSec/limen/blob/main/validation/when_agents_disagree/README.md).
 The fallback limb ran instead: a conceptual replication of the design on
 four open models we collected ourselves (8,000 ReAct episodes on HotpotQA
-distractor, temperature 0.7, k=10, $3.51 of inference). The top three
+distractor, temperature 0.7, k=10, $3.50 of inference including the
+1,200-episode pilot). The top three
 models landed within 0.9pp; under the paper's own statistic 77.3%
 [76.4, 78.1] of single-run evaluations misrank (closer models, more
 misranking), all three close pairs rule SIGN-UNSTABLE, and two of the
 three ~13.8pp pairs rule FALLS-INTO-NOISE with 92 to 96% of the gap on
-unstable items — the SWE-bench divergence on a second task family. Two
-pre-registered expectations missed and are reported as misses, including
-the phi-4 stable-partition accuracy inversion that makes the
-verdict-stability vs path-consistency boundary concrete. Full scored
-scorecard:
+unstable items — the SWE-bench divergence on a second task family. One
+pre-registered expectation missed outright and one split; both are
+reported as measured, including the phi-4 stable-partition accuracy
+inversion that makes the verdict-stability vs path-consistency boundary
+concrete. Full scored scorecard:
 [validation/when_agents_disagree/replication/README.md](https://github.com/KurathSec/limen/blob/main/validation/when_agents_disagree/replication/README.md).
