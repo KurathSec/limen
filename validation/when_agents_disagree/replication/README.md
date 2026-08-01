@@ -92,7 +92,7 @@ single-run evaluations misrank the pooled ordering, against the paper's
 cluster is much tighter than theirs, and closer models misrank more. On
 intact draws, 6 of 10 single-draw leaderboards misrank at least one pair.
 The three top-cluster pairs all rule SIGN-UNSTABLE; the three ~13.8pp
-phi-4 pairs all rule SIGN-STABLE and clear their MDD 5.2 to 5.6-fold.
+phi-4 pairs all rule SIGN-STABLE and clear their MDD 4.9 to 5.6-fold.
 
 **Pre-registered expectations, scored.**
 
