@@ -130,7 +130,7 @@ cannot support as a stability probe.
 
 **KT3 — the saturation rollup must report association without inventing
 mechanism.** Across label keys and tables the Spearman association between
-stratum saturation and unstable-gap share has no consistent sign: for the
+stratum saturation and unstable-item share has no consistent sign: for the
 first pair alone, language gives rho 0.3 / 0.4 / −0.7 across the three
 tables, scale gives −0.60 / −0.37 / −0.95, variant gives 0.31 / −0.26 /
 −0.35, and profile's ±1.0 rests on 3 strata. The rollup prints `n_strata`
@@ -143,12 +143,15 @@ readings were fixed: a draw main-effect component indistinguishable from
 zero means the instability is item-local with no draw-wide effect; a nonzero
 one means some draw index systematically differs (an infrastructure or
 ordering effect the drift guard should then be pointed at). The corpus
-lands on the first: raw draw components of 3.0e-06, −2.0e-06 and 0.0
-(bootstrap 95% intervals all containing zero, upper ends at or below
-1.4e-05), with the item facet at 91–97% of the variance and the remaining
-3–9% in the item-by-draw residual, which is where the 1.65–4.85% mixed cells
-live. All intervals carry the low-draw-levels warning (k=8 is below the
-20-level floor), as designed.
+lands on the first reading in eleven of its twelve (model, task) scopes:
+raw draw components within ±8.0e-06 with intervals containing zero. The
+twelfth (Llama-3.1-8B on refactor-dev, raw 8.0e-06, interval
+[2.0e-06, 2.9e-05]) is the pre-specified nonzero limb, at a magnitude no
+leaderboard could notice. The item facet carries 74.8–99.1% of the
+variance and the item-by-draw residual 0.9–25.2% (nine of twelve scopes
+at or below 4%), which is where the 1.65–4.85% mixed cells live. All
+intervals carry the low-draw-levels warning (k=8 is below the 20-level
+floor), as designed.
 
 ### Boundary
 
@@ -172,8 +175,8 @@ temperature 0. limen's per-configuration noise floors span ranges of exactly
 2.20 to 6.00 pp, with sd reaching 1.64 pp at temperature 0. On the same data
 the instrument adds what the paper did not report: 8 of 10 single-run
 leaderboards misrank at least one pair; both same-model temperature pairs
-rule SIGN-UNSTABLE while all 13 cross-model pairs clear their MDD 3.7x to
-49x; 37.1% of cells are mixed across identical runs (against 1.65% on the
+rule SIGN-UNSTABLE while the other 13 pairs (12 cross-model plus the
+DeepSWE temperature pair) clear their MDD 3.7x to 49x; 37.1% of cells are mixed across identical runs (against 1.65% on the
 calibration corpus); and for one configuration, 20.4% of discordant run-pairs
 had byte-identical submitted patches, which is measured harness
 nondeterminism, separated from model nondeterminism by the grader-defect
@@ -183,8 +186,8 @@ The report was regenerated under 0.2.0 (schema report/v2, spec 1.0.0), and
 the new sections split the picture three ways. The three same-model
 temperature pairs rule FALLS-INTO-NOISE with 100% of each gap riding on
 unstable items, agreeing with their SIGN-UNSTABLE or near-zero-effect
-rulings from the 0.1.x layer. The nine pairs involving devstral rule
-SURVIVES, with removal margins of 24 to 82 items. The instructive case is
+rulings from the 0.1.x layer. The eight cross-model pairs involving
+devstral rule SURVIVES, with removal margins of 24 to 82 items. The instructive case is
 the third group: Qwen3-32B vs DeepSWE-Preview clears its MDD 16-fold
 (a 15.0 pp pooled gap), yet rules FALLS-INTO-NOISE, because 98.7% of that
 gap rides on unstable items — DeepSWE's advantage is real against draw

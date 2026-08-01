@@ -120,9 +120,9 @@ phi-4 pairs all rule SIGN-STABLE and clear their MDD 4.9 to 5.6-fold.
    reliably.
 4. *Draw main-effect component ~ 0* — held, 4 of 4 models (largest raw
    2.8e-4, every interval containing zero; instability is item-local).
-   The item-by-draw residual runs 23–49% of variance against 3–9% on the
-   temperature-0 code corpus: agentic QA at temperature 0.7 is an order
-   flakier per item, which is why the audit lives at its edges here.
+   The item-by-draw residual runs 23–49% of variance against 0.9–25.2% on
+   the temperature-0 code corpus (nine of twelve scopes at or below 4%): agentic QA at temperature 0.7 is typically an
+   order flakier per item, which is why the audit lives at its edges here.
 
 Per-question-type strata (floor 30): for the headline pair, bridge (170
 items) rules SURVIVES while comparison (30 items) rules FALLS-INTO-NOISE.

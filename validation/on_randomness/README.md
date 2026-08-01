@@ -57,7 +57,8 @@ configuration; the other temp-0 configurations sit at 0.96 and 1.17 pp).
   SIGN-UNSTABLE: Qwen3-32B default vs temp 0 differs by +0.02 pp pooled and
   flips direction in 5 of 10 runs; Devstral default vs temp 0 differs by
   -0.28 pp and flips in 4 of 10. A single-run comparison of either pair is a
-  coin toss wearing a leaderboard. All 13 cross-model pairs rule SIGN-STABLE,
+  coin toss wearing a leaderboard. The other 13 pairs (12 cross-model plus
+  the DeepSWE temperature pair) rule SIGN-STABLE,
   clearing their minimum detectable difference 3.7x to 49x.
 - **Verdict flakiness.** 1,113 of 3,000 cells (37.1%) are mixed across the
   10 identical runs; per configuration between 144/500 and 258/500. At
