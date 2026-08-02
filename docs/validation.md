@@ -224,7 +224,12 @@ models landed within 0.9pp; under the paper's own statistic 77.3%
 [76.4, 78.1] of single-run evaluations misrank (closer models, more
 misranking), all three close pairs rule SIGN-UNSTABLE, and two of the
 three ~13.8pp pairs rule FALLS-INTO-NOISE with 92 to 96% of the gap on
-unstable items — the SWE-bench divergence on a second task family. One
+unstable items. Graded by the report's own selection null, those refusals
+are what selection alone predicts at this instability level (null
+FALLS-INTO-NOISE base rates 179 to 762 per 1,000), so they are honest
+refusals under extreme instability; the clean demonstrations of the
+significant-but-unsupported regime remain the two 15-point pairs of the
+On-Randomness study. One
 pre-registered expectation missed outright and one split; both are
 reported as measured, including the phi-4 stable-partition accuracy
 inversion that makes the verdict-stability vs path-consistency boundary

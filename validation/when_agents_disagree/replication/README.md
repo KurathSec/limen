@@ -105,10 +105,16 @@ phi-4 pairs all rule SIGN-STABLE and clear their MDD 4.9 to 5.6-fold.
    finding. Two of the three ~13.8pp pairs rule FALLS-INTO-NOISE with 92
    to 96% of the pooled gap riding on unstable items (the stable-for-both
    partitions shrink to 56–64 of 200 items because phi-4 is unstable on
-   128); the third survives by 1 item. This replicates, on a second task
-   family and substrate, the SWE-bench divergence: a gap that clears its
-   MDD several-fold while resting almost wholly on inconsistently-decided
-   items.
+   128); the third survives by 1 item. Graded by the selection null the
+   report itself carries, none of the three is a clean
+   significance-without-support demonstration: the null rules
+   FALLS-INTO-NOISE in 179 (Qwen), 762 (Llama) and 198 (gemma) of 1,000
+   replicates, and the observed unstable shares and gap shrinkages sit
+   inside the null bands. At this instability level selection alone
+   predicts most of the erosion; the rulings are honest refusals under
+   extreme instability, and the clean demonstrations of the
+   significant-but-unsupported regime remain the two 15-point SWE-bench
+   pairs of the on_randomness study.
 3. *Stable-partition accuracy exceeds unstable, as the paper's
    consistent > inconsistent* — **split**: it holds for Qwen (64.5 vs
    54.2%) and gemma (66.9 vs 51.2%), is flat for Llama (61.8 vs 62.9%),
