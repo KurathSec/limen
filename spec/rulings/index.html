@@ -1,0 +1,1941 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="The same-configuration noise floor of an evaluation: verdict flakiness, sign-stability rulings, and a CI gate over repeated identical runs.">
+      
+      
+      
+        <link rel="canonical" href="https://kurathsec.github.io/limen/spec/rulings/">
+      
+      
+        <link rel="prev" href="../../validation/">
+      
+      
+        <link rel="next" href="../sensitivity/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.16">
+    
+    
+      
+        <title>Spec rulings - limen</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.7e37652d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#spec-rulings" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="limen" class="md-header__button md-logo" aria-label="limen" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            limen
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Spec rulings
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/KurathSec/limen" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    KurathSec/limen
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="limen" class="md-nav__button md-logo" aria-label="limen" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    limen
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/KurathSec/limen" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    KurathSec/limen
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quickstart
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../report/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    The ruling document
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reading/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Reading a ruling
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../honesty/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Honesty
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../validation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Validation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Spec rulings
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Spec rulings
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#lmn-adp" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-ADP
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="LMN-ADP">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#lmn-adp-001-refuse-a-poisoned-environment-before-importing" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-ADP-001 — Refuse a poisoned environment before importing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-adp-002-split-is-injected-from-the-filename-always" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-ADP-002 — Split is injected from the filename, always
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-adp-003-per-draw-verdicts-via-public-singleton-regrade-no-rounding" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-ADP-003 — Per-draw verdicts via public singleton regrade, no rounding
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lmn-aud" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-AUD
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="LMN-AUD">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#lmn-aud-001-per-item-instability-is-mins-k-sk-symmetric-never-compounded-with-correctness" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-AUD-001 — Per-item instability is min(s, k-s)/k, symmetric, never compounded with correctness
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-aud-002-the-v1-threshold-is-u_i-0-for-both-systems-crude-by-design-and-versioned" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-AUD-002 — The v1 threshold is u_i == 0 for both systems, crude by design and versioned
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-aud-003-the-replicate-noise-band-is-enumerated-never-sampled" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-AUD-003 — The replicate noise band is enumerated, never sampled
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-aud-004-rulings-carry-a-capped-deterministic-decisive-item-witness" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-AUD-004 — Rulings carry a capped, deterministic decisive-item witness
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-aud-005-gap-survival-rulings-never-ship-without-their-selection-mitigations" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-AUD-005 — Gap-survival rulings never ship without their selection mitigations
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-aud-006-ruling-precedence-is-fixed" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-AUD-006 — Ruling precedence is fixed
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-aud-007-differentiation-from-retry-free-coverage-ships-in-every-audit" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-AUD-007 — Differentiation from retry-free coverage ships in every audit
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-aud-008-stratum-rulings-have-a-printed-floor" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-AUD-008 — Stratum rulings have a printed floor
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lmn-core" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-CORE
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="LMN-CORE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#lmn-core-001-binary-verdicts-only-no-thresholding" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-CORE-001 — Binary verdicts only; no thresholding
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-core-002-table-invariants-are-hard-errors" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-CORE-002 — Table invariants are hard errors
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-core-003-cells-below-min-k-are-excluded-and-counted" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-CORE-003 — Cells below min-k are excluded and counted
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-core-004-canonical-draw-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-CORE-004 — Canonical draw order
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-core-005-long-csv-is-the-canonical-on-disk-form" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-CORE-005 — Long CSV is the canonical on-disk form
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-core-006-absent-readers-are-stated-not-silent" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-CORE-006 — Absent readers are stated, not silent
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-core-007-absent-readers-are-stated-not-silent" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-CORE-007 — Absent readers are stated, not silent
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-core-008-per-item-labels-are-optional-all-or-nothing-and-item-consistent" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-CORE-008 — Per-item labels are optional, all-or-nothing, and item-consistent
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lmn-drf" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-DRF
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="LMN-DRF">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#lmn-drf-001-unavailable-is-never-pass" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-DRF-001 — UNAVAILABLE is never PASS
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-drf-002-position-proxy-mode-can-fail-but-cannot-pass" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-DRF-002 — Position-proxy mode can fail but cannot pass
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lmn-emit" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-EMIT
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="LMN-EMIT">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#lmn-emit-001-canonical-bytes" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-EMIT-001 — Canonical bytes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-emit-002-no-count-without-its-denominator" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-EMIT-002 — No count without its denominator
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-emit-003-seeds-are-derived-never-wall-clock" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-EMIT-003 — Seeds are derived, never wall-clock
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-emit-004-body-and-provenance-are-split" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-EMIT-004 — Body and provenance are split
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-emit-005-the-scope-block-ships-in-every-report" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-EMIT-005 — The scope block ships in every report
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-emit-006-schema-reportv1-has-no-variance-components-section" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-EMIT-006 — Schema report/v1 has no variance-components section
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-emit-007-schema-reportv2-carries-the-variance-components-section-subordinated" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-EMIT-007 — Schema report/v2 carries the variance-components section, subordinated
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-emit-008-additive-schema-evolution" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-EMIT-008 — Additive schema evolution
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lmn-flk" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-FLK
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="LMN-FLK">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#lmn-flk-001-per-item-flakiness-is-the-pairwise-disagreement-u-statistic" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-FLK-001 — Per-item flakiness is the pairwise-disagreement U-statistic
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-flk-002-the-constant-verdict-fraction-is-an-upper-bound-on-taran-and-says-so" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-FLK-002 — The constant-verdict fraction is an upper bound on TARa@N and says so
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lmn-grd" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-GRD
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="LMN-GRD">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#lmn-grd-001-a-grader-defect-is-a-byte-identical-flip" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-GRD-001 — A grader defect is a byte-identical flip
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-grd-002-no-raw-text-means-unavailable-not-zero" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-GRD-002 — No raw text means UNAVAILABLE, not zero
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lmn-gte" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-GTE
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="LMN-GTE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#lmn-gte-001-exit-codes-preserve-the-three-way-distinction" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-GTE-001 — Exit codes preserve the three-way distinction
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-gte-002-the-claimed-improvement-is-the-reports-own-delta" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-GTE-002 — The claimed improvement is the report's own delta
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-gte-003-every-gate-failure-reprints-the-quality-claim-boundary" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-GTE-003 — Every gate failure reprints the quality-claim boundary
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-gte-004-the-gate-accepts-reportv1-and-reportv2" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-GTE-004 — The gate accepts report/v1 and report/v2
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lmn-nse" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-NSE
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="LMN-NSE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#lmn-nse-001-the-mdd-is-cited-conservative-and-carries-its-assumptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-NSE-001 — The MDD is cited, conservative, and carries its assumptions
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lmn-rnk" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-RNK
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="LMN-RNK">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#lmn-rnk-001-signs-are-computed-on-integers" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-RNK-001 — Signs are computed on integers
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-rnk-002-ties-are-their-own-count" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-RNK-002 — Ties are their own count
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-rnk-003-a-pooled-tie-is-sign-unstable" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-RNK-003 — A pooled tie is SIGN-UNSTABLE
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-rnk-004-zero-flips-carry-their-exact-upper-bound" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-RNK-004 — Zero flips carry their exact upper bound
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-rnk-005-stable-only-numbers-never-ship-without-their-mitigations" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-RNK-005 — Stable-only numbers never ship without their mitigations
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-rnk-006-the-selection-null-resamples-verdicts-permutation-is-invariant" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-RNK-006 — The selection null resamples verdicts; permutation is invariant
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lmn-var" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-VAR
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="LMN-VAR">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#lmn-var-001-variance-components-are-exact-ems-method-of-moments-stdlib-only" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-VAR-001 — Variance components are exact EMS method-of-moments, stdlib only
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-var-002-component-intervals-are-seeded-item-bootstrap-percentiles" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-VAR-002 — Component intervals are seeded item-bootstrap percentiles
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-var-003-the-section-is-subordinate-and-the-draw-facet-is-a-bucket" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-VAR-003 — The section is subordinate and the draw facet is a bucket
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-var-004-the-gate-never-reads-variance_components" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-VAR-004 — The gate never reads variance_components
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-var-005-the-model-facet-is-descriptive-never-a-component" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-VAR-005 — The model facet is descriptive, never a component
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-var-006-design-effect-and-planning-are-defined-and-cited" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-VAR-006 — Design effect and planning are defined and cited
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sensitivity/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Gate sensitivity
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contributing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Contributing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#lmn-adp" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-ADP
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="LMN-ADP">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#lmn-adp-001-refuse-a-poisoned-environment-before-importing" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-ADP-001 — Refuse a poisoned environment before importing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-adp-002-split-is-injected-from-the-filename-always" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-ADP-002 — Split is injected from the filename, always
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-adp-003-per-draw-verdicts-via-public-singleton-regrade-no-rounding" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-ADP-003 — Per-draw verdicts via public singleton regrade, no rounding
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lmn-aud" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-AUD
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="LMN-AUD">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#lmn-aud-001-per-item-instability-is-mins-k-sk-symmetric-never-compounded-with-correctness" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-AUD-001 — Per-item instability is min(s, k-s)/k, symmetric, never compounded with correctness
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-aud-002-the-v1-threshold-is-u_i-0-for-both-systems-crude-by-design-and-versioned" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-AUD-002 — The v1 threshold is u_i == 0 for both systems, crude by design and versioned
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-aud-003-the-replicate-noise-band-is-enumerated-never-sampled" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-AUD-003 — The replicate noise band is enumerated, never sampled
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-aud-004-rulings-carry-a-capped-deterministic-decisive-item-witness" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-AUD-004 — Rulings carry a capped, deterministic decisive-item witness
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-aud-005-gap-survival-rulings-never-ship-without-their-selection-mitigations" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-AUD-005 — Gap-survival rulings never ship without their selection mitigations
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-aud-006-ruling-precedence-is-fixed" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-AUD-006 — Ruling precedence is fixed
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-aud-007-differentiation-from-retry-free-coverage-ships-in-every-audit" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-AUD-007 — Differentiation from retry-free coverage ships in every audit
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-aud-008-stratum-rulings-have-a-printed-floor" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-AUD-008 — Stratum rulings have a printed floor
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lmn-core" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-CORE
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="LMN-CORE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#lmn-core-001-binary-verdicts-only-no-thresholding" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-CORE-001 — Binary verdicts only; no thresholding
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-core-002-table-invariants-are-hard-errors" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-CORE-002 — Table invariants are hard errors
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-core-003-cells-below-min-k-are-excluded-and-counted" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-CORE-003 — Cells below min-k are excluded and counted
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-core-004-canonical-draw-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-CORE-004 — Canonical draw order
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-core-005-long-csv-is-the-canonical-on-disk-form" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-CORE-005 — Long CSV is the canonical on-disk form
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-core-006-absent-readers-are-stated-not-silent" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-CORE-006 — Absent readers are stated, not silent
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-core-007-absent-readers-are-stated-not-silent" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-CORE-007 — Absent readers are stated, not silent
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-core-008-per-item-labels-are-optional-all-or-nothing-and-item-consistent" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-CORE-008 — Per-item labels are optional, all-or-nothing, and item-consistent
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lmn-drf" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-DRF
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="LMN-DRF">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#lmn-drf-001-unavailable-is-never-pass" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-DRF-001 — UNAVAILABLE is never PASS
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-drf-002-position-proxy-mode-can-fail-but-cannot-pass" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-DRF-002 — Position-proxy mode can fail but cannot pass
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lmn-emit" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-EMIT
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="LMN-EMIT">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#lmn-emit-001-canonical-bytes" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-EMIT-001 — Canonical bytes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-emit-002-no-count-without-its-denominator" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-EMIT-002 — No count without its denominator
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-emit-003-seeds-are-derived-never-wall-clock" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-EMIT-003 — Seeds are derived, never wall-clock
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-emit-004-body-and-provenance-are-split" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-EMIT-004 — Body and provenance are split
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-emit-005-the-scope-block-ships-in-every-report" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-EMIT-005 — The scope block ships in every report
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-emit-006-schema-reportv1-has-no-variance-components-section" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-EMIT-006 — Schema report/v1 has no variance-components section
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-emit-007-schema-reportv2-carries-the-variance-components-section-subordinated" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-EMIT-007 — Schema report/v2 carries the variance-components section, subordinated
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-emit-008-additive-schema-evolution" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-EMIT-008 — Additive schema evolution
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lmn-flk" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-FLK
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="LMN-FLK">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#lmn-flk-001-per-item-flakiness-is-the-pairwise-disagreement-u-statistic" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-FLK-001 — Per-item flakiness is the pairwise-disagreement U-statistic
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-flk-002-the-constant-verdict-fraction-is-an-upper-bound-on-taran-and-says-so" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-FLK-002 — The constant-verdict fraction is an upper bound on TARa@N and says so
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lmn-grd" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-GRD
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="LMN-GRD">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#lmn-grd-001-a-grader-defect-is-a-byte-identical-flip" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-GRD-001 — A grader defect is a byte-identical flip
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-grd-002-no-raw-text-means-unavailable-not-zero" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-GRD-002 — No raw text means UNAVAILABLE, not zero
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lmn-gte" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-GTE
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="LMN-GTE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#lmn-gte-001-exit-codes-preserve-the-three-way-distinction" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-GTE-001 — Exit codes preserve the three-way distinction
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-gte-002-the-claimed-improvement-is-the-reports-own-delta" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-GTE-002 — The claimed improvement is the report's own delta
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-gte-003-every-gate-failure-reprints-the-quality-claim-boundary" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-GTE-003 — Every gate failure reprints the quality-claim boundary
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-gte-004-the-gate-accepts-reportv1-and-reportv2" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-GTE-004 — The gate accepts report/v1 and report/v2
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lmn-nse" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-NSE
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="LMN-NSE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#lmn-nse-001-the-mdd-is-cited-conservative-and-carries-its-assumptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-NSE-001 — The MDD is cited, conservative, and carries its assumptions
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lmn-rnk" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-RNK
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="LMN-RNK">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#lmn-rnk-001-signs-are-computed-on-integers" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-RNK-001 — Signs are computed on integers
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-rnk-002-ties-are-their-own-count" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-RNK-002 — Ties are their own count
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-rnk-003-a-pooled-tie-is-sign-unstable" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-RNK-003 — A pooled tie is SIGN-UNSTABLE
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-rnk-004-zero-flips-carry-their-exact-upper-bound" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-RNK-004 — Zero flips carry their exact upper bound
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-rnk-005-stable-only-numbers-never-ship-without-their-mitigations" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-RNK-005 — Stable-only numbers never ship without their mitigations
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-rnk-006-the-selection-null-resamples-verdicts-permutation-is-invariant" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-RNK-006 — The selection null resamples verdicts; permutation is invariant
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lmn-var" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-VAR
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="LMN-VAR">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#lmn-var-001-variance-components-are-exact-ems-method-of-moments-stdlib-only" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-VAR-001 — Variance components are exact EMS method-of-moments, stdlib only
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-var-002-component-intervals-are-seeded-item-bootstrap-percentiles" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-VAR-002 — Component intervals are seeded item-bootstrap percentiles
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-var-003-the-section-is-subordinate-and-the-draw-facet-is-a-bucket" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-VAR-003 — The section is subordinate and the draw facet is a bucket
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-var-004-the-gate-never-reads-variance_components" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-VAR-004 — The gate never reads variance_components
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-var-005-the-model-facet-is-descriptive-never-a-component" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-VAR-005 — The model facet is descriptive, never a component
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lmn-var-006-design-effect-and-planning-are-defined-and-cited" class="md-nav__link">
+    <span class="md-ellipsis">
+      LMN-VAR-006 — Design effect and planning are defined and cited
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="spec-rulings">Spec rulings</h1>
+<!-- GENERATED by tools/render_rulings.py; do not edit by hand -->
+
+<p>Rulings spec version: <strong>1.0.0</strong>. A ruling is never edited to mean
+something else; it is superseded, and the spec version moves. <code>limen spec list</code>
+prints this same registry from the installed package.</p>
+<h2 id="lmn-adp">LMN-ADP</h2>
+<h3 id="lmn-adp-001-refuse-a-poisoned-environment-before-importing">LMN-ADP-001 — Refuse a poisoned environment before importing</h3>
+<p><em>Status: active.</em> bench.tasks reads BENCH_STRIP_ANNOTATIONS at import time into a module constant; a truthy value silently regrades against the unannotated corpus. The adapter checks the environment and refuses BEFORE any foreign import, and never modifies the checkout (imports run with bytecode writing disabled for the process).</p>
+<h3 id="lmn-adp-002-split-is-injected-from-the-filename-always">LMN-ADP-002 — Split is injected from the filename, always</h3>
+<p><em>Status: active.</em> The checkout's regrade functions default a missing 'split' to 'dev', which silently mis-grades test-split records against the dev oracle (tier A) or crashes (tiers B/C). The adapter sets rec['split'] explicitly on every record from the archive filename and never relies on the default.</p>
+<h3 id="lmn-adp-003-per-draw-verdicts-via-public-singleton-regrade-no-rounding">LMN-ADP-003 — Per-draw verdicts via public singleton regrade, no rounding</h3>
+<p><em>Status: active.</em> Per-draw verdicts come from the checkout's public regrade API called on singleton copies (raw_outputs = [one draw]); the aggregate rate of a one-element list is that draw's verdict. Anything non-integral raises; the adapter never rounds a rate into a verdict. refactor x test is refused outright as upstream declares it non-reproducible.</p>
+<h2 id="lmn-aud">LMN-AUD</h2>
+<h3 id="lmn-aud-001-per-item-instability-is-mins-k-sk-symmetric-never-compounded-with-correctness">LMN-AUD-001 — Per-item instability is min(s, k-s)/k, symmetric, never compounded with correctness</h3>
+<p><em>Status: active.</em> u_i is the fraction of a system's k draws disagreeing with the item's own majority verdict: u_i = min(s, k-s)/k. At even k with s = k/2 there is no majority verdict and u_i = 0.5, the maximum. u_i is computed for both systems of a pair symmetrically and is never combined with correctness: an always-fail cell is stable. Retry-free coverage (arXiv 2606.00920) compounds stability with correctness and is reported beside u_i, never instead of it.</p>
+<h3 id="lmn-aud-002-the-v1-threshold-is-u_i-0-for-both-systems-crude-by-design-and-versioned">LMN-AUD-002 — The v1 threshold is u_i == 0 for both systems, crude by design and versioned</h3>
+<p><em>Status: active.</em> The stable-for-both partition uses the declared threshold version u0: u_i == 0 for both systems. It is crude by design; the principled benchmark it must be measured against is an IDR-style threshold (Li, Brown, Huang, Bickel 2011). A threshold change is a new threshold version and a spec supersession, never an edit, and every ruling prints the threshold version it used.</p>
+<h3 id="lmn-aud-003-the-replicate-noise-band-is-enumerated-never-sampled">LMN-AUD-003 — The replicate noise band is enumerated, never sampled</h3>
+<p><em>Status: active.</em> The band is the p95 (lower interpolation, exact rationals) of |self-gap| over all complementary half-splits of one system's k draws, both systems of the pair pooled, computed on the ruling's item set with each half normalized by its own width; the maximum is printed beside it. Unordered splits are deduplicated by keeping the half containing draw position 0 at even k. No RNG is involved, and the enumeration is never thinned or sampled: above the printed cap of 400000 splits (k of 23 or more) the band and every band-dependent statistic rule UNAVAILABLE with the refusal stated. A zero band is degenerate and bounds nothing.</p>
+<h3 id="lmn-aud-004-rulings-carry-a-capped-deterministic-decisive-item-witness">LMN-AUD-004 — Rulings carry a capped, deterministic decisive-item witness</h3>
+<p><em>Status: active.</em> Every SURVIVES ruling carries the greedy removal margin (stable items removed largest signed contribution first, item id ascending on ties, band held fixed, until the ruling changes); every SIGN-INVERTS or FALLS-INTO-NOISE carries the greedy re-inclusion witness, or NO_WITNESS when even full re-inclusion does not rule SURVIVES. At most 25 item ids are printed with the full count. The witness suffices to change the answer and is deterministic; minimality is claimed only on the stable side, where contributions are quantized.</p>
+<h3 id="lmn-aud-005-gap-survival-rulings-never-ship-without-their-selection-mitigations">LMN-AUD-005 — Gap-survival rulings never ship without their selection mitigations</h3>
+<p><em>Status: active.</em> The same draws classify items unstable and estimate the gap, so naive exclusion erodes the gap even under a null. Every gap_survival section carries the disjoint classify/audit split analysis and a selection null that resamples every cell i.i.d. Bernoulli(p-hat) and re-runs the entire partition-and-gap pipeline, banding gap shrinkage, unstable share, and the ruling frequencies. The noise band is held fixed under the null: the null models per-cell rates, and the band, alone among audit statistics, is sensitive to cross-item draw alignment. No API returns the naive ruling alone.</p>
+<h3 id="lmn-aud-006-ruling-precedence-is-fixed">LMN-AUD-006 — Ruling precedence is fixed</h3>
+<p><em>Status: active.</em> In order: a pooled tie or an empty stable-for-both partition rules UNAVAILABLE; SIGN-INVERTS when the stable-gap sign is the negation of the all-items sign, both nonzero, taking precedence over the band with the within-band flag printed; FALLS-INTO-NOISE when the stable gap is a tie or its magnitude is below the band p95; otherwise SURVIVES. All signs are integer pass-count signs; all comparisons are exact rationals.</p>
+<h3 id="lmn-aud-007-differentiation-from-retry-free-coverage-ships-in-every-audit">LMN-AUD-007 — Differentiation from retry-free coverage ships in every audit</h3>
+<p><em>Status: active.</em> Every gap_survival section reports both partitions' sizes, the Jaccard overlap of the excluded sets with its integer counts, the count of stable-but-always-wrong items (the exact set on which the two criteria differ, by containment), each system's retry-free coverage, and whether the comparison's verdict differs under the per-system coverage difference versus the u_i partition. A joint-kept RFC gap would be identically zero by construction and is deliberately not used. The section exists to falsify the re-labelling objection, not to decorate it.</p>
+<h3 id="lmn-aud-008-stratum-rulings-have-a-printed-floor">LMN-AUD-008 — Stratum rulings have a printed floor</h3>
+<p><em>Status: active.</em> A per-stratum ruling is issued only when the stratum holds at least the declared floor of aligned items (default 30, recorded in the envelope options); below it the stratum rules UNAVAILABLE with the floor printed. Unlabelled items are counted per key and never silently pooled into a stratum. The saturation rollup is an association across strata of one archive; no mechanism is claimed (NO_SATURATION_MECHANISM_CLAIM).</p>
+<h2 id="lmn-core">LMN-CORE</h2>
+<h3 id="lmn-core-001-binary-verdicts-only-no-thresholding">LMN-CORE-001 — Binary verdicts only; no thresholding</h3>
+<p><em>Status: active.</em> A verdict enters limen as a literal 0 or 1. limen never derives a verdict from a score: choosing a threshold is a measurement decision that belongs to the evaluation, not to the instrument that audits it.</p>
+<h3 id="lmn-core-002-table-invariants-are-hard-errors">LMN-CORE-002 — Table invariants are hard errors</h3>
+<p><em>Status: active.</em> Duplicate (model, task, item_id, draw_id), non-binary verdicts, and partially present per-cell optional fields raise; limen never silently repairs its input.</p>
+<h3 id="lmn-core-003-cells-below-min-k-are-excluded-and-counted">LMN-CORE-003 — Cells below min-k are excluded and counted</h3>
+<p><em>Status: active.</em> Cells with fewer than min_k (default 2) draws are excluded from analysis and reported with their count; the build refuses only when no cell remains. One draw cannot be observed to flip.</p>
+<h3 id="lmn-core-004-canonical-draw-order">LMN-CORE-004 — Canonical draw order</h3>
+<p><em>Status: active.</em> If every draw_id in the table parses as an integer, draws order numerically, else lexicographically. 'Draw position d' means the d-th draw in this order, everywhere.</p>
+<h3 id="lmn-core-005-long-csv-is-the-canonical-on-disk-form">LMN-CORE-005 — Long CSV is the canonical on-disk form</h3>
+<p><em>Status: active.</em> The generic long-format CSV (model, task, item_id, draw_id, verdict, plus optional score, collected_at, model_version, raw_sha256) is the canonical serialization of the verdict table; the calibration corpus and limen synth write it deterministically.</p>
+<h3 id="lmn-core-006-absent-readers-are-stated-not-silent">LMN-CORE-006 — Absent readers are stated, not silent</h3>
+<p><em>Status: superseded.</em> Readers deliberately absent from this release (inspect_ai .eval per-epoch, HELM, Parquet) are named in the reader registry and the docs; their absence is a scope decision, not an accident.</p>
+<h3 id="lmn-core-007-absent-readers-are-stated-not-silent">LMN-CORE-007 — Absent readers are stated, not silent</h3>
+<p><em>Status: active.</em> Readers deliberately absent (HELM, Parquet) are named in the reader registry and the docs; their absence is a scope decision, not an accident. Supersedes LMN-CORE-006 after the inspect_ai .eval per-epoch reader shipped: each epoch of each sample is one draw, read directly from the zip without an inspect_ai dependency, consuming exactly the layer inspect's epoch reducers collapse.</p>
+<h3 id="lmn-core-008-per-item-labels-are-optional-all-or-nothing-and-item-consistent">LMN-CORE-008 — Per-item labels are optional, all-or-nothing, and item-consistent</h3>
+<p><em>Status: active.</em> Rows may carry label_<name> columns naming per-item strata. Within a cell labels are all-or-nothing and identical across draws, and identical across every cell of the same (task, item); violations are hard errors. Label names match [a-z0-9_]+ and values are non-empty. Label-free rows keep their exact pre-label digest bytes, so the dataset digest of an unlabeled table is unchanged by label support.</p>
+<h2 id="lmn-drf">LMN-DRF</h2>
+<h3 id="lmn-drf-001-unavailable-is-never-pass">LMN-DRF-001 — UNAVAILABLE is never PASS</h3>
+<p><em>Status: active.</em> The drift guard's overall state is FAIL if any sub-check fails, else UNAVAILABLE if any sub-check could not run (missing collected_at or model_version), else PASS. A missing field can never launder into PASS.</p>
+<h3 id="lmn-drf-002-position-proxy-mode-can-fail-but-cannot-pass">LMN-DRF-002 — Position-proxy mode can fail but cannot pass</h3>
+<p><em>Status: active.</em> When timestamps are absent and the caller declares that within-cell draw order is collection order, the order-based sub-checks run on positions: a found effect is FAIL (real evidence of trouble), a clean result is UNAVAILABLE with the disclaimer attached — collected_at is still missing.</p>
+<h2 id="lmn-emit">LMN-EMIT</h2>
+<h3 id="lmn-emit-001-canonical-bytes">LMN-EMIT-001 — Canonical bytes</h3>
+<p><em>Status: active.</em> Ruling documents serialize as json.dumps(sort_keys=True, indent=2, ensure_ascii=True) plus a trailing newline, floats rounded half-even to 6 places with -0.0 normalized, lists in documented sort order, gzip members written with mtime=0. Regeneration from the same input is byte-identical.</p>
+<h3 id="lmn-emit-002-no-count-without-its-denominator">LMN-EMIT-002 — No count without its denominator</h3>
+<p><em>Status: active.</em> Every rate in a ruling document is emitted as {count, denominator, rate}; a bare rate never appears.</p>
+<h3 id="lmn-emit-003-seeds-are-derived-never-wall-clock">LMN-EMIT-003 — Seeds are derived, never wall-clock</h3>
+<p><em>Status: active.</em> Every stochastic procedure derives its seeds as sha256 over (rulings_version, scope, procedure, index). No unseeded RNG and no clock anywhere in a ruling body's production.</p>
+<h3 id="lmn-emit-004-body-and-provenance-are-split">LMN-EMIT-004 — Body and provenance are split</h3>
+<p><em>Status: active.</em> The ruling body contains no timestamp, package version, hostname, or absolute path — nothing that varies across a faithful regeneration. Provenance lives in a sidecar outside the byte comparison; the body pins its input via dataset_digest.</p>
+<h3 id="lmn-emit-005-the-scope-block-ships-in-every-report">LMN-EMIT-005 — The scope block ships in every report</h3>
+<p><em>Status: active.</em> Every report embeds the fixed does_not_show scope codes (NO_MODEL_QUALITY_CLAIM and companions) so a ruling document cannot circulate without its own limits.</p>
+<h3 id="lmn-emit-006-schema-reportv1-has-no-variance-components-section">LMN-EMIT-006 — Schema report/v1 has no variance-components section</h3>
+<p><em>Status: superseded.</em> The item/model/draw variance decomposition is deliberately deferred: 8 draw levels give a wide interval, and shipping a wide interval as a headline teaches people to trust the wrong thing. Adding the section is a schema version bump, not a field.</p>
+<h3 id="lmn-emit-007-schema-reportv2-carries-the-variance-components-section-subordinated">LMN-EMIT-007 — Schema report/v2 carries the variance-components section, subordinated</h3>
+<p><em>Status: active.</em> report/v1 deliberately had no variance-components section; adding it was a schema bump, exactly as LMN-EMIT-006 prescribed, and this ruling supersedes it. In report/v2 the section exists only under the LMN-VAR guardrails: subordinate placement, mandatory intervals, bucket and never-headline notes, and a gate that never reads it (LMN-VAR-004).</p>
+<h3 id="lmn-emit-008-additive-schema-evolution">LMN-EMIT-008 — Additive schema evolution</h3>
+<p><em>Status: active.</em> A committed golden may be replaced under --write without --confirm-spec-bump only when the regenerated document strictly adds: after stripping every content_hash and exempting the spec_version and limen_schema stamps, every committed leaf is present and byte-equal at the same path, arrays are equal-length and compared positionally, and the rulings spec has moved by at least MINOR. A changed or removed value is a changed recorded meaning and still demands a spec MAJOR and the explicit flag. Adding is cheap by design so that adding is never smuggled in as changing.</p>
+<h2 id="lmn-flk">LMN-FLK</h2>
+<h3 id="lmn-flk-001-per-item-flakiness-is-the-pairwise-disagreement-u-statistic">LMN-FLK-001 — Per-item flakiness is the pairwise-disagreement U-statistic</h3>
+<p><em>Status: active.</em> f = s(k-s)/C(k,2), the fraction of draw pairs whose verdict differs; unbiased for 2q(1-q) at every k. Items classify always_pass / always_fail / mixed, and mixed iff f &gt; 0.</p>
+<h3 id="lmn-flk-002-the-constant-verdict-fraction-is-an-upper-bound-on-taran-and-says-so">LMN-FLK-002 — The constant-verdict fraction is an upper bound on TARa@N and says so</h3>
+<p><em>Status: active.</em> The constant-verdict fraction is reported with an explicit note that it upper-bounds TARa@N (Atil et al., arXiv:2408.04667): TARa counts parsed-answer agreement, and two different wrong answers grade to the same 0 verdict, so verdict constancy &gt;= TARa@N — equality is unverifiable from a verdict table. The field is emitted only when k is uniform across cells; at ragged k it is null because the quantity at mixed N is not comparable to the published metric.</p>
+<h2 id="lmn-grd">LMN-GRD</h2>
+<h3 id="lmn-grd-001-a-grader-defect-is-a-byte-identical-flip">LMN-GRD-001 — A grader defect is a byte-identical flip</h3>
+<p><em>Status: active.</em> An unordered draw pair with identical raw completion bytes and differing verdicts is a grader defect: the model produced the same bytes and the grader decided differently. Identity is byte identity — no strip, no case-fold, no normalization. The count is a share of all discordant draw pairs, and is reported beside raw flakiness, never replacing it.</p>
+<h3 id="lmn-grd-002-no-raw-text-means-unavailable-not-zero">LMN-GRD-002 — No raw text means UNAVAILABLE, not zero</h3>
+<p><em>Status: active.</em> When raw hashes are absent the grader-defect state is UNAVAILABLE with null counts. 'Zero defects found' is a finding; 'no text to check' is not.</p>
+<h2 id="lmn-gte">LMN-GTE</h2>
+<h3 id="lmn-gte-001-exit-codes-preserve-the-three-way-distinction">LMN-GTE-001 — Exit codes preserve the three-way distinction</h3>
+<p><em>Status: active.</em> 0: every requested check passed. 1: a requested check measurably failed. 2: a requested check could not be evaluated (UNAVAILABLE section, missing pair, unreadable report). Both 1 and 2 are red in CI, so UNAVAILABLE can never slip through as success; a measured failure outranks a missing section when both occur.</p>
+<h3 id="lmn-gte-002-the-claimed-improvement-is-the-reports-own-delta">LMN-GTE-002 — The claimed improvement is the report's own delta</h3>
+<p><em>Status: active.</em> The gate audits a report against itself: the claimed improvement for a pair is the report's own |delta_pool|. The gate accepts no externally typed effect size; with --pair task:A&gt;B the asserted direction must match the report's pooled sign or the pair fails with claim_contradicts_pooled_data.</p>
+<h3 id="lmn-gte-003-every-gate-failure-reprints-the-quality-claim-boundary">LMN-GTE-003 — Every gate failure reprints the quality-claim boundary</h3>
+<p><em>Status: active.</em> Every FAIL verdict reprints NO_MODEL_QUALITY_CLAIM: a sign ruling is a verdict on the measurement, never on the models, and a failed pair never means the other model wins.</p>
+<h3 id="lmn-gte-004-the-gate-accepts-reportv1-and-reportv2">LMN-GTE-004 — The gate accepts report/v1 and report/v2</h3>
+<p><em>Status: active.</em> report/v2 is additive: every field the gate reads is byte-identical in shape and meaning in report/v1, so both schemas are accepted; v2-only checks rule UNEVALUABLE on v1 documents with the regeneration named. An unknown or newer schema exits 2 (unevaluable), never 0. A schema leaves the accepted set only when a change removes or alters a gate-read field, which is a spec MAJOR.</p>
+<h2 id="lmn-nse">LMN-NSE</h2>
+<h3 id="lmn-nse-001-the-mdd-is-cited-conservative-and-carries-its-assumptions">LMN-NSE-001 — The MDD is cited, conservative, and carries its assumptions</h3>
+<p><em>Status: active.</em> MDD = t_{0.975, k-1} * sqrt((sd_a^2 + sd_b^2)/k), after Kalibera &amp; Jones (ISMM 2013) specialized to one level of repetition, with the conservative df = k-1 and a hardcoded t-table (floor lookup for untabulated df). Every MDD block prints its assumption list verbatim, flags k &lt; 4 as low_k, and flags zero observed spread as degenerate rather than treating it as zero noise.</p>
+<h2 id="lmn-rnk">LMN-RNK</h2>
+<h3 id="lmn-rnk-001-signs-are-computed-on-integers">LMN-RNK-001 — Signs are computed on integers</h3>
+<p><em>Status: active.</em> Every leaderboard sign is the sign of an integer pass-count difference, never of a float subtraction; a drawn tie must be exactly a tie.</p>
+<h3 id="lmn-rnk-002-ties-are-their-own-count">LMN-RNK-002 — Ties are their own count</h3>
+<p><em>Status: active.</em> A single-draw tie is neither agreement nor disagreement with the pooled direction; n_agree, n_flip, and n_tie are all printed with denominator k, and the flip rate keeps ties in its denominator (a tie-excluded rate is printed beside it).</p>
+<h3 id="lmn-rnk-003-a-pooled-tie-is-sign-unstable">LMN-RNK-003 — A pooled tie is SIGN-UNSTABLE</h3>
+<p><em>Status: active.</em> When the pooled difference is exactly zero no directional claim is supported: the ruling is SIGN-UNSTABLE with pooled_tie set, per-draw agreement fields are null (agreement with a nonexistent direction is undefined), and the gate fails the pair.</p>
+<h3 id="lmn-rnk-004-zero-flips-carry-their-exact-upper-bound">LMN-RNK-004 — Zero flips carry their exact upper bound</h3>
+<p><em>Status: active.</em> When no flip is observed in k draws, the ruling prints the one-sided 95% upper bound on the per-draw flip probability, 1 - 0.05**(1/k) (0.312 at k=8), so SIGN-STABLE cannot be read as flip probability ~ 0.</p>
+<h3 id="lmn-rnk-005-stable-only-numbers-never-ship-without-their-mitigations">LMN-RNK-005 — Stable-only numbers never ship without their mitigations</h3>
+<p><em>Status: active.</em> The same draws that classify an item as flaky also rank the models, so naive exclusion looks tidier even under a null. Every stable-items-only number is emitted together with the disjoint classify/rank split analysis and the selection null; there is no API that returns the naive view alone.</p>
+<h3 id="lmn-rnk-006-the-selection-null-resamples-verdicts-permutation-is-invariant">LMN-RNK-006 — The selection null resamples verdicts; permutation is invariant</h3>
+<p><em>Status: active.</em> Within-cell draw-label permutation changes nothing here — classification, scores, and tau are functions of per-cell pass counts only — so a permutation 'null' would tautologically pass. The null resamples each cell i.i.d. Bernoulli(p-hat) and re-runs the entire selection pipeline, with seeds derived from the rulings version.</p>
+<h2 id="lmn-var">LMN-VAR</h2>
+<h3 id="lmn-var-001-variance-components-are-exact-ems-method-of-moments-stdlib-only">LMN-VAR-001 — Variance components are exact EMS method-of-moments, stdlib only</h3>
+<p><em>Status: active.</em> The two-facet crossed items x draws decomposition of the binary verdict uses balanced-design ANOVA sums of squares computed exactly on integers (SS_item = sum s_i^2/k - T^2/nk, SS_draw = sum t_d^2/n - T^2/nk, SS_residual by subtraction) and the EMS relations E[MS_item] = s2_res + k<em>s2_item, E[MS_draw] = s2_res + n</em>s2_draw, E[MS_res] = s2_res. A likelihood GLMM is deliberately not used: it is not computable pure-stdlib, not byte-deterministic, and lives on a link scale that does not decompose the observed score. Ragged k is UNAVAILABLE, never approximated. Negative moment estimates truncate to zero and the raw value is printed beside the truncated estimate.</p>
+<h3 id="lmn-var-002-component-intervals-are-seeded-item-bootstrap-percentiles">LMN-VAR-002 — Component intervals are seeded item-bootstrap percentiles</h3>
+<p><em>Status: active.</em> Cells are resampled with their whole draw vectors, seeds derived per LMN-EMIT-003, bands by lower-interpolation percentiles, with the truncation share printed. The draw-component interval is conditional on the observed k draws and its assumptions list says so. Satterthwaite chi-square intervals are deliberately not used: the effective df is continuous and stdlib has no chi-square inverse, mean squares of Bernoulli verdicts are not scaled chi-squares, and zero-truncation breaks the pivot.</p>
+<h3 id="lmn-var-003-the-section-is-subordinate-and-the-draw-facet-is-a-bucket">LMN-VAR-003 — The section is subordinate and the draw facet is a bucket</h3>
+<p><em>Status: active.</em> Every variance_components section carries the fixed bucket note (NO_FACTOR_ATTRIBUTION) and never-headline note, and emits the fixed low-k warning whenever the draw facet has fewer than 20 levels. The CLI summary never prints a component; report.md renders the section only after the scope block with its warnings above the numbers; no component appears without its interval.</p>
+<h3 id="lmn-var-004-the-gate-never-reads-variance_components">LMN-VAR-004 — The gate never reads variance_components</h3>
+<p><em>Status: active.</em> No gate check may consult the section: deleting every variance_components section from a report leaves every gate line, verdict and exit code identical. The section informs planning, never pass/fail.</p>
+<h3 id="lmn-var-005-the-model-facet-is-descriptive-never-a-component">LMN-VAR-005 — The model facet is descriptive, never a component</h3>
+<p><em>Status: active.</em> Models are fixed choices, not a sample from a universe. The task-level model facet is the ddof=1 variance of the pooled scores, labelled descriptive, with no interval and no random-model claim; a three-facet random-model decomposition is deliberately absent because a model variance component would be a model-quality claim (NO_MODEL_QUALITY_CLAIM) estimated on one to three degrees of freedom.</p>
+<h3 id="lmn-var-006-design-effect-and-planning-are-defined-and-cited">LMN-VAR-006 — Design effect and planning are defined and cited</h3>
+<p><em>Status: active.</em> deff = 1 + (k-1)<em>icc_item + (n-1)</em>icc_draw = (k<em>s2_item + n</em>s2_draw + s2_res)/s2_total; n_eff = nk/deff; null when total variance is zero. The draw-facet contribution to the pooled score scales exactly as 1/k, so halving it doubles k; planning numbers cite Kalibera &amp; Jones (ISMM 2013) and issue no sufficiency certificate (NO_K1_CERTIFICATE).</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.sections", "content.code.copy"], "search": "../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.50899def.min.js"></script>
+      
+    
+  </body>
+</html>

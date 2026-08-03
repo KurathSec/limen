@@ -1,0 +1,1672 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="The same-configuration noise floor of an evaluation: verdict flakiness, sign-stability rulings, and a CI gate over repeated identical runs.">
+      
+      
+      
+        <link rel="canonical" href="https://kurathsec.github.io/limen/report/">
+      
+      
+        <link rel="prev" href="../quickstart/">
+      
+      
+        <link rel="next" href="../reading/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.16">
+    
+    
+      
+        <title>The ruling document - limen</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.7e37652d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#the-ruling-document" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="limen" class="md-header__button md-logo" aria-label="limen" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            limen
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              The ruling document
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/KurathSec/limen" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    KurathSec/limen
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="limen" class="md-nav__button md-logo" aria-label="limen" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    limen
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/KurathSec/limen" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    KurathSec/limen
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quickstart
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    The ruling document
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    The ruling document
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#conventions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Conventions
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#envelope" class="md-nav__link">
+    <span class="md-ellipsis">
+      Envelope
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mt-rulings-one-per-model-task" class="md-nav__link">
+    <span class="md-ellipsis">
+      MT rulings: one per (model, task)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="MT rulings: one per (model, task)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#flakiness" class="md-nav__link">
+    <span class="md-ellipsis">
+      flakiness
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#instability" class="md-nav__link">
+    <span class="md-ellipsis">
+      instability
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variance_components" class="md-nav__link">
+    <span class="md-ellipsis">
+      variance_components
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#noise_floor" class="md-nav__link">
+    <span class="md-ellipsis">
+      noise_floor
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#drift" class="md-nav__link">
+    <span class="md-ellipsis">
+      drift
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#grader_defect" class="md-nav__link">
+    <span class="md-ellipsis">
+      grader_defect
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pair-rulings-one-per-within-task-model-pair" class="md-nav__link">
+    <span class="md-ellipsis">
+      PAIR rulings: one per within-task model pair
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="PAIR rulings: one per within-task model pair">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gap_survival" class="md-nav__link">
+    <span class="md-ellipsis">
+      gap_survival
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-rulings-one-per-task" class="md-nav__link">
+    <span class="md-ellipsis">
+      TASK rulings: one per task
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="TASK rulings: one per task">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#stable_only" class="md-nav__link">
+    <span class="md-ellipsis">
+      stable_only
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="stable_only">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mitigationssplit_half" class="md-nav__link">
+    <span class="md-ellipsis">
+      mitigations.split_half
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mitigationsselection_null" class="md-nav__link">
+    <span class="md-ellipsis">
+      mitigations.selection_null
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-is-deliberately-absent" class="md-nav__link">
+    <span class="md-ellipsis">
+      What is deliberately absent
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reading/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Reading a ruling
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../honesty/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Honesty
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../validation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Validation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../spec/rulings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Spec rulings
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../spec/sensitivity/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Gate sensitivity
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../contributing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Contributing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#conventions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Conventions
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#envelope" class="md-nav__link">
+    <span class="md-ellipsis">
+      Envelope
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mt-rulings-one-per-model-task" class="md-nav__link">
+    <span class="md-ellipsis">
+      MT rulings: one per (model, task)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="MT rulings: one per (model, task)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#flakiness" class="md-nav__link">
+    <span class="md-ellipsis">
+      flakiness
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#instability" class="md-nav__link">
+    <span class="md-ellipsis">
+      instability
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variance_components" class="md-nav__link">
+    <span class="md-ellipsis">
+      variance_components
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#noise_floor" class="md-nav__link">
+    <span class="md-ellipsis">
+      noise_floor
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#drift" class="md-nav__link">
+    <span class="md-ellipsis">
+      drift
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#grader_defect" class="md-nav__link">
+    <span class="md-ellipsis">
+      grader_defect
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pair-rulings-one-per-within-task-model-pair" class="md-nav__link">
+    <span class="md-ellipsis">
+      PAIR rulings: one per within-task model pair
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="PAIR rulings: one per within-task model pair">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gap_survival" class="md-nav__link">
+    <span class="md-ellipsis">
+      gap_survival
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#task-rulings-one-per-task" class="md-nav__link">
+    <span class="md-ellipsis">
+      TASK rulings: one per task
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="TASK rulings: one per task">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#stable_only" class="md-nav__link">
+    <span class="md-ellipsis">
+      stable_only
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="stable_only">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mitigationssplit_half" class="md-nav__link">
+    <span class="md-ellipsis">
+      mitigations.split_half
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mitigationsselection_null" class="md-nav__link">
+    <span class="md-ellipsis">
+      mitigations.selection_null
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-is-deliberately-absent" class="md-nav__link">
+    <span class="md-ellipsis">
+      What is deliberately absent
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="the-ruling-document">The ruling document</h1>
+<p><code>limen report</code> writes three files. <code>report.json</code> is the ruling document itself
+and the only file the gate reads. <code>report.md</code> is a human summary of the same
+numbers. <code>provenance.json</code> records who produced the document and from what
+(limen version, timestamp, input paths and hashes); it sits outside the byte
+comparison so that a faithful regeneration of <code>report.json</code> stays identical.</p>
+<p>This page documents every field of <code>report.json</code>. A test
+(<code>tests/test_docs_format.py</code>) checks the two directions of honesty: every path
+named here exists in a real report, and every field a real report emits is
+named here. If the format moves, this page has to move with it.</p>
+<h2 id="conventions">Conventions</h2>
+<ul>
+<li><strong>Counted triads.</strong> Every rate appears as an object with <code>count</code>,
+  <code>denominator</code> and <code>rate</code>. The rate is derived and rounded; the integers are
+  the record. <code>rate</code> is <code>null</code> when the denominator is zero. Written below as
+  <code>x.{count,denominator,rate}</code>.</li>
+<li><strong>Tri-states.</strong> Sections that depend on optional inputs carry a <code>state</code> of
+  <code>AVAILABLE</code> or <code>UNAVAILABLE</code> (drift sub-checks use <code>PASS</code>, <code>FAIL</code>,
+  <code>UNAVAILABLE</code>). A missing input yields <code>UNAVAILABLE</code> with null counts. It is
+  never reported as zero and never treated as a pass.</li>
+<li><strong>Nulls keep their keys.</strong> Absent data changes values to <code>null</code>; the key
+  set of a section is fixed for a schema version.</li>
+<li><strong>Determinism.</strong> Serialization is canonical: sorted keys, two-space indent,
+  ASCII, LF, floats rounded half-even to six places, seeds derived from the
+  rulings version. Regenerating from the same input gives identical bytes.</li>
+<li><strong>Model-keyed maps.</strong> Two fields key objects by model name, shown below as
+  <code>&lt;model&gt;</code>.</li>
+</ul>
+<h2 id="envelope">Envelope</h2>
+<table>
+<thead>
+<tr>
+<th>field</th>
+<th>meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>limen_schema</code></td>
+<td>Always <code>report/v1</code> for this schema.</td>
+</tr>
+<tr>
+<td><code>rulings_version</code></td>
+<td>The version string you passed with <code>--rulings-version</code>; part of every ruling id.</td>
+</tr>
+<tr>
+<td><code>spec_version</code></td>
+<td>The rulings-spec version the producing package carried (<code>limen spec list</code>).</td>
+</tr>
+<tr>
+<td><code>dataset_digest</code></td>
+<td>sha256 over every input row, including rows later excluded for low k. Pins the document to its exact input.</td>
+</tr>
+<tr>
+<td><code>options.replicates</code></td>
+<td>Selection-null replicate count.</td>
+</tr>
+<tr>
+<td><code>options.max_splits</code></td>
+<td>Cap on enumerated classify/rank splits.</td>
+</tr>
+<tr>
+<td><code>options.assume_index_is_collection_order</code></td>
+<td>Whether drift ran in position-proxy mode.</td>
+</tr>
+<tr>
+<td><code>options.ragged</code></td>
+<td><code>error</code> or <code>truncate</code>; how ragged k was handled.</td>
+</tr>
+<tr>
+<td><code>options.bootstrap</code></td>
+<td>Audit bootstrap replicates per gap estimand.</td>
+</tr>
+<tr>
+<td><code>options.stratify_by</code></td>
+<td>Label keys per-stratum audit rulings were issued for (sorted; empty when none).</td>
+</tr>
+<tr>
+<td><code>options.stratum_replicates</code></td>
+<td>Bootstrap and null replicates inside each stratum.</td>
+</tr>
+<tr>
+<td><code>options.stratum_floor</code></td>
+<td>Minimum aligned items for a stratum to receive a ruling.</td>
+</tr>
+<tr>
+<td><code>n.models[]</code>, <code>n.tasks[]</code></td>
+<td>Sorted model and task names.</td>
+</tr>
+<tr>
+<td><code>n.cells</code></td>
+<td>Number of (model, task, item) cells that survived the min-k filter.</td>
+</tr>
+<tr>
+<td><code>n.excluded_low_k[].{model,task,count}</code></td>
+<td>Cells excluded for having fewer than min-k draws, counted per scope. Empty list when nothing was excluded.</td>
+</tr>
+<tr>
+<td><code>scope.does_not_show[].{code,text}</code></td>
+<td>The fixed scope codes (NO_MODEL_QUALITY_CLAIM and companions). Every document carries them.</td>
+</tr>
+<tr>
+<td><code>rulings.mt[]</code>, <code>rulings.pair[]</code>, <code>rulings.task[]</code></td>
+<td>The ruling bodies, described below.</td>
+</tr>
+<tr>
+<td><code>content_hash</code></td>
+<td>sha256 of the canonical envelope with this field removed. Each body carries its own.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="mt-rulings-one-per-model-task">MT rulings: one per (model, task)</h2>
+<p>Identity: <code>ruling_id</code> (<code>LIMEN-&lt;version&gt;-MT-&lt;nnnn&gt;</code>, ordinal by sorted scope),
+<code>kind</code> (<code>MT</code>), <code>scope_key.{task,model}</code>, <code>content_hash</code>.</p>
+<h3 id="flakiness"><code>flakiness</code></h3>
+<table>
+<thead>
+<tr>
+<th>field</th>
+<th>meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>n_items</code></td>
+<td>Items this model has for the task (may exceed the aligned count).</td>
+</tr>
+<tr>
+<td><code>k_uniform</code></td>
+<td>The uniform k across this model's cells, or <code>null</code> if ragged.</td>
+</tr>
+<tr>
+<td><code>always_pass.{count,denominator,rate}</code></td>
+<td>Items passing on every draw.</td>
+</tr>
+<tr>
+<td><code>always_fail.{count,denominator,rate}</code></td>
+<td>Items failing on every draw.</td>
+</tr>
+<tr>
+<td><code>mixed.{count,denominator,rate}</code></td>
+<td>Items whose draws disagree.</td>
+</tr>
+<tr>
+<td><code>constant_verdict_fraction</code></td>
+<td><code>(always_pass + always_fail) / n_items</code> at uniform k, else <code>null</code>.</td>
+</tr>
+<tr>
+<td><code>constant_verdict_n</code></td>
+<td>The k the fraction was computed at, else <code>null</code>.</td>
+</tr>
+<tr>
+<td><code>tara_upper_bound_note</code></td>
+<td>Fixed text: this fraction upper-bounds TARa@N (Atil et al.); parsed-answer agreement can be lower on always-fail items.</td>
+</tr>
+<tr>
+<td><code>mean_flakiness</code></td>
+<td>Mean of <code>f = s(k-s)/C(k,2)</code> over all items, zeros included.</td>
+</tr>
+<tr>
+<td><code>mean_flakiness_mixed_only</code></td>
+<td>Mean of f over mixed items only; <code>null</code> when none are mixed.</td>
+</tr>
+<tr>
+<td><code>pooled_pair_discordance.{count,denominator,rate}</code></td>
+<td>Discordant draw pairs over all draw pairs. Equals mean flakiness at uniform k and differs under ragged k.</td>
+</tr>
+<tr>
+<td><code>f_max</code>, <code>f_p50</code>, <code>f_p90</code>, <code>f_p99</code></td>
+<td>The f distribution: maximum and lower-interpolation quantiles.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="instability"><code>instability</code></h3>
+<p>The repaudit companion of the flakiness block: <code>u_i = min(s, k-s)/k</code>, the
+fraction of draws disagreeing with the item's own majority verdict, never
+compounded with correctness. <code>n_unstable</code> equals the flakiness block's mixed
+count by construction.</p>
+<table>
+<thead>
+<tr>
+<th>field</th>
+<th>meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mean_u</code>, <code>u_p50</code>, <code>u_p90</code>, <code>u_p99</code>, <code>u_max</code></td>
+<td>The u distribution over this model's items.</td>
+</tr>
+<tr>
+<td><code>n_unstable.{count,denominator,rate}</code></td>
+<td>Items with u above zero.</td>
+</tr>
+<tr>
+<td><code>n_majority_tie.{count,denominator,rate}</code></td>
+<td>Even-k items at s = k/2: no majority verdict exists and u = 0.5.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="variance_components"><code>variance_components</code></h3>
+<p>The subordinate two-facet items x draws decomposition (exact EMS method of
+moments). The gate never reads this section; the CLI summary never prints it;
+<code>report.md</code> renders it only after the scope block. <code>state</code> is <code>UNAVAILABLE</code>
+(with <code>reason</code>) at ragged k or below two items, and the <code>bucket_note</code> and
+<code>never_headline_note</code> travel with it either way.</p>
+<table>
+<thead>
+<tr>
+<th>field</th>
+<th>meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>state</code>, <code>reason</code></td>
+<td>Availability; the reason names the refusal.</td>
+</tr>
+<tr>
+<td><code>design</code></td>
+<td>Fixed text naming the crossed design and its crossing key.</td>
+</tr>
+<tr>
+<td><code>n_items</code>, <code>k</code></td>
+<td>The matrix behind the decomposition.</td>
+</tr>
+<tr>
+<td><code>grand_mean.{count,denominator,rate}</code></td>
+<td>Total passes over n*k.</td>
+</tr>
+<tr>
+<td><code>mean_squares.{item,draw,residual,df_item,df_draw,df_residual}</code></td>
+<td>The exact ANOVA mean squares and their degrees of freedom.</td>
+</tr>
+<tr>
+<td><code>components.item.{estimate,raw,truncated,ci95,boot_share_truncated}</code></td>
+<td>The item component: truncated-at-zero estimate beside the raw moment value, a seeded item-bootstrap percentile interval (<code>ci95.{lo,hi}</code>), and the share of bootstrap replicates that truncated.</td>
+</tr>
+<tr>
+<td><code>components.draw.{estimate,raw,truncated,ci95,boot_share_truncated}</code></td>
+<td>The draw component, same shape. Zero in expectation when draws are exchangeable.</td>
+</tr>
+<tr>
+<td><code>components.residual.{estimate,raw,truncated,ci95,boot_share_truncated}</code></td>
+<td>The item x draw interaction confounded with error; never negative.</td>
+</tr>
+<tr>
+<td><code>shares.{item,draw,residual}</code></td>
+<td>Of total variance; <code>null</code> when the total is zero.</td>
+</tr>
+<tr>
+<td><code>icc_item</code>, <code>icc_draw</code></td>
+<td>Intraclass correlations.</td>
+</tr>
+<tr>
+<td><code>design_effect.{deff,n_eff,definition}</code></td>
+<td>Kish design effect and effective sample size, with the definition printed.</td>
+</tr>
+<tr>
+<td><code>planning.{model_implied_single_draw_score_sd,pooled_sd_at_observed_k,draw_facet_share_of_pooled_variance,k_to_halve_draw_contribution,k_where_item_facet_dominates,note,citation}</code></td>
+<td>Kalibera-Jones-style sizing: the draw-facet contribution scales exactly as 1/k.</td>
+</tr>
+<tr>
+<td><code>interval.{method,replicates,seed_procedure,assumptions}</code></td>
+<td>How the intervals were produced, with the assumption list printed verbatim.</td>
+</tr>
+<tr>
+<td><code>low_draw_levels</code>, <code>draw_levels_floor</code>, <code>low_k_note</code></td>
+<td>The fixed warning fires below 20 draw levels.</td>
+</tr>
+<tr>
+<td><code>bucket_note</code>, <code>never_headline_note</code></td>
+<td>The section's own limits; always present.</td>
+</tr>
+<tr>
+<td><code>degenerate_all_constant</code></td>
+<td>True when the archive carries zero variance.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="noise_floor"><code>noise_floor</code></h3>
+<p>The spread of this model's k single-draw scores over the aligned item set.
+<code>null</code> when the task has fewer than two models.</p>
+<table>
+<thead>
+<tr>
+<th>field</th>
+<th>meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>k</code>, <code>n_items_aligned</code></td>
+<td>Draws and aligned items behind the scores.</td>
+</tr>
+<tr>
+<td><code>score_min</code>, <code>score_max</code>, <code>score_range</code>, <code>score_mean</code>, <code>score_sd</code></td>
+<td>Spread statistics, sd with ddof=1.</td>
+</tr>
+<tr>
+<td><code>score_resolution</code></td>
+<td><code>1/n</code>: one flipped verdict moves one draw's score by exactly this. Spread below it is quantization.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="drift"><code>drift</code></h3>
+<table>
+<thead>
+<tr>
+<th>field</th>
+<th>meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>{state,basis,time_ordering_vacuous,proxy_disclaimer}</code></td>
+<td>Overall state (FAIL wins over UNAVAILABLE wins over PASS), the ordering basis, the vacuous-timestamps flag (clean results then report UNAVAILABLE), and the fixed proxy disclaimer, else <code>null</code>.</td>
+</tr>
+<tr>
+<td><code>subchecks.version_constancy.{state,versions,n_cells_missing}</code></td>
+<td>Byte equality of <code>model_version</code> across all draws. Two distinct values anywhere is FAIL; missing fields are UNAVAILABLE. <code>versions</code> lists the distinct values seen.</td>
+</tr>
+<tr>
+<td><code>subchecks.lodo.{state,reason,vacuous,clean,n_mixed,n_mixed_floor,carried_by_rank,max_carried,max_share,threshold}</code></td>
+<td>Leave-one-draw-out: <code>carried_by_rank[]</code> counts how many items stop being mixed when that rank is removed. FAIL when one rank carries more than <code>threshold</code> of the flips and <code>n_mixed</code> is at least <code>n_mixed_floor</code>. Below the floor the majority rule cannot discriminate and the state is UNAVAILABLE.</td>
+</tr>
+<tr>
+<td><code>subchecks.trend.{state,reason,rho,zero_variance,clean,part_by_rank,threshold,exchangeable_fpr,n_time_ties}</code></td>
+<td>Spearman trend of flip participation against collection order. FAIL when abs(rho) exceeds <code>threshold</code>. <code>exchangeable_fpr</code> is the exact false-positive rate of that threshold under a random ordering at this k.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="grader_defect"><code>grader_defect</code></h3>
+<table>
+<thead>
+<tr>
+<th>field</th>
+<th>meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>state</code></td>
+<td><code>AVAILABLE</code> when every cell carries raw hashes, else <code>UNAVAILABLE</code> with null counts.</td>
+</tr>
+<tr>
+<td><code>n_cells_with_text</code>, <code>n_cells</code></td>
+<td>Coverage of raw hashes.</td>
+</tr>
+<tr>
+<td><code>defect_pairs.{count,denominator,rate}</code></td>
+<td>Draw pairs with identical raw bytes and differing verdicts, over all discordant pairs.</td>
+</tr>
+<tr>
+<td><code>defect_items.{count,denominator,rate}</code></td>
+<td>Cells containing at least one defect pair, over mixed cells.</td>
+</tr>
+<tr>
+<td><code>mean_flakiness_raw</code></td>
+<td>Mean flakiness before any adjustment.</td>
+</tr>
+<tr>
+<td><code>mean_flakiness_excluding_detected_defects</code></td>
+<td>Mean flakiness with detected defect pairs subtracted. This subtracts only what byte identity can see; it does not prove the remainder is the model's.</td>
+</tr>
+<tr>
+<td><code>note</code></td>
+<td>Fixed text: the check detects grader nondeterminism, never grader wrongness.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="pair-rulings-one-per-within-task-model-pair">PAIR rulings: one per within-task model pair</h2>
+<p>Identity: <code>ruling_id</code> (<code>LIMEN-&lt;version&gt;-PAIR-&lt;nnnn&gt;</code>), <code>kind</code> (<code>PAIR</code>),
+<code>scope_key.{task,model_a,model_b}</code> with <code>model_a &lt; model_b</code> lexicographically,
+<code>content_hash</code>. <code>model_a</code> and <code>model_b</code> also appear at the top level of the
+body. Direction is carried by the sign of the delta, never by pair order.</p>
+<table>
+<thead>
+<tr>
+<th>field</th>
+<th>meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>n.{items_aligned,k,draws_total}</code></td>
+<td>The comparison substrate.</td>
+</tr>
+<tr>
+<td><code>pooled.pass_a.{count,denominator,rate}</code>, <code>pooled.pass_b.{count,denominator,rate}</code></td>
+<td>Total passes over all draws of the aligned items.</td>
+</tr>
+<tr>
+<td><code>pooled.delta_pool</code></td>
+<td><code>(pass_a - pass_b) / draws_total</code>. The claimed improvement, as the gate defines it.</td>
+</tr>
+<tr>
+<td><code>pooled.pooled_sign</code></td>
+<td>-1, 0 or +1, computed on integer pass counts.</td>
+</tr>
+<tr>
+<td><code>pooled.pooled_tie</code></td>
+<td>True when the pooled counts are exactly equal.</td>
+</tr>
+<tr>
+<td><code>sign_stability.ruling</code></td>
+<td><code>SIGN-STABLE</code> or <code>SIGN-UNSTABLE</code>. Stable requires a nonzero pooled sign and zero flips. A pooled tie rules SIGN-UNSTABLE.</td>
+</tr>
+<tr>
+<td><code>sign_stability.pooled_tie</code></td>
+<td>Repeats the tie flag beside the ruling.</td>
+</tr>
+<tr>
+<td><code>sign_stability.n_agree.{count,denominator,rate}</code></td>
+<td>Draws agreeing with the pooled sign. <code>null</code> under a pooled tie: agreement with a nonexistent direction is undefined.</td>
+</tr>
+<tr>
+<td><code>sign_stability.n_flip.{count,denominator,rate}</code></td>
+<td>Draws reversing the pooled sign. <code>null</code> under a pooled tie.</td>
+</tr>
+<tr>
+<td><code>sign_stability.n_tie.{count,denominator,rate}</code></td>
+<td>Draws where the two models' pass counts are exactly equal. Ties are their own count and never break stability on their own.</td>
+</tr>
+<tr>
+<td><code>sign_stability.rank_flip_rate</code></td>
+<td><code>n_flip / k</code>, ties kept in the denominator.</td>
+</tr>
+<tr>
+<td><code>sign_stability.flip_rate_excl_ties</code></td>
+<td><code>n_flip / (n_flip + n_agree)</code>; <code>null</code> when that denominator is zero.</td>
+</tr>
+<tr>
+<td><code>sign_stability.flip_prob_upper95</code></td>
+<td><code>1 - 0.05**(1/k)</code> when zero flips were observed: the one-sided 95% bound on the per-draw flip probability. <code>null</code> otherwise.</td>
+</tr>
+<tr>
+<td><code>noise.sd_a</code>, <code>noise.sd_b</code>, <code>noise.range_a</code>, <code>noise.range_b</code></td>
+<td>Single-draw score spread per side.</td>
+</tr>
+<tr>
+<td><code>noise.mdd.{value,t,df,alpha,low_k,degenerate_zero_spread,score_resolution,assumptions,citation}</code></td>
+<td>The minimum detectable difference at the observed k, with its t quantile, conservative df, fixed assumption list and citation. <code>low_k</code> flags k below 4. <code>degenerate_zero_spread</code> flags zero observed spread on both sides, which bounds nothing.</td>
+</tr>
+<tr>
+<td><code>confounded_by_version_change</code></td>
+<td>True when either model's version-constancy sub-check failed. The gate refuses effect attribution for such pairs.</td>
+</tr>
+<tr>
+<td><code>drift_ref.{model_a,model_b}</code></td>
+<td>The two models' overall drift states, repeated here for the gate.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="gap_survival"><code>gap_survival</code></h3>
+<p>The repaudit section: does the pair's ordering survive removing the items the
+systems cannot reproduce against themselves? Never emitted without both
+selection mitigations. All signs are integer pass-count signs; all band
+comparisons are exact rationals.</p>
+<table>
+<thead>
+<tr>
+<th>field</th>
+<th>meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>note</code></td>
+<td>Fixed text: a ruling is a verdict on the measurement.</td>
+</tr>
+<tr>
+<td><code>threshold.{version,rule,note}</code></td>
+<td>The declared partition threshold (<code>u0</code>: u = 0 for both systems), with the IDR benchmark named.</td>
+</tr>
+<tr>
+<td><code>instability.u_tie_rule</code></td>
+<td>Fixed text for the even-k no-majority case.</td>
+</tr>
+<tr>
+<td><code>instability.a.{mean_u,max_u}</code>, <code>instability.b.{mean_u,max_u}</code></td>
+<td>Pair-scoped instability summaries per side.</td>
+</tr>
+<tr>
+<td><code>partition.{stable_both,unstable_either,unstable_a_only,unstable_b_only,unstable_both}</code></td>
+<td>The partition, every cell a counted triad.</td>
+</tr>
+<tr>
+<td><code>gaps.all.{state,n_items,pass_a,pass_b,delta,sign,ci95}</code></td>
+<td>The all-items gap; <code>delta</code> equals the PAIR body's <code>pooled.delta_pool</code> byte-for-byte. <code>ci95.{lo,hi,replicates}</code> is the two-stage paired bootstrap interval.</td>
+</tr>
+<tr>
+<td><code>gaps.stable_both.{state,n_items,pass_a,pass_b,delta,sign,ci95}</code></td>
+<td>The gap over items stable for both systems; <code>UNAVAILABLE</code> with nulls when the partition is empty.</td>
+</tr>
+<tr>
+<td><code>gaps.unstable_either.{state,n_items,pass_a,pass_b,delta,sign,ci95}</code></td>
+<td>The gap over the unstable remainder.</td>
+</tr>
+<tr>
+<td><code>share_unstable.{carried_draw_delta,total_draw_delta,share,opposing_partition_signs}</code></td>
+<td>The signed share of the gap carried by unstable items, with the raw integers printed; the share exceeds 1 or drops below 0 exactly when the partition gaps oppose, and the flag says so.</td>
+</tr>
+<tr>
+<td><code>bootstrap.{method,replicates,seed_procedure,note}</code></td>
+<td>The CI recipe; CIs are conditional on the observed partition.</td>
+</tr>
+<tr>
+<td><code>noise_band.{statistic,p95,max,per_system_max,n_splits,half_sizes,enumeration_cap,low_k,item_set,degenerate_zero_band,note}</code></td>
+<td>The enumerated replicate band: p95 of |self-gap| over ALL complementary half-splits, both systems pooled (<code>per_system_max.{a,b}</code> printed). No RNG and no thinning; above <code>enumeration_cap</code> splits (k of 23 or more) the block instead carries <code>{state,reason,n_splits,enumeration_cap,half_sizes,item_set,note}</code> with state UNAVAILABLE, and the ruling, selection null and coverage comparison go UNAVAILABLE with it. <code>item_set</code> is <code>all_aligned</code> at the pair level and <code>stratum</code> inside a stratum block.</td>
+</tr>
+<tr>
+<td><code>ruling.{ruling,reason,stable_tie,also_within_noise_band,band_statistic_used}</code></td>
+<td>SURVIVES / SIGN-INVERTS / FALLS-INTO-NOISE / UNAVAILABLE under the fixed precedence; an inversion inside the band stays SIGN-INVERTS with the flag printed.</td>
+</tr>
+<tr>
+<td><code>decisive_items.{state,direction,n_items,terminal_ruling,ids,cap,truncated,note}</code></td>
+<td>The auditable witness: the greedy removal margin (SURVIVES) or re-inclusion set (otherwise), capped at 25 printed ids; <code>NO_WITNESS</code> when even full re-inclusion cannot rule SURVIVES.</td>
+</tr>
+<tr>
+<td><code>rfc_differentiation.{citation,coverage_a,coverage_b,rfc_kept,ui_kept,excluded_intersection,excluded_union,jaccard_excluded,stable_but_always_wrong,ruling_under_rfc,rulings_differ}</code></td>
+<td>The mandated comparison against retry-free coverage. RFC is per-system, so <code>ruling_under_rfc.{ruling,reason,delta,sign}</code> rules on the coverage difference <code>coverage_a - coverage_b</code>; a joint-kept gap would be identically zero by construction and is not used.</td>
+</tr>
+<tr>
+<td><code>mitigations.split_half.{state,reason,n_splits,thinned,classify_draws,survived,inverted,indeterminate,share_unstable_over_splits,stable_both_size_over_splits,canonical_split}</code></td>
+<td>Disjoint classify/audit halves; <code>canonical_split.{classify_positions,audit_positions,n_stable,stable_sign,all_sign}</code> reported alone; <code>share_unstable_over_splits.{mean,min,max}</code> and <code>stable_both_size_over_splits.{mean,min,max}</code> across splits.</td>
+</tr>
+<tr>
+<td><code>mitigations.selection_null.{state,reason,replicates,replicates_effective,replicates_pooled_tie,band_held_fixed,seed_procedure,low_k,observed,null,interpretation}</code></td>
+<td>The selection null: <code>observed.{t_shrink,t_share,ruling}</code>; <code>null.t_shrink.{mean,p2_5,p97_5,p_value_one_sided_small,p_value_one_sided_large}</code>; <code>null.t_share.{mean,p2_5,p97_5,percentile_of_observed}</code>; <code>null.ruling_frequencies.{SURVIVES,SIGN-INVERTS,FALLS-INTO-NOISE,UNAVAILABLE}</code> as counted triads — the selection-only base rates.</td>
+</tr>
+<tr>
+<td><code>strata.{state,reason,by}</code></td>
+<td>Per-stratum rulings when requested: <code>by[].{label,n_items_unlabelled,strata}</code>; each stratum entry is <code>{value,state,n_items,...}</code> with either <code>reason</code>/<code>floor</code> (below the floor) or a full nested <code>audit</code> block (same shape as this section, minus differentiation and strata).</td>
+</tr>
+<tr>
+<td><code>unstable_share_vs_saturation[].{label,n_strata,spearman_rho,points}</code></td>
+<td>The saturation rollup per label key; <code>points[].{value,n_items,saturation,unstable_share}</code>. Association only; no mechanism claimed.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="task-rulings-one-per-task">TASK rulings: one per task</h2>
+<p>Identity: <code>ruling_id</code> (<code>LIMEN-&lt;version&gt;-TASK-&lt;nnnn&gt;</code>), <code>kind</code> (<code>TASK</code>),
+<code>scope_key.task</code>, <code>content_hash</code>.</p>
+<table>
+<thead>
+<tr>
+<th>field</th>
+<th>meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>n.{items_aligned,k,cells_truncated}</code>, <code>n.models[]</code></td>
+<td>The aligned substrate; <code>cells_truncated</code> counts cells shortened under <code>--ragged truncate</code>.</td>
+</tr>
+<tr>
+<td><code>pooled_flakiness.cell_pooled_mixed.{count,denominator,rate}</code></td>
+<td>Mixed cells over all (item x model) cells.</td>
+</tr>
+<tr>
+<td><code>pooled_flakiness.item_union_mixed.{count,denominator,rate}</code></td>
+<td>Aligned items mixed for at least one model.</td>
+</tr>
+<tr>
+<td><code>pooled_flakiness.n_items_aligned</code></td>
+<td>The aligned denominator.</td>
+</tr>
+<tr>
+<td><code>pooled_flakiness.alignment_excluded.&lt;model&gt;</code></td>
+<td>Per model, how many of its items fell outside the aligned intersection.</td>
+</tr>
+<tr>
+<td><code>misrank.draws_misranking_any_pair.{count,denominator,rate}</code></td>
+<td>Single-draw leaderboards that reverse at least one pair's pooled sign.</td>
+</tr>
+<tr>
+<td><code>variance_components.{state,reason,substrate,per_model,model_facet,low_draw_levels,draw_levels_floor,low_k_note,bucket_note,never_headline_note}</code></td>
+<td>The task-level decomposition over the aligned substrate: <code>substrate.{items_aligned,k}</code>; <code>per_model[].{model,grand_mean,components,shares,icc_item,icc_draw,design_effect}</code> (same component shape as the MT section); <code>model_facet.{kind,n_models,between_model_variance,between_model_sd,note}</code> is descriptive, never a component.</td>
+</tr>
+<tr>
+<td><code>differentiation.{n_pairs,pairs_rulings_differ,jaccard_min,jaccard_max,stable_but_always_wrong_max,interpretation}</code></td>
+<td>The task rollup of the per-pair RFC differentiation.</td>
+</tr>
+<tr>
+<td><code>labels.keys[].{key,n_items_labelled,values}</code></td>
+<td>Label coverage: <code>values[].{value,n_items}</code> per key; <code>null</code> when the input carries no labels.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="stable_only"><code>stable_only</code></h3>
+<p>The stable-items-only view. The naive numbers are never emitted without the
+two mitigations below (LMN-RNK-005).</p>
+<table>
+<thead>
+<tr>
+<th>field</th>
+<th>meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>note</code></td>
+<td>Fixed text: this ranking conditions on a selected subset and is one view of the data.</td>
+</tr>
+<tr>
+<td><code>per_model_constant.&lt;model&gt;.{count,denominator,rate}</code></td>
+<td>Items constant across all k draws for that model alone.</td>
+</tr>
+<tr>
+<td><code>naive.n_stable.{count,denominator,rate}</code></td>
+<td>Items constant for every model.</td>
+</tr>
+<tr>
+<td><code>naive.ranking_all_items[].{model,passes.count,passes.denominator,passes.rate}</code></td>
+<td>The headline ranking, descending.</td>
+</tr>
+<tr>
+<td><code>naive.ranking_stable_only[].{model,passes.count,passes.denominator,passes.rate}</code></td>
+<td>The ranking over stable items only; <code>null</code> when the stable set is empty.</td>
+</tr>
+<tr>
+<td><code>naive.tau_stable_vs_all.{tau_b,tau_a,concordant,discordant,ties_x,ties_y,undefined}</code></td>
+<td>Kendall tau between the two rankings, with the raw pair counts, which at four models say more than the coefficient.</td>
+</tr>
+<tr>
+<td><code>naive.pair_sign_survives[].{model_a,model_b,survives}</code></td>
+<td>Whether each pair's stable-only sign matches its headline sign; <code>null</code> when either sign is zero.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="mitigationssplit_half"><code>mitigations.split_half</code></h4>
+<p>State <code>UNAVAILABLE</code> with a <code>reason</code> below k=4, where no disjoint split with two
+classification draws exists. Otherwise:</p>
+<table>
+<thead>
+<tr>
+<th>field</th>
+<th>meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>state</code>, <code>reason</code></td>
+<td>Availability; the reason names the refusal.</td>
+</tr>
+<tr>
+<td><code>n_splits</code>, <code>thinned</code>, <code>classify_draws</code></td>
+<td>How many complementary classify/rank splits ran, whether the enumeration was deterministically thinned, and the classify-half size.</td>
+</tr>
+<tr>
+<td><code>sign_survival[].{model_a,model_b}</code></td>
+<td>The pair each row scores.</td>
+</tr>
+<tr>
+<td><code>sign_survival[].survived.{count,denominator,rate}</code></td>
+<td>Splits where the stable-only rank-half sign matched the headline pooled sign.</td>
+</tr>
+<tr>
+<td><code>sign_survival[].indeterminate.{count,denominator,rate}</code></td>
+<td>Splits where either sign was zero or the split-stable set was empty.</td>
+</tr>
+<tr>
+<td><code>tau_over_splits.{mean,min,max,n_undefined}</code></td>
+<td>Kendall tau between rank-half stable-only and rank-half all-items rankings, across splits.</td>
+</tr>
+<tr>
+<td><code>stable_set_size_over_splits.{mean,min,max}</code></td>
+<td>Size of the classify-half stable set across splits. Larger than the full-k stable set by construction.</td>
+</tr>
+<tr>
+<td><code>canonical_split.{classify_positions,rank_positions}</code></td>
+<td>The first-half/second-half split, reported alone for inspection.</td>
+</tr>
+<tr>
+<td><code>canonical_split.n_stable.{count,denominator,rate}</code></td>
+<td>Its classify-stable set size.</td>
+</tr>
+<tr>
+<td><code>canonical_split.tau.{tau_b,tau_a,concordant,discordant,ties_x,ties_y,undefined}</code></td>
+<td>Its rank-half tau.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="mitigationsselection_null"><code>mitigations.selection_null</code></h4>
+<table>
+<thead>
+<tr>
+<th>field</th>
+<th>meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>state</code></td>
+<td><code>AVAILABLE</code>, or <code>UNAVAILABLE</code> when the observed stable set is empty or no replicate produced one.</td>
+</tr>
+<tr>
+<td><code>replicates</code>, <code>replicates_effective</code>, <code>replicates_empty_stable_set</code></td>
+<td>Requested replicates, those that produced a stable set, and those that did not.</td>
+</tr>
+<tr>
+<td><code>seed_procedure</code></td>
+<td>The fixed seed-derivation recipe, printed so the run is reproducible from the document alone.</td>
+</tr>
+<tr>
+<td><code>low_k</code></td>
+<td>Flags k below 4, where the per-cell rates behind the null are coarse.</td>
+</tr>
+<tr>
+<td><code>observed.{t_gap,t_flip,t_tau,n_stable}</code></td>
+<td>The statistics of the real archive under the naive pipeline.</td>
+</tr>
+<tr>
+<td><code>t_flip_definition</code></td>
+<td>Fixed text defining t_flip on the canonical split; it is <code>null</code> below k=4.</td>
+</tr>
+<tr>
+<td><code>null.t_gap.{mean,p2_5,p97_5,p_value_one_sided_large}</code></td>
+<td>Null band for gap inflation; a small p says the stable-only gaps widened more than selection alone explains.</td>
+</tr>
+<tr>
+<td><code>null.t_flip.{mean,p2_5,p97_5,p_value_one_sided_large,p_value_one_sided_small}</code></td>
+<td>Null band for rank-half flips among classify-stable items. <code>null</code> when t_flip is undefined.</td>
+</tr>
+<tr>
+<td><code>null.t_tau.{mean,p2_5,p97_5,percentile_of_observed}</code></td>
+<td>Null band for the stable-vs-all tau, reported as a percentile without a one-sided claim.</td>
+</tr>
+<tr>
+<td><code>interpretation</code></td>
+<td>The fixed reading rule: tidiness inside the null band is explained by selection alone.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="what-is-deliberately-absent">What is deliberately absent</h2>
+<p>Ruling bodies carry no timestamp, no package version and no absolute paths
+(LMN-EMIT-004). Schema <code>report/v1</code> had no variance-components section; adding
+it in <code>report/v2</code> was a schema bump, exactly as the deferral prescribed
+(LMN-EMIT-007), and the section exists only under its guardrails: the gate
+never reads it, and it renders after the scope block. Removing or altering any
+recorded value is a spec MAJOR, never a quiet edit (LMN-EMIT-008).</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": ["navigation.sections", "content.code.copy"], "search": "../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.50899def.min.js"></script>
+      
+    
+  </body>
+</html>
