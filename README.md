@@ -1,5 +1,9 @@
 # limen
 
+[![PyPI](https://img.shields.io/pypi/v/limen-eval)](https://pypi.org/project/limen-eval/)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21699645.svg)](https://doi.org/10.5281/zenodo.21699645)
+[![docs](https://img.shields.io/badge/docs-kurathsec.github.io%2Flimen-blue)](https://kurathsec.github.io/limen/)
+
 **The same-configuration noise floor of an evaluation, and whether a
 published ranking clears it.**
 

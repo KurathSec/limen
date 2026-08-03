@@ -4,6 +4,27 @@ All notable changes to this project. Every stanza states both versions:
 the **package** version and the **rulings spec** version (a spec MAJOR means a
 recorded meaning changed).
 
+## [0.2.1] - 2026-08-03
+
+Package 0.2.1 · rulings spec 1.0.0 (unchanged) · schema report/v2. No code
+changes; the installed package behaves identically to 0.2.0.
+
+- **When-Agents-Disagree study** (`validation/when_agents_disagree/`): the
+  pre-registered reproduction protocol for arXiv 2602.11619 (blocked on its
+  data release) and the executed fallback limb, a first-party conceptual
+  replication: 8,000 ReAct episodes on HotpotQA distractor (four open
+  models picked by a pre-registered pilot closeness rule, 200 items, k=10),
+  with the collector, grader, analysis script, three labeled verdict
+  tables, and the byte-reproducible report/v2 ruling document committed.
+  The scored expectations report one miss and one split as measured, and
+  the phi-4 refusals are graded by the report's own selection null.
+- Validation prose corrected against the committed artifacts: corpus-wide
+  variance figures (residual 0.9-25.2% across all twelve calibration
+  scopes, one draw interval excluding zero), two pair-count labels in the
+  On-Randomness summary, the KT3 rollup variable name, the KT1 margin
+  attribution, and the replication cost total.
+- README carries the Zenodo DOI and documentation badges.
+
 ## [0.2.0] - 2026-07-30
 
 Package 0.2.0 · rulings spec 1.0.0 · schema report/v2.
